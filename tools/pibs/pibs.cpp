@@ -5,18 +5,24 @@
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <numeric>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace pibs {
 
 constexpr int kPasses = 3;
 constexpr std::size_t kWmmaM = 16;
+const std::vector<int> kBatches{1, 2, 4, 8, 16, 32, 64};
+
+std::size_t padded_to_wmma(std::size_t m);
 
 struct WorkItem {
     int token_id = 0;
@@ -156,6 +162,51 @@ public:
     }
 };
 
+// Group ready items into m16-aligned buckets. The bucket target is
+// ceil(ready_at_step_start / 16) * 16: fill it from the lowest ready pass level,
+// and when pass p of a token executes inside the bucket, pass p+1 is released
+// and becomes eligible to join the same bucket. One bucket == one scheduling
+// step == one modelled kernel launch. Pass order inside the bucket is kept.
+class BucketedScheduler final : public Scheduler {
+public:
+    std::string_view name() const override { return "bucketed"; }
+
+    std::vector<std::size_t> next_step(const Queue& q) const override {
+        std::size_t ready_count = 0;
+        for (int t = 0; t < q.n_tokens(); ++t) {
+            for (int p = 0; p < kPasses; ++p) {
+                if (!q.is_done(t, p) && q.is_ready(t, p)) {
+                    ++ready_count;
+                }
+            }
+        }
+        if (ready_count == 0) {
+            return {};
+        }
+        const std::size_t target = padded_to_wmma(ready_count);
+
+        std::vector<std::size_t> chosen;
+        chosen.reserve(target);
+        // Pass-major order guarantees (t, p) precedes (t, p+1) in `chosen`.
+        for (int p = 0; p < kPasses && chosen.size() < target; ++p) {
+            for (int t = 0; t < q.n_tokens() && chosen.size() < target; ++t) {
+                if (q.is_done(t, p)) {
+                    continue;
+                }
+                bool eligible = q.is_ready(t, p);
+                if (!eligible && p > 0) {
+                    const std::size_t prev = q.index(t, p - 1);
+                    eligible = std::find(chosen.begin(), chosen.end(), prev) != chosen.end();
+                }
+                if (eligible) {
+                    chosen.push_back(q.index(t, p));
+                }
+            }
+        }
+        return chosen;
+    }
+};
+
 struct Result {
     std::vector<Step> steps;
     std::size_t executed = 0;
@@ -237,30 +288,95 @@ void verify(const Queue& q, const Result& result) {
 struct Row {
     int batch = 0;
     std::string scheduler;
-    std::size_t steps = 0;
+    std::size_t steps = 0;          // == total kernel launches (one per step)
+    std::size_t launches = 0;        // explicit alias for kernel launches
     double mean_m = 0.0;
+    std::size_t padded_total = 0;
     std::size_t wasted = 0;
-    double efficiency = 0.0;
+    double wasted_pct = 0.0;         // wasted / padded_total * 100
+    double efficiency = 0.0;         // executed / padded_total
 };
 
 Row summarise(int batch, const Scheduler& scheduler, Queue& q) {
     const Result result = run(scheduler, q);
     verify(q, result);
-    return Row{batch, std::string(scheduler.name()), result.steps.size(),
-               result.mean_m, result.wasted_total, result.efficiency};
+    const std::size_t launches = result.steps.size();  // one kernel launch per step
+    return Row{batch, std::string(scheduler.name()), launches, launches,
+               result.mean_m, result.padded_total, result.wasted_total,
+               100.0 * static_cast<double>(result.wasted_total) /
+                   static_cast<double>(result.padded_total),
+               result.efficiency};
 }
 
 void print_table(const std::vector<Row>& rows) {
     std::cout << std::fixed << std::setprecision(2);
-    std::cout << "batch  scheduler     steps  mean M  wasted tile slots  efficiency\n";
-    std::cout << "-----  ----------  ------  ------  -----------------  ----------\n";
+    std::cout << "batch  scheduler     steps  launches  mean M  padded  wasted tile slots"
+                 "  wasted %  efficiency\n";
+    std::cout << "-----  ----------  ------  --------  ------  ------  -----------------"
+                 "  --------  ----------\n";
     for (const Row& r : rows) {
         std::cout << std::setw(5) << r.batch << "  " << std::left << std::setw(10)
                   << r.scheduler << std::right << "  " << std::setw(6) << r.steps
-                  << "  " << std::setw(6) << r.mean_m << "  " << std::setw(17)
-                  << r.wasted << "  " << std::setw(9)
+                  << "  " << std::setw(8) << r.launches << "  " << std::setw(6)
+                  << r.mean_m << "  " << std::setw(6) << r.padded_total
+                  << "  " << std::setw(17) << r.wasted << "  " << std::setw(7)
+                  << r.wasted_pct << "%" << "  " << std::setw(9)
                   << (r.efficiency * 100.0) << "%\n";
     }
+}
+
+const Row* find_row(const std::vector<Row>& rows, int batch, std::string_view scheduler) {
+    for (const Row& r : rows) {
+        if (r.batch == batch && r.scheduler == scheduler) {
+            return &r;
+        }
+    }
+    return nullptr;
+}
+
+std::optional<int> breakeven_batch(const std::vector<Row>& rows,
+                                   std::string_view challenger) {
+    for (int batch : kBatches) {
+        const Row* seq = find_row(rows, batch, "sequential");
+        const Row* alt = find_row(rows, batch, challenger);
+        if (seq != nullptr && alt != nullptr && seq->wasted > alt->wasted) {
+            return batch;
+        }
+    }
+    return std::nullopt;
+}
+
+void write_json(const std::string& path, const std::vector<Row>& rows,
+                const std::pair<std::optional<int>, std::optional<int>>& breakeven) {
+    std::ofstream out(path);
+    if (!out) {
+        throw std::runtime_error("cannot write " + path);
+    }
+    out << std::setprecision(6);
+    out << "{\n  \"model\": \"pibs scheduling model (steps == kernel launches; "
+           "no wall-clock measurement)\",\n";
+    out << "  \"batches\": [";
+    for (std::size_t i = 0; i < kBatches.size(); ++i) {
+        if (i != 0) out << ", ";
+        out << kBatches[i];
+    }
+    out << "],\n  \"rows\": [\n";
+    for (std::size_t i = 0; i < rows.size(); ++i) {
+        const Row& r = rows[i];
+        out << "    {\"batch\": " << r.batch << ", \"scheduler\": \"" << r.scheduler
+            << "\", \"steps\": " << r.steps << ", \"launches\": " << r.launches
+            << ", \"mean_m\": " << r.mean_m << ", \"padded_total\": " << r.padded_total
+            << ", \"wasted\": " << r.wasted << ", \"wasted_pct\": " << r.wasted_pct
+            << ", \"efficiency\": " << r.efficiency << "}"
+            << (i + 1 == rows.size() ? "\n" : ",\n");
+    }
+    out << "  ],\n  \"breakeven\": {\n";
+    out << "    \"interleaved\": " << (breakeven.first ? std::to_string(*breakeven.first)
+                                                       : std::string("null"))
+        << ",\n";
+    out << "    \"bucketed\": " << (breakeven.second ? std::to_string(*breakeven.second)
+                                                     : std::string("null"))
+        << "\n  }\n}\n";
 }
 
 void print_step_detail(int batch, const Scheduler& scheduler, Queue& q) {
@@ -285,23 +401,43 @@ void print_step_detail(int batch, const Scheduler& scheduler, Queue& q) {
 
 int main() {
     using namespace pibs;
-    const std::vector<int> batches{1, 4, 8, 16};
     const SequentialScheduler sequential;
     const InterleavedScheduler interleaved;
+    const BucketedScheduler bucketed;
 
     std::vector<Row> rows;
-    for (int batch : batches) {
+    for (int batch : kBatches) {
         Queue q1(batch);
         Queue q2(batch);
+        Queue q3(batch);
         rows.push_back(summarise(batch, sequential, q1));
         rows.push_back(summarise(batch, interleaved, q2));
+        rows.push_back(summarise(batch, bucketed, q3));
     }
     print_table(rows);
 
+    const auto breakeven = std::make_pair(breakeven_batch(rows, "interleaved"),
+                                          breakeven_batch(rows, "bucketed"));
+    std::cout << "\nbreakeven batch (first batch where challenger wastes fewer slots "
+                 "than sequential):\n";
+    std::cout << "  interleaved: "
+              << (breakeven.first ? std::to_string(*breakeven.first)
+                                  : std::string("never"))
+              << "\n";
+    std::cout << "  bucketed:    "
+              << (breakeven.second ? std::to_string(*breakeven.second)
+                                   : std::string("never"))
+              << "\n";
+
+    write_json("RESULTS_EXTENDED.md", rows, breakeven);
+    std::cout << "\nwrote RESULTS_EXTENDED.md\n";
+
     Queue q1(8);
     Queue q2(8);
+    Queue q3(8);
     print_step_detail(8, sequential, q1);
     print_step_detail(8, interleaved, q2);
+    print_step_detail(8, bucketed, q3);
 
     std::cout << "\ncorrectness: all suites executed exactly 3*n_tokens items in "
                  "pass order (assertions passed)\n";

@@ -1,0 +1,5 @@
+date	what	why	evidence	result
+2026-11-23	fork llama.cpp instead of greenfield C++ engine	ggml already at HBM ceiling on T4; loop work is additive	SPEC_RISK.md transfer scorecard	adopted fork; branch main
+2026-11-24	drop exact route-once; use union-resident MoE cache	top-8 sets change across loop passes; union stays small	roret_probe 100k tokens: exact 0.15-76%, union 8.25-11.58 vs 24	GO for union, NO_GO for exact
+2026-11-24	pass-interleaved batching prototype	avoid half-filled m16 WMMA tiles	b8: steps 8->3, wasted slots 104->24	model only; no speed claim
+2026-11-24	vendor NVFP4 LUT/vectors into fork	Kaggle build failed on sibling-repo dependency	inkengine-fork-build v1/v2/v3	v3 all component tests pass
