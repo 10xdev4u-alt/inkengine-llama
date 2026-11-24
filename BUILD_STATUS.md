@@ -26,3 +26,11 @@ keeps its `assert()` calls active in Release (Release would otherwise define
 The fork is buildable and all loop-specific prototypes are independently
 verifiable on a fresh machine. No speedup is claimed yet; see each tool's
 RESULTS.md for the honest numeric models.
+
+## Re-verified 2026-11-24 (kernel v6, HEAD 149a963)
+
+- Full `llama-cli` build: OK
+- roret / pibs / odsl ctest: rc 0 each
+- audit fixture + gate verifier: 13 passed in 10.30s
+- Overall: **COMPLETE / KAGGLE FORK BUILD PASS**
+- Note: audit tests require loopkit cloned at `/tmp/loopkit/src`; the kernel now does that.
