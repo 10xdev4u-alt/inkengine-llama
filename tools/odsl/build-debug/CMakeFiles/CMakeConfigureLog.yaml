@@ -1,0 +1,2175 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+      - "/bin/"
+    searched_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/uname"
+      - "/home/princetheprogrammerbtw/.bun/bin/uname"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/uname"
+      - "/home/princetheprogrammerbtw/.cmux/bin/uname"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/uname"
+      - "/tmp/opencode/alysis-venv/bin/uname"
+      - "/home/princetheprogrammerbtw/.opencode/bin/uname"
+      - "/home/princetheprogrammerbtw/.local/bin/uname"
+      - "/home/princetheprogrammerbtw/.kilo/bin/uname"
+      - "/home/princethegrammerbtw/.kilo/bin/uname"
+      - "/home/princethegrammerbtw/.local/bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/uname"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/uname"
+      - "/usr/share/omarchy/bin/uname"
+      - "/usr/local/sbin/uname"
+      - "/usr/local/bin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:218 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Linux - 7.2.8-9-omarchy - x86_64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeUnixFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gmake"
+      - "make"
+      - "smake"
+    candidate_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/gmake"
+      - "/home/princetheprogrammerbtw/.bun/bin/gmake"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gmake"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gmake"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gmake"
+      - "/tmp/opencode/alysis-venv/bin/gmake"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/bin/gmake"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gmake"
+      - "/home/princethegrammerbtw/.kilo/bin/gmake"
+      - "/home/princethegrammerbtw/.local/bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gmake"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gmake"
+      - "/usr/share/omarchy/bin/gmake"
+      - "/usr/local/sbin/gmake"
+      - "/usr/local/bin/gmake"
+      - "/usr/bin/gmake"
+      - "/usr/lib/jvm/default/bin/gmake"
+      - "/usr/bin/site_perl/gmake"
+      - "/usr/bin/vendor_perl/gmake"
+      - "/usr/bin/core_perl/gmake"
+      - "/home/princethegrammerbtw/.turso/gmake"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gmake"
+      - "/home/princetheprogrammerbtw/.qoder/entry/make"
+      - "/home/princetheprogrammerbtw/.bun/bin/make"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/make"
+      - "/home/princetheprogrammerbtw/.cmux/bin/make"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/make"
+      - "/tmp/opencode/alysis-venv/bin/make"
+      - "/home/princetheprogrammerbtw/.opencode/bin/make"
+      - "/home/princetheprogrammerbtw/.local/bin/make"
+      - "/home/princetheprogrammerbtw/.kilo/bin/make"
+      - "/home/princethegrammerbtw/.kilo/bin/make"
+      - "/home/princethegrammerbtw/.local/bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/make"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/make"
+      - "/usr/share/omarchy/bin/make"
+      - "/usr/local/sbin/make"
+      - "/usr/local/bin/make"
+    found: "/usr/bin/make"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompiler.cmake:73 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:69 (_cmake_find_compiler)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER"
+    description: "CXX compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "c++"
+      - "CC"
+      - "g++"
+      - "aCC"
+      - "cl"
+      - "bcc"
+      - "xlC"
+      - "icpx"
+      - "icx"
+      - "clang++"
+    candidate_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/home/princetheprogrammerbtw/.qoder/entry/c++"
+      - "/home/princetheprogrammerbtw/.bun/bin/c++"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/c++"
+      - "/home/princetheprogrammerbtw/.cmux/bin/c++"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/c++"
+      - "/tmp/opencode/alysis-venv/bin/c++"
+      - "/home/princetheprogrammerbtw/.opencode/bin/c++"
+      - "/home/princetheprogrammerbtw/.local/bin/c++"
+      - "/home/princetheprogrammerbtw/.kilo/bin/c++"
+      - "/home/princethegrammerbtw/.kilo/bin/c++"
+      - "/home/princethegrammerbtw/.local/bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/c++"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/c++"
+      - "/usr/share/omarchy/bin/c++"
+      - "/usr/local/sbin/c++"
+      - "/usr/local/bin/c++"
+    found: "/usr/bin/c++"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:501 (find_file)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:538 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "/usr/share/cmake/Modules/"
+    found: "/usr/share/cmake/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/c++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/4.4.4/CompilerIdCXX/a.out
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/ar"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RANLIB"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/ranlib"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_STRIP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "strip"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/strip"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/ld"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nm"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/nm"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objdump"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/objdump"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objcopy"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/objcopy"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "readelf"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/readelf"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "dlltool"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/usr/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.qoder/entry/dlltool"
+      - "/home/princetheprogrammerbtw/.bun/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.cmux/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/dlltool"
+      - "/tmp/opencode/alysis-venv/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.opencode/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.kilo/bin/dlltool"
+      - "/home/princethegrammerbtw/.kilo/bin/dlltool"
+      - "/home/princethegrammerbtw/.local/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/dlltool"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/dlltool"
+      - "/usr/share/omarchy/bin/dlltool"
+      - "/usr/local/sbin/dlltool"
+      - "/usr/local/bin/dlltool"
+      - "/usr/lib/jvm/default/bin/dlltool"
+      - "/usr/bin/site_perl/dlltool"
+      - "/usr/bin/vendor_perl/dlltool"
+      - "/usr/bin/core_perl/dlltool"
+      - "/home/princethegrammerbtw/.turso/dlltool"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/dlltool"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "addr2line"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    found: "/usr/bin/addr2line"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/usr/bin/tapi"
+      - "/home/princetheprogrammerbtw/.qoder/entry/tapi"
+      - "/home/princetheprogrammerbtw/.bun/bin/tapi"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/tapi"
+      - "/home/princetheprogrammerbtw/.cmux/bin/tapi"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/tapi"
+      - "/tmp/opencode/alysis-venv/bin/tapi"
+      - "/home/princetheprogrammerbtw/.opencode/bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/bin/tapi"
+      - "/home/princetheprogrammerbtw/.kilo/bin/tapi"
+      - "/home/princethegrammerbtw/.kilo/bin/tapi"
+      - "/home/princethegrammerbtw/.local/bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/tapi"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/tapi"
+      - "/usr/share/omarchy/bin/tapi"
+      - "/usr/local/sbin/tapi"
+      - "/usr/local/bin/tapi"
+      - "/usr/lib/jvm/default/bin/tapi"
+      - "/usr/bin/site_perl/tapi"
+      - "/usr/bin/vendor_perl/tapi"
+      - "/usr/bin/core_perl/tapi"
+      - "/home/princethegrammerbtw/.turso/tapi"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/tapi"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake:18 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_AR"
+    description: "A wrapper around 'ar' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ar-16.2"
+      - "gcc-ar-16"
+      - "gcc-ar16"
+      - "gcc-ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/usr/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ar-16.2"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ar-16.2"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ar-16.2"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ar-16.2"
+      - "/usr/share/omarchy/bin/gcc-ar-16.2"
+      - "/usr/local/sbin/gcc-ar-16.2"
+      - "/usr/local/bin/gcc-ar-16.2"
+      - "/usr/lib/jvm/default/bin/gcc-ar-16.2"
+      - "/usr/bin/site_perl/gcc-ar-16.2"
+      - "/usr/bin/vendor_perl/gcc-ar-16.2"
+      - "/usr/bin/core_perl/gcc-ar-16.2"
+      - "/home/princethegrammerbtw/.turso/gcc-ar-16.2"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ar-16.2"
+      - "/usr/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ar-16"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ar-16"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ar-16"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ar-16"
+      - "/usr/share/omarchy/bin/gcc-ar-16"
+      - "/usr/local/sbin/gcc-ar-16"
+      - "/usr/local/bin/gcc-ar-16"
+      - "/usr/lib/jvm/default/bin/gcc-ar-16"
+      - "/usr/bin/site_perl/gcc-ar-16"
+      - "/usr/bin/vendor_perl/gcc-ar-16"
+      - "/usr/bin/core_perl/gcc-ar-16"
+      - "/home/princethegrammerbtw/.turso/gcc-ar-16"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ar-16"
+      - "/usr/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ar16"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ar16"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ar16"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ar16"
+      - "/usr/share/omarchy/bin/gcc-ar16"
+      - "/usr/local/sbin/gcc-ar16"
+      - "/usr/local/bin/gcc-ar16"
+      - "/usr/lib/jvm/default/bin/gcc-ar16"
+      - "/usr/bin/site_perl/gcc-ar16"
+      - "/usr/bin/vendor_perl/gcc-ar16"
+      - "/usr/bin/core_perl/gcc-ar16"
+      - "/home/princethegrammerbtw/.turso/gcc-ar16"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ar16"
+    found: "/usr/bin/gcc-ar"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake:30 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_RANLIB"
+    description: "A wrapper around 'ranlib' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ranlib-16.2"
+      - "gcc-ranlib-16"
+      - "gcc-ranlib16"
+      - "gcc-ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/princetheprogrammerbtw/.qoder/entry/"
+      - "/home/princetheprogrammerbtw/.bun/bin/"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/"
+      - "/home/princetheprogrammerbtw/.cmux/bin/"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/"
+      - "/tmp/opencode/alysis-venv/bin/"
+      - "/home/princetheprogrammerbtw/.opencode/bin/"
+      - "/home/princetheprogrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.kilo/bin/"
+      - "/home/princethegrammerbtw/.local/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/"
+      - "/usr/share/omarchy/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/lib/jvm/default/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/princethegrammerbtw/.turso/"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/"
+    searched_directories:
+      - "/usr/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ranlib-16.2"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ranlib-16.2"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ranlib-16.2"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ranlib-16.2"
+      - "/usr/share/omarchy/bin/gcc-ranlib-16.2"
+      - "/usr/local/sbin/gcc-ranlib-16.2"
+      - "/usr/local/bin/gcc-ranlib-16.2"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib-16.2"
+      - "/usr/bin/site_perl/gcc-ranlib-16.2"
+      - "/usr/bin/vendor_perl/gcc-ranlib-16.2"
+      - "/usr/bin/core_perl/gcc-ranlib-16.2"
+      - "/home/princethegrammerbtw/.turso/gcc-ranlib-16.2"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ranlib-16.2"
+      - "/usr/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ranlib-16"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ranlib-16"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ranlib-16"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ranlib-16"
+      - "/usr/share/omarchy/bin/gcc-ranlib-16"
+      - "/usr/local/sbin/gcc-ranlib-16"
+      - "/usr/local/bin/gcc-ranlib-16"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib-16"
+      - "/usr/bin/site_perl/gcc-ranlib-16"
+      - "/usr/bin/vendor_perl/gcc-ranlib-16"
+      - "/usr/bin/core_perl/gcc-ranlib-16"
+      - "/home/princethegrammerbtw/.turso/gcc-ranlib-16"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ranlib-16"
+      - "/usr/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.qoder/entry/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.bun/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.qoderwake/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.cmux/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.minimax-code/bin/gcc-ranlib16"
+      - "/tmp/opencode/alysis-venv/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.opencode/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.kilo/bin/gcc-ranlib16"
+      - "/home/princethegrammerbtw/.kilo/bin/gcc-ranlib16"
+      - "/home/princethegrammerbtw/.local/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.local/share/mise/shims/gcc-ranlib16"
+      - "/usr/share/omarchy/bin/gcc-ranlib16"
+      - "/usr/local/sbin/gcc-ranlib16"
+      - "/usr/local/bin/gcc-ranlib16"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib16"
+      - "/usr/bin/site_perl/gcc-ranlib16"
+      - "/usr/bin/vendor_perl/gcc-ranlib16"
+      - "/usr/bin/core_perl/gcc-ranlib16"
+      - "/home/princethegrammerbtw/.turso/gcc-ranlib16"
+      - "/home/princetheprogrammerbtw/.npm-global/bin/gcc-ranlib16"
+    found: "/usr/bin/gcc-ranlib"
+    search_context:
+      ENV{PATH}:
+        - "/home/princetheprogrammerbtw/.qoder/entry"
+        - "/home/princetheprogrammerbtw/.bun/bin"
+        - "/home/princetheprogrammerbtw/.qoderwake/bin"
+        - "/home/princetheprogrammerbtw/.cmux/bin"
+        - "/home/princetheprogrammerbtw/.minimax-code/bin"
+        - "/tmp/opencode/alysis-venv/bin"
+        - "/home/princetheprogrammerbtw/.opencode/bin"
+        - "/home/princetheprogrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.kilo/bin"
+        - "/home/princethegrammerbtw/.local/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/claude/2.1.323"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/codex/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/copilot/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/crush/latest/crush_0.101.0_Linux_x86_64"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/cursor-agent/latest/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/gh/2.104.0/gh_2.104.0_linux_amd64/bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/github-can1357-oh-my-pi/latest"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-xai-official-grok/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/npm-playwright/latest/node_modules/.bin"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/opencode/1.19.5"
+        - "/home/princetheprogrammerbtw/.local/share/mise/installs/pi/1.5.2/pi"
+        - "/home/princetheprogrammerbtw/.local/share/mise/shims"
+        - "/usr/share/omarchy/bin"
+        - "/home/princetheprogrammerbtw/.local/share/../bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/usr/lib/jvm/default/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/princethegrammerbtw/.turso"
+        - "/home/princetheprogrammerbtw/.npm-global/bin"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:123 (try_compile)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM"
+      binary: "/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: false
+      stdout: |
+        Change Dir: '/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_21b65/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_21b65.dir/build.make CMakeFiles/cmTC_21b65.dir/build
+        make[1]: Entering directory '/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM'
+        Building CXX object CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        Target: x86_64-pc-linux-gnu
+        Configured with: ../gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 16.2.1 20260810 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_21b65.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccJlSlMb.s
+        GNU C++20 (GCC) version 16.2.1 20260810 (x86_64-pc-linux-gnu)
+        	compiled by GNU C version 16.2.1 20260810, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version isl-0.28-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/include-fixed"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../x86_64-pc-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/x86_64-pc-linux-gnu
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/backward
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/include
+         /usr/local/include
+         /usr/include
+        End of search list.
+        Compiler executable checksum: 4e9ac8b201f4ca740be09d0c7a39f82f
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/'
+         as -v --64 -o CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccJlSlMb.s
+        GNU assembler version 2.47 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.47
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_21b65
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21b65.dir/link.txt --verbose=1
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper
+        Target: x86_64-pc-linux-gnu
+        Configured with: ../gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 16.2.1 20260810 (GCC) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21b65' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_21b65.'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o
+        collect2 version 16.2.1 20260810
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o
+        GNU ld (GNU Binutils) 2.47
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21b65' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_21b65.'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_21b65
+        make[1]: Leaving directory '/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:255 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/x86_64-pc-linux-gnu]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/backward]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+          add: [/usr/local/include]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16] ==> [/usr/include/c++/16]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/x86_64-pc-linux-gnu] ==> [/usr/include/c++/16/x86_64-pc-linux-gnu]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/backward] ==> [/usr/include/c++/16/backward]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/include/c++/16;/usr/include/c++/16/x86_64-pc-linux-gnu;/usr/include/c++/16/backward;/usr/lib/gcc/x86_64-pc-linux-gnu/16/include;/usr/local/include;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:291 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
+        ignore line: [Change Dir: '/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_21b65/fast]
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_21b65.dir/build.make CMakeFiles/cmTC_21b65.dir/build]
+        ignore line: [make[1]: Entering directory '/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/CMakeScratch/TryCompile-KxCnWM']
+        ignore line: [Building CXX object CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: ../gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 16.2.1 20260810 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_21b65.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccJlSlMb.s]
+        ignore line: [GNU C++20 (GCC) version 16.2.1 20260810 (x86_64-pc-linux-gnu)]
+        ignore line: [	compiled by GNU C version 16.2.1 20260810  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version isl-0.28-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/include-fixed"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../x86_64-pc-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/x86_64-pc-linux-gnu]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../include/c++/16/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 4e9ac8b201f4ca740be09d0c7a39f82f]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccJlSlMb.s]
+        ignore line: [GNU assembler version 2.47 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.47]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_21b65]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21b65.dir/link.txt --verbose=1]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: ../gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 16.2.1 20260810 (GCC) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21b65' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_21b65.']
+        link line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cclcFiz4.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-latomic_asneeded] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_21b65] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/16] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../..] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../..]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-latomic_asneeded] ==> lib [atomic_asneeded]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o]
+        ignore line: [collect2 version 16.2.1 20260810]
+        link line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o] ==> linker [/usr/bin/ld]
+        link line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o] ==> linker architecture flags [-m;elf]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/16/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/16/lto-wrapper -plugin-opt=-fresolution=/tmp/cclcFiz4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-latomic_asneeded -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_21b65 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/16 -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_21b65.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -latomic_asneeded -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o]
+        linker tool for 'CXX': /usr/bin/ld -m;elf
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o] ==> [/usr/lib/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o] ==> [/usr/lib/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o] ==> [/usr/lib/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/16]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../..] ==> [/usr/lib]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;atomic_asneeded;c;gcc_s;gcc]
+        implicit objs: [/usr/lib/Scrt1.o;/usr/lib/crti.o;/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o;/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o;/usr/lib/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/16;/usr/lib;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:41 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:337 (cmake_determine_linker_id)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils) 2.47
+...

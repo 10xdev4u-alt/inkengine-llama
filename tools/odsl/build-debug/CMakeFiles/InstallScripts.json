@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/tmp/build/inkengine-llama/tools/odsl/build-debug/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

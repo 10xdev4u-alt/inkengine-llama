@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/odsl.dir/link.d CMakeFiles/odsl.dir/odsl.cpp.o -o odsl
