@@ -157,3 +157,7 @@ AGENTS.local.md
 # local build artifacts for tools
 /tools/*/build/
 /tools/*/build-debug/
+
+# local build output under tools
+/tools/*/build/
+/tools/*/build-debug/
