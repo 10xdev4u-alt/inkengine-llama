@@ -55,6 +55,8 @@ return claim_speedup <= report.ci_low
 
 A claim is publishable ONLY IF `claim <= ci_low` (lower 95% bootstrap bound), `repeats >= 20`, AND `loops >= 1`. All three must hold. Never round up to meet the bound. If `ci_low < 1.0` there is no claim at all, regardless of the point estimate. The bound, not the median, is the gate.
 
+**Scope caveat:** `cli.py` constructs `CycleAudit(loops=args.loops)`, so the gate's `repeats` is the constructor default (50); the CLI does **not** count the `seconds` array length in the JSON file. The 20-repeat floor is therefore a producer responsibility, not a CLI-enforced check. `verify_gate.py` enforces it on the samples it generates, and the timing-dump harness must write at least 20 recorded runs (50 expected). A short JSON array can otherwise still pass the CLI gate.
+
 ## 6. Negative controls (must fail closed)
 
 Run both before any real comparison and record the output in section 10. Self-comparison:
@@ -80,7 +82,10 @@ python3 -m pytest -q tools/audit/test_verify_gate.py
 ```
 
 It writes `/tmp/auditcheck/gate_verification.json` (`"verified": true`) and exits 0
-only when all four expectations hold, `loops == 3`, and `repeats >= 20`. The samples
+only when all four expectations hold, every invocation actually rendered a parsed
+`claim_valid` verdict (a crash, traceback or timeout does **not** count as a
+fail-closed control), `loops == 3`, and `repeats >= 20`. The subprocess has a
+60-second timeout so a hung CLI fails closed rather than hanging CI. The samples
 are synthetic: this proves the plumbing, never a speedup.
 
 ## 7. Bit-exact baseline freeze
@@ -124,8 +129,9 @@ Any later wiring change (union-resident MoE, 3-pass looped graph) must keep `roo
 | Item | Result |
 |---|---|
 | Fast tests (`pytest -q -m "not kaggle"`) | 27 passed, 1 deselected (local CPU, 2026-11-24) |
-| Gate unit tests (`test_verify_gate.py`) | 6 passed |
+| Gate unit tests (`test_verify_gate.py`) | 8 passed |
 | Executable gate check (`verify_gate.py`) | `verified: true` on synthetic samples only |
+| Crash / timeout does not count as fail-closed | PASS (tested with a stubbed crash and a missing interpreter) |
 | Negative control self (claim 1.01, expect exit 1) | PASS: `claim_valid=false`, exit 1, `ci_low=0.9832` |
 | Negative control slower (claim 2.0, expect exit 1) | PASS: `claim_valid=false`, exit 1, `ci_low=0.7869` |
 | Claim at `ci_low` / `ci_low + 0.05` | PASS / FAIL as expected (synthetic samples) |
