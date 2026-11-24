@@ -167,3 +167,75 @@ If any of the unverified items fails once a real model is available, remove the
 RORET block from `impl::copy()`, the `extra`/`n_extra` parameters from
 `moe_cache_lru::plan()`, and set `LLAMA_RORET` handling to no-op. The non-union
 `llama_moe_cache` path is the known-good bit-exact baseline.
+
+## M3 - UNION_WIRING.patch verification
+
+Artifact: `tools/roret/UNION_WIRING.patch`. Generated (no prose header) with
+`git diff 5035bdf HEAD -- src/llama-roret.h src/llama-graph.h src/llama-graph.cpp src/llama-moe-cache.h src/llama-moe-cache.cpp src/models/models.h src/models/inkling2.cpp src/models/inkling2-loop.cpp`.
+Result: 603 lines, 26215 bytes, sha256
+`a91868081fbb9d7657946dfff1c4513171b08131a38a1099934728212bca1e84`, exactly 8
+`diff --git` headers, all under `src/`.
+
+Base apply (current HEAD `149a9631e`, `$REPO` = repo root):
+
+```
+git worktree add --detach /tmp/opencode/m3-base 5035bdf                    [exit 0]
+git -C /tmp/opencode/m3-base apply --check $REPO/tools/roret/UNION_WIRING.patch   [exit 0]
+git -C /tmp/opencode/m3-base apply $REPO/tools/roret/UNION_WIRING.patch           [exit 0]
+```
+
+`sha256sum` of all 8 files in the applied worktree matched the current HEAD
+copies byte for byte. `git -C /tmp/opencode/m3-base diff --stat HEAD -- <8 files>`
+was empty (7 tracked files; the new header is untracked after `git apply` and was
+checked by hash). `git worktree remove --force /tmp/opencode/m3-base` [exit 0];
+main checkout still at `149a9631e`, only the patch file untracked.
+
+Router immutability (patch inspection):
+
+```
+grep -E '^[+-]' tools/roret/UNION_WIRING.patch | grep -vE '^(\+\+\+|---)' \
+  | grep -E 'ffn_moe_logits|ffn_moe_probs|ggml_argsort_top_k|ffn_moe_weights|selected_experts_in|ggml_get_rows|ggml_add_id|mm_id|selection_probs|ffn_moe_topk|norm_w|w_scale|build_experts\('
++            nullptr,  /* selected_experts_in */
+```
+
+That single hit makes the base default explicit: `git show 5035bdf:src/models/inkling2.cpp`
+ends the call with `nullptr, layer.ffn_gate_up_exps);`, and the base signature has
+`selected_experts_in = nullptr`. No changed line touches logits, gating, group
+mask, argsort, weights, `ggml_get_rows(probs, selected_experts)`, `*_b` paths,
+`build_experts`, `mm_id`, `n_expert_used_il`, or graph node order.
+`post_exp_norm` and `post_exp_norm_eps` keep their defaults.
+
+No-op guards (patch line numbers):
+
+```
+63:  if (roret_cache != nullptr && roret_pass >= 0 && roret_selected_ids != nullptr && roret_n_selected > 0)
+181: const int32_t * extra = nullptr, size_t n_extra = 0
+190: if (extra != nullptr)
+267: if (const char * env = getenv("LLAMA_RORET"); env != nullptr)
+288: if (roret)
+289: const auto ir = roret_of.find(src)
+324: if (pimpl->roret && layer.roret_key.il >= 0 && layer.roret_key.pass >= 0)
+```
+
+- `pass_index = -1`: the graph block needs `roret_pass >= 0`, build_lookup
+  registration needs `roret_key.pass >= 0`, and `valid_pass()` rejects `pass < 0`.
+  `build_layer` and `build_moe_ffn` defaults are `-1`. All insertion points no-op.
+- Empty ids: the graph block needs a non-null pointer and `roret_n_selected > 0`;
+  `add()` rejects `ids == nullptr`, `hit_rate()` returns 0 for `n_ids == 0`. No
+  registration and no protected hints. The loop graph passes no fabricated host
+  ids; the runtime copy callback supplies the real ids instead.
+- Without `LLAMA_RORET` in `{1, on, true}`, `roret` is null, `roret_of` is empty,
+  `extra == nullptr`, `n_extra == 0`, and `plan()` runs the original algorithm.
+  Hints are appended after the CPU split (never a CPU miss) and capped so they
+  cannot evict a real selection; `n_hit` counts real ids only.
+
+Insertion-point mapping to `PATCH_build_moe_ffn.md`: 2.1 -> bookkeeping block
+right after `cb(selected_experts, "ffn_moe_topk", il)`; 2.2 -> the `build_lookup`
+call in `build_moe_ffn`; 3.1/3.2 -> registration in `build_lookup` plus the
+`plan()`/`copy()` hint path. Plumbing is the C++17 port: global
+`llama_roret_union_cache`, a defaulted `roret_key` on `llama_moe_cache_layer`,
+and extra hint parameters on `plan()` instead of `std::span` arguments or a
+separate `pin()` call. Same insertion points; no graph nodes added or reordered.
+
+This is a patch artifact only. No tensor-level off-vs-on parity was measured here;
+`BITEXACT_REPORT.md` remains NO_GO.

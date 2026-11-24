@@ -1,0 +1,603 @@
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 5fef4c421..760afda7f 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -3,6 +3,7 @@
+ #include "llama-impl.h"
+ #include "llama-model.h"
+ #include "llama-moe-cache.h"
++#include "llama-roret.h"
+ #include "llama-batch.h"
+ #include "llama-cparams.h"
+ #include "llama-sampler.h"
+@@ -2335,7 +2336,12 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+          ggml_tensor * gate_up_exps,
+          ggml_tensor * selected_experts_in,
+          ggml_tensor * post_exp_norm,
+-               float   post_exp_norm_eps) const {
++               float   post_exp_norm_eps,
++ const llama_roret_union_cache * roret_cache,
++                          int   roret_pass,
++                  const int32_t * roret_selected_ids,
++                           size_t roret_n_selected,
++                          int32_t roret_key_il) const {
+     return build_moe_ffn(
+         cur,
+         gate_inp,  /* gate_inp_b  */ nullptr,
+@@ -2355,7 +2361,12 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+         /* gate_up_exps_b */ nullptr,
+         selected_experts_in,
+         post_exp_norm,
+-        post_exp_norm_eps
++        post_exp_norm_eps,
++        roret_cache,
++        roret_pass,
++        roret_selected_ids,
++        roret_n_selected,
++        roret_key_il
+     );
+ }
+ 
+@@ -2382,7 +2393,12 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+          ggml_tensor * gate_up_exps_b,
+          ggml_tensor * selected_experts_in,
+          ggml_tensor * post_exp_norm,
+-               float   post_exp_norm_eps) const {
++               float   post_exp_norm_eps,
++ const llama_roret_union_cache * roret_cache,
++                          int   roret_pass,
++                  const int32_t * roret_selected_ids,
++                           size_t roret_n_selected,
++                          int32_t roret_key_il) const {
+     const llm_arch arch = model.arch;
+     const int64_t n_embd   = cur->ne[0];
+     const int64_t n_tokens = cur->ne[1];
+@@ -2477,6 +2493,22 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+     }
+     cb(selected_experts, "ffn_moe_topk", il);
+ 
++    // RORET (opt-in): host-side bookkeeping only. The router above ran normally
++    // on this pass; selected_experts and every tensor below are left untouched.
++    // roret_selected_ids are the host-observed top-k ids for this (il, pass) and
++    // are never substituted for the device `selected_experts` tensor.
++    if (roret_cache != nullptr && roret_pass >= 0 && roret_selected_ids != nullptr && roret_n_selected > 0) {
++        // the union is keyed by the logical layer, not the physical cache slot
++        const int32_t ril = roret_key_il >= 0 ? roret_key_il : il;
++        const llama_roret_union_cache::key rkey{ril, roret_pass};
++        // Read before add(), so pass N sees only the passes registered before it.
++        const double hit_before = roret_cache->hit_rate(rkey, roret_selected_ids, roret_n_selected);
++        const size_t res_before = roret_cache->residents(ril).size();
++        const bool   grew       = roret_cache->add(rkey, roret_selected_ids, roret_n_selected);
++        LLAMA_LOG_DEBUG("roret: il=%d key_il=%d pass=%d hit=%.3f residents_before=%zu grew=%d total=%zu\n",
++                il, ril, roret_pass, hit_before, res_before, grew ? 1 : 0, roret_cache->total_residents(ril));
++    }
++
+     if (arch == LLM_ARCH_GROVEMOE && n_expert != hparams.n_expert) {
+         // TODO: Use scalar div instead when/if implemented
+         ggml_tensor * f_sel = ggml_cast(ctx0, selected_experts, GGML_TYPE_F32);
+@@ -2546,7 +2578,10 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+ 
+     // the experts of host-resident layers may be read from the MoE cache (see llama_moe_cache::build_lookup)
+     const llama_moe_cache_lookup cache = moe_cache == nullptr ? llama_moe_cache_lookup{} :
+-        moe_cache->build_lookup(*this, { il, up_exps, gate_exps, down_exps, gate_up_exps, weight_before_ffn }, selected_experts);
++        moe_cache->build_lookup(*this,
++                { il, up_exps, gate_exps, down_exps, gate_up_exps, weight_before_ffn,
++                  { roret_key_il, roret_pass } },
++                selected_experts);
+ 
+     cur = ggml_reshape_3d(ctx0, cur, n_embd, 1, n_tokens);
+ 
+diff --git a/src/llama-graph.h b/src/llama-graph.h
+index ff155f14d..639a01d16 100644
+--- a/src/llama-graph.h
++++ b/src/llama-graph.h
+@@ -5,6 +5,7 @@
+ #include "llama-hparams.h"
+ #include "llama-adapter.h"
+ 
++#include <cstddef>
+ #include <cstdint>
+ #include <cstdlib>
+ #include <vector>
+@@ -24,6 +25,7 @@ struct llama_prec_policy;
+ struct llama_hadamard;
+ 
+ class llama_moe_cache;
++class llama_roret_union_cache; // opt-in union-resident MoE routing bookkeeping
+ 
+ struct llama_memory_context_i;
+ 
+@@ -1278,7 +1280,12 @@ struct llm_graph_context {
+              ggml_tensor * gate_up_exps = nullptr,
+              ggml_tensor * selected_experts_in = nullptr,
+              ggml_tensor * post_exp_norm = nullptr,
+-                   float   post_exp_norm_eps = 1e-5f) const;
++                   float   post_exp_norm_eps = 1e-5f,
++   const llama_roret_union_cache * roret_cache = nullptr,
++                            int   roret_pass = -1,
++                const int32_t * roret_selected_ids = nullptr,
++                         size_t roret_n_selected = 0,
++                        int32_t roret_key_il = -1) const;
+ 
+     ggml_tensor * build_moe_ffn(
+              ggml_tensor * cur,
+@@ -1303,7 +1310,12 @@ struct llm_graph_context {
+              ggml_tensor * gate_up_exps_b = nullptr,
+              ggml_tensor * selected_experts_in = nullptr,
+              ggml_tensor * post_exp_norm = nullptr,
+-                   float   post_exp_norm_eps = 1e-5f) const;
++                   float   post_exp_norm_eps = 1e-5f,
++   const llama_roret_union_cache * roret_cache = nullptr,
++                            int   roret_pass = -1,
++                const int32_t * roret_selected_ids = nullptr,
++                         size_t roret_n_selected = 0,
++                        int32_t roret_key_il = -1) const;
+ 
+     //
+     // inputs
+diff --git a/src/llama-moe-cache.cpp b/src/llama-moe-cache.cpp
+index ba35af021..489b26b3c 100644
+--- a/src/llama-moe-cache.cpp
++++ b/src/llama-moe-cache.cpp
+@@ -4,6 +4,7 @@
+ #include "llama-impl.h"
+ #include "llama-memory.h"
+ #include "llama-model.h"
++#include "llama-roret.h"
+ 
+ #include "ggml-cpp.h"
+ 
+@@ -13,6 +14,7 @@
+ #include <cstdlib>
+ #include <cstring>
+ #include <stdexcept>
++#include <string>
+ #include <unordered_map>
+ #include <vector>
+ 
+@@ -50,8 +52,9 @@ struct moe_cache_lru {
+ 
+     std::vector<uint32_t> seen; // [n_expert] seen[e] == seen_gen if expert e is selected by the current plan()
+     uint32_t seen_gen = 0;
+-    std::vector<int32_t> uniq;  // the distinct selected experts
++    std::vector<int32_t> uniq;  // the distinct selected experts, followed by the RORET residents to keep
+     std::vector<int32_t> misses;
++    std::vector<int32_t> extra_misses; // RORET residents not yet in the cache, uploaded without a CPU miss
+     std::vector<uint64_t> token_zero; // [n_tokens] zero slots used by each token
+ 
+     void init(int32_t n_layer, int32_t n_expert, int32_t n_slots) {
+@@ -183,10 +186,13 @@ struct moe_cache_lru {
+     // give a slot to each expert selected by ids (n_tokens tokens) in layer il
+     // n_cpu(n) of the n misses are left to the CPU and read a zero slot on the device, they are not cached
+     // a zero slot is used at most once per token, a miss that does not get one is cached instead
+-    // returns false if the ids select more distinct experts than there are slots
++    // extra/n_extra are the opt-in RORET residents to keep for this layer: they are treated as
++    // selected by plan() (never evicted) but never as CPU misses, and never change the expert ids
++    // that the graph reads. Returns false if the ids select more distinct experts than there are slots.
+     template <typename F>
+     bool plan(int32_t il, const int32_t * ids, size_t n_ids, int64_t n_tokens, int32_t n_used, int32_t n_zero, F && n_cpu,
+-            std::vector<fill> & fills, std::vector<fill> & cpu, size_t & n_hit) {
++            std::vector<fill> & fills, std::vector<fill> & cpu, size_t & n_hit,
++            const int32_t * extra = nullptr, size_t n_extra = 0) {
+         fills.clear();
+         cpu.clear();
+         n_hit = 0;
+@@ -203,6 +209,23 @@ struct moe_cache_lru {
+                 uniq.push_back(ids[i]);
+             }
+         }
++        const size_t n_real = uniq.size();
++        if (extra != nullptr) {
++            for (size_t i = 0; i < n_extra; ++i) {
++                const int32_t e = extra[i];
++                if (e < 0 || e >= n_expert) {
++                    continue;
++                }
++                if (seen[e] != seen_gen) {
++                    seen[e] = seen_gen;
++                    uniq.push_back(e);
++                }
++            }
++            // residents are hints only: never evict a real selection to make room for them
++            while (uniq.size() > (size_t) n_slots && uniq.size() > n_real) {
++                uniq.pop_back();
++            }
++        }
+         if (uniq.size() > (size_t) n_slots) {
+             return false;
+         }
+@@ -211,14 +234,20 @@ struct moe_cache_lru {
+ 
+         // update the CRF of all selected experts and promote hits before choosing victims for misses
+         misses.clear();
+-        for (int32_t e : uniq) {
++        extra_misses.clear();
++        for (size_t i = 0; i < uniq.size(); ++i) {
++            const int32_t e = uniq[i];
+             const int32_t key = make_key(il, e);
+             use(il, key);
+             if (slots[e] < n_slots) {
+                 move(slots[e], class_of(key));
+-                n_hit++;
+-            } else {
++                if (i < n_real) {
++                    n_hit++;
++                }
++            } else if (i < n_real) {
+                 misses.push_back(e);
++            } else {
++                extra_misses.push_back(e);
+             }
+         }
+ 
+@@ -266,6 +295,9 @@ struct moe_cache_lru {
+             misses.erase(misses.begin(), misses.begin() + n_keep);
+         }
+ 
++        // RORET residents are uploaded like misses, but were never candidates for the CPU path above
++        misses.insert(misses.end(), extra_misses.begin(), extra_misses.end());
++
+         // fill the misses in expert order: victim() takes unused slots, and slots filled by one plan(), in list order,
+         // so consecutive experts often get consecutive slots and one upload
+         std::sort(misses.begin(), misses.end());
+@@ -384,6 +416,17 @@ struct llama_moe_cache::impl {
+     std::vector<moe_cache_lru::fill> fills;
+     std::vector<moe_cache_lru::fill> cpu;
+ 
++    // opt-in RORET union cache, owned here because the copy callback runs at graph
++    // execution time, after llm_graph_context has been destroyed. LLAMA_RORET=1 enables it.
++    std::unique_ptr<llama_roret_union_cache> roret;
++    // the slot map tensor copied at execution time identifies the (logical layer, pass) key
++    struct roret_binding {
++        int32_t il   = -1;
++        int32_t pass = -1;
++    };
++    std::unordered_map<const ggml_tensor *, roret_binding> roret_of;
++    std::vector<int32_t> roret_residents; // scratch for the copy callback
++
+     float    cpu_share = 0.0f;
+     uint32_t cpu_share_q = 0; // cpu_share in 1/65536, integer so that a simulator can reproduce the rounding
+     int32_t  n_zero    = 0; // zero slots per group
+@@ -401,6 +444,16 @@ struct llama_moe_cache::impl {
+ 
+     impl(const llama_model & model, bool no_alloc, const std::vector<ggml_backend_t> & backends, const std::vector<ggml_backend_buffer_type_t> & bufts, size_t size, float cpu_share) :
+             n_expert_used(model.hparams.n_expert_used_max()), layers(model.layers.size()), cpu_share(std::clamp(cpu_share, 0.0f, 1.0f)) {
++        // RORET is strictly opt-in: without LLAMA_RORET the fields above stay empty and
++        // every path below is identical to upstream, even for looped Inkling2 graphs.
++        if (const char * env = getenv("LLAMA_RORET"); env != nullptr) {
++            const std::string on(env);
++            if (on == "1" || on == "on" || on == "true") {
++                roret.reset(new llama_roret_union_cache(model.hparams.n_expert, n_expert_used));
++                LLAMA_LOG_INFO("%s: RORET union-resident MoE bookkeeping enabled\n", __func__);
++            }
++        }
++
+         for (size_t i = 0; i < backends.size(); ++i) {
+             const auto dev_type = ggml_backend_dev_type(ggml_backend_get_device(backends[i]));
+             if (dev_type == GGML_BACKEND_DEVICE_TYPE_GPU || dev_type == GGML_BACKEND_DEVICE_TYPE_IGPU) {
+@@ -809,6 +862,29 @@ struct llama_moe_cache::impl {
+             write_trace(il, n_used);
+         }
+ 
++        // RORET (opt-in): these are the real, host-observed top-k ids read back from the
++        // device above. Register them for the logical (layer, pass) key supplied by the
++        // loop graph, then keep the earlier passes' union resident for this pass. The
++        // selected_experts tensor and the router are never modified.
++        const int32_t * extra   = nullptr;
++        size_t          n_extra = 0;
++        if (roret) {
++            const auto ir = roret_of.find(src);
++            if (ir != roret_of.end()) {
++                const roret_binding & rb = ir->second;
++                if (rb.pass == 0) {
++                    // a fresh union for every token; pass 0 is executed before any later pass
++                    roret->clear_layer(rb.il);
++                }
++                roret->add({ rb.il, rb.pass }, ids.data(), ids.size());
++                if (rb.pass > 0) {
++                    roret_residents = roret->residents(rb.il);
++                    extra   = roret_residents.data();
++                    n_extra = roret_residents.size();
++                }
++            }
++        }
++
+         // part of the misses is computed on the CPU once the cache is full, the carry keeps the share right on average
+         const uint32_t share_q = has_cpu && g.lru.n_filled == g.lru.n_slots ? cpu_share_q : 0;
+         auto n_cpu = [&](size_t n_miss) {
+@@ -817,7 +893,7 @@ struct llama_moe_cache::impl {
+             return (size_t) (acc >> 16);
+         };
+         size_t n_hit = 0;
+-        if (!g.lru.plan(il, ids.data(), ids.size(), sel->src[0]->ne[1], n_used, n_zero, n_cpu, fills, cpu, n_hit)) {
++        if (!g.lru.plan(il, ids.data(), ids.size(), sel->src[0]->ne[1], n_used, n_zero, n_cpu, fills, cpu, n_hit, extra, n_extra)) {
+             GGML_ABORT("the MoE cache is too small for the experts selected in layer %d", il);
+         }
+         if (has_cpu) {
+@@ -903,6 +979,13 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
+     if (slot_map == nullptr) {
+         return {};
+     }
++
++    // RORET (opt-in): remember which logical (layer, pass) will be read back from this
++    // slot map by the copy callback at execution time. No extra graph nodes are added.
++    if (pimpl->roret && layer.roret_key.il >= 0 && layer.roret_key.pass >= 0) {
++        pimpl->roret_of[slot_map] = { layer.roret_key.il, layer.roret_key.pass };
++    }
++
+     for (ggml_tensor * w : { layer.up_exps, layer.gate_exps, layer.down_exps, layer.gate_up_exps }) {
+         if (w == nullptr) {
+             continue;
+diff --git a/src/llama-moe-cache.h b/src/llama-moe-cache.h
+index 833eac360..6727e957b 100644
+--- a/src/llama-moe-cache.h
++++ b/src/llama-moe-cache.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ 
+ #include "ggml-backend.h"
++#include "llama-roret.h"
+ 
+ #include <map>
+ #include <memory>
+@@ -17,6 +18,11 @@ struct llama_moe_cache_layer {
+     ggml_tensor * down_exps;
+     ggml_tensor * gate_up_exps;
+     bool          weight_before_ffn; // the router weights scale the expert input
++
++    // opt-in RORET key of this MoE layer. il < 0 or pass < 0 disables the hook.
++    // For looped models this is the logical layer ip and the pass index, not the
++    // physical cache slot above, because the union is shared by all the passes of a layer.
++    llama_roret_union_cache::key roret_key = {};
+ };
+ 
+ // the lookup of the selected experts of a layer in the MoE cache, see llama_moe_cache::build_lookup
+diff --git a/src/llama-roret.h b/src/llama-roret.h
+new file mode 100644
+index 000000000..be634f493
+--- /dev/null
++++ b/src/llama-roret.h
+@@ -0,0 +1,172 @@
++#pragma once
++
++// Opt-in, host-side union bookkeeping for union-resident MoE routing (RORET).
++// Records the host-observed top-k expert ids selected for each (layer, pass) and
++// exposes their per-layer union so a loop driver can keep that union resident
++// across the passes of a looped model.
++//
++// This is bookkeeping only: it never runs the router, never selects experts and
++// never changes any graph math. The router still runs on every pass; only the
++// set of tiles a driver chooses to keep resident changes.
++//
++// Header-only, C++17, standard library only (no ggml/llama dependencies).
++// Not thread-safe: graph build is single-threaded.
++
++#include <array>
++#include <cstddef>
++#include <cstdint>
++#include <map>
++#include <vector>
++
++class llama_roret_union_cache {
++public:
++    struct key {
++        int32_t il   = -1;
++        int32_t pass = -1; // 0..kMaxPass, negative disables the feature
++    };
++
++    static constexpr int32_t kMaxPass = 4;
++
++    llama_roret_union_cache(int n_experts, int n_top_k)
++        : n_experts_(n_experts > 0 ? n_experts : 0),
++          n_top_k_(n_top_k > 0 ? n_top_k : 0),
++          words_(static_cast<size_t>((n_experts_ + 63) / 64)) {}
++
++    int n_experts() const { return n_experts_; }
++    int n_top_k()   const { return n_top_k_;   }
++
++    // OR the host-observed ids selected for (il, pass) into that layer's union.
++    // Out-of-range passes and ids are ignored. Returns true iff the union grew.
++    // Const because build_moe_ffn is const and receives a const pointer; the
++    // internal state is mutable and graph build is single-threaded.
++    bool add(const key & k, const int32_t * ids, size_t n_ids) const {
++        if (!valid_pass(k.pass) || words_ == 0 || ids == nullptr) {
++            return false;
++        }
++
++        layer_state & layer = layer_for(k.il);
++        std::vector<uint64_t> & pass_bits = layer.pass[k.pass];
++        if (pass_bits.empty()) {
++            pass_bits.assign(words_, 0);
++        }
++
++        bool added = false;
++        for (size_t i = 0; i < n_ids; ++i) {
++            const int32_t id = ids[i];
++            if (!valid_id(id)) {
++                continue;
++            }
++            const size_t   w = static_cast<size_t>(id) >> 6;
++            const uint64_t b = uint64_t{1} << (static_cast<unsigned>(id) & 63u);
++            pass_bits[w] |= b;
++            if ((layer.union_bits[w] & b) == 0) {
++                layer.union_bits[w] |= b;
++                added = true;
++            }
++        }
++        return added;
++    }
++
++    // Experts to keep resident for a layer: the union of all registered passes,
++    // ascending. The residency set is deliberately shared across passes, so the
++    // value is identical for every pass of that layer once all are registered.
++    std::vector<int32_t> residents(int32_t il) const {
++        std::vector<int32_t> out;
++        const layer_state * layer = find_layer(il);
++        if (layer == nullptr) {
++            return out;
++        }
++        out.reserve(static_cast<size_t>(n_top_k_) * static_cast<size_t>(kMaxPass + 1));
++        for (size_t w = 0; w < words_; ++w) {
++            uint64_t bits = layer->union_bits[w];
++            while (bits != 0) {
++                const unsigned bit = countr_zero(bits);
++                out.push_back(static_cast<int32_t>(w * 64 + bit));
++                bits &= bits - 1;
++            }
++        }
++        return out;
++    }
++
++    // Fraction of `ids` already present in the layer union *before* add().
++    // Invalid ids are counted in the denominator but never as hits.
++    double hit_rate(const key & k, const int32_t * ids, size_t n_ids) const {
++        if (ids == nullptr || n_ids == 0) {
++            return 0.0;
++        }
++        const layer_state * layer = find_layer(k.il);
++        if (layer == nullptr) {
++            return 0.0;
++        }
++        size_t hits = 0;
++        for (size_t i = 0; i < n_ids; ++i) {
++            const int32_t id = ids[i];
++            if (!valid_id(id)) {
++                continue;
++            }
++            const size_t   w = static_cast<size_t>(id) >> 6;
++            const uint64_t b = uint64_t{1} << (static_cast<unsigned>(id) & 63u);
++            if ((layer->union_bits[w] & b) != 0) {
++                ++hits;
++            }
++        }
++        return static_cast<double>(hits) / static_cast<double>(n_ids);
++    }
++
++    // Mandatory between tokens: otherwise the union accumulates across tokens
++    // and grows toward all n_experts.
++    void clear_layer(int32_t il) const { layers_.erase(il); }
++
++    size_t total_residents(int32_t il) const {
++        const layer_state * layer = find_layer(il);
++        if (layer == nullptr) {
++            return 0;
++        }
++        size_t n = 0;
++        for (uint64_t bits : layer->union_bits) {
++            while (bits != 0) {
++                bits &= bits - 1;
++                ++n;
++            }
++        }
++        return n;
++    }
++
++private:
++    struct layer_state {
++        std::vector<uint64_t> union_bits;                             // [words_]
++        std::array<std::vector<uint64_t>, kMaxPass + 1> pass;         // per-pass contributions
++    };
++
++    static unsigned countr_zero(uint64_t x) {
++        unsigned n = 0;
++        while ((x & 1) == 0) {
++            x >>= 1;
++            ++n;
++        }
++        return n;
++    }
++
++    bool valid_id(int32_t id) const { return id >= 0 && id < n_experts_; }
++
++    static bool valid_pass(int32_t pass) { return pass >= 0 && pass <= kMaxPass; }
++
++    layer_state & layer_for(int32_t il) const {
++        auto it = layers_.find(il);
++        if (it == layers_.end()) {
++            it = layers_.emplace(il, layer_state{}).first;
++            it->second.union_bits.assign(words_, 0);
++        }
++        return it->second;
++    }
++
++    const layer_state * find_layer(int32_t il) const {
++        auto it = layers_.find(il);
++        return it == layers_.end() ? nullptr : &it->second;
++    }
++
++    int    n_experts_ = 0;
++    int    n_top_k_   = 0;
++    size_t words_     = 0;
++    mutable std::map<int32_t, layer_state> layers_;
++};
+diff --git a/src/models/inkling2-loop.cpp b/src/models/inkling2-loop.cpp
+index 8366a1191..907149575 100644
+--- a/src/models/inkling2-loop.cpp
++++ b/src/models/inkling2-loop.cpp
+@@ -99,12 +99,15 @@ llama_model_inkling2_loop::graph::graph(const llm_graph_params & params) : llama
+         }
+         for (int ip = start; ip < end; ++ip) {
+             const int il = pass == 0 ? ip : m.n_phys + (pass - 1)*(end - start) + (ip - start);
++            // the union is keyed by the logical core layer ip and the pass index; il stays
++            // the physical cache slot used for cb names and per-slot hparams
+             if (pass == 0) {
+-                cur = build_layer(il, ip, cur, blocks);
++                cur = build_layer(il, ip, cur, blocks, nullptr, nullptr, ip, (int32_t) pass);
+                 continue;
+             }
+             const auto & loop = m.loop_layers[ip - start];
+-            cur = build_layer(il, ip, cur, blocks, mix(bank, bank_out, loop.msg_query), &loop);
++            cur = build_layer(il, ip, cur, blocks, mix(bank, bank_out, loop.msg_query), &loop,
++                    ip, (int32_t) pass);
+         }
+     }
+ 
+diff --git a/src/models/inkling2.cpp b/src/models/inkling2.cpp
+index febb6e185..92682e3df 100644
+--- a/src/models/inkling2.cpp
++++ b/src/models/inkling2.cpp
+@@ -268,7 +268,7 @@ ggml_tensor * llama_model_inkling2::graph::build_inputs() {
+ }
+ 
+ ggml_tensor * llama_model_inkling2::graph::build_layer(int il, int ip, ggml_tensor * cur, std::vector<ggml_tensor *> & blocks,
+-        ggml_tensor * messages, const loop_layer * loop) {
++        ggml_tensor * messages, const loop_layer * loop, int32_t roret_il, int32_t roret_pass) {
+     GGML_ASSERT(!messages == !loop);
+ 
+     const auto & layer = model.layers[il];
+@@ -402,8 +402,16 @@ ggml_tensor * llama_model_inkling2::graph::build_layer(int il, int ip, ggml_tens
+             hparams.expert_weights_scale,
+             LLAMA_EXPERT_GATING_FUNC_TYPE_SIGMOID,
+             il,
+-            nullptr,
+-            layer.ffn_gate_up_exps);
++            nullptr,  /* probs_in */
++            layer.ffn_gate_up_exps,
++            nullptr,  /* selected_experts_in */
++            nullptr,  /* post_exp_norm */
++            1e-5f,    /* post_exp_norm_eps */
++            nullptr,  /* roret_cache */
++            roret_pass, /* roret_pass */
++            nullptr,  /* roret_selected_ids */
++            0,        /* roret_n_selected */
++            roret_il); /* roret_key_il */
+ 
+     cur = convolve(cur, layer.ffn_post_conv, nullptr, state, history, recr, 2*n_embd_k_gqa + n_embd);
+     cb(cur, "ffn_out", il);
+diff --git a/src/models/models.h b/src/models/models.h
+index 2944e74bb..2a43d1089 100644
+--- a/src/models/models.h
++++ b/src/models/models.h
+@@ -2564,8 +2564,11 @@ struct llama_model_inkling2 : public llama_model_base {
+         // the inputs and the token embeddings
+         ggml_tensor * build_inputs();
+         // cache slot il of physical layer ip; messages [LOOP_CTRL_COUNT, n_embd, n_tokens] are mixed into its inputs
++        // roret_il/roret_pass are the opt-in logical layer and pass index of the union key.
++        // Defaults keep every other caller and every upstream graph unchanged.
+         ggml_tensor * build_layer(int il, int ip, ggml_tensor * cur, std::vector<ggml_tensor *> & blocks,
+-                ggml_tensor * messages = nullptr, const loop_layer * loop = nullptr);
++                ggml_tensor * messages = nullptr, const loop_layer * loop = nullptr,
++                int32_t roret_il = -1, int32_t roret_pass = -1);
+         void build_output(ggml_tensor * cur, const std::vector<ggml_tensor *> & blocks);
+ 
+         llm_graph_input_mem_hybrid_iswa_rel * inp  = nullptr;
