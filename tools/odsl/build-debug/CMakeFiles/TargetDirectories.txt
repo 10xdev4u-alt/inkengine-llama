@@ -1,4 +1,0 @@
-/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/odsl.dir
-/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/test.dir
-/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/edit_cache.dir
-/tmp/build/inkengine-llama/tools/odsl/build-debug/CMakeFiles/rebuild_cache.dir

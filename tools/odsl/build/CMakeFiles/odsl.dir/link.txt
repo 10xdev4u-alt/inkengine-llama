@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/odsl.dir/link.d CMakeFiles/odsl.dir/odsl.cpp.o -o odsl
