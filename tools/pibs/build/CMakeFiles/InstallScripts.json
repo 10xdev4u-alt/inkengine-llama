@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/tmp/build/inkengine-llama/tools/pibs/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,4 @@
+/tmp/build/inkengine-llama/tools/pibs/build/CMakeFiles/pibs.dir
+/tmp/build/inkengine-llama/tools/pibs/build/CMakeFiles/test.dir
+/tmp/build/inkengine-llama/tools/pibs/build/CMakeFiles/edit_cache.dir
+/tmp/build/inkengine-llama/tools/pibs/build/CMakeFiles/rebuild_cache.dir
