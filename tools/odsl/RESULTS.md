@@ -1,5 +1,11 @@
 # RESULTS — ODSL numeric/layout prototype
 
+> **Source-status note (2026-11-24).** The d2027 spike below is synthetically injected. It is an
+> **unverified local hypothesis; not in primary sources** (absent from TML's release post/model
+> card), so the side-lane numbers are a numeric model, not a measured model property. Upstream
+> already provides the loop graph and converter; this fork's contribution is union-resident MoE
+> routing on top of upstream.
+
 Measured on 2026-11-24 (UTC). This is a **numeric and layout model, not a kernel
 benchmark**. No GPU, no tensor cores, no wall-clock or bandwidth measurements.
 
@@ -25,11 +31,12 @@ benchmark**. No GPU, no tensor cores, no wall-clock or bandwidth measurements.
 into a contiguous float plane, issues one scale load per 16-element block, and
 uses 8-wide manual unrolling — with no change in output bits.
 
-## 2. FP16 drift model — d2027 side lane
+## 2. FP16 drift model — d2027 side lane (unverified local hypothesis; not in primary sources)
 
 256 rows, 16-wide dot products, weights = bit-exact dequantized f32 from the
-vectors. d2027 = global dim 2027 = block-local lane 11; injected 16× weight and
-20× activation spike (loopkit `tests/test_shc.py` convention). FP32 accumulation
+vectors. d2027 = global dim 2027 = block-local lane 11 **[unverified local hypothesis; not in
+primary sources]**; injected 16× weight and 20× activation spike (loopkit `tests/test_shc.py`
+convention, not a primary-source fact). FP32 accumulation
 throughout; only the operands are cast through round-to-nearest-even FP16.
 
 | Quantity | Value |
@@ -42,7 +49,8 @@ throughout; only the operands are cast through round-to-nearest-even FP16.
 Assertion `side-lane error <= no-side-lane error`: **PASS**.
 The FP16 path is **not** bit-exact; these numbers are measured drift, not a
 correctness certificate. The side-lane contribution itself is an exact f32
-product (same operation as in the reference), so d2027 is exact by construction.
+product (same operation as in the reference), so the injected dimension 2027 is exact by
+construction (hypothesis only).
 
 ## 3. Scale-load estimate — bytes per 1024 elements
 
@@ -72,8 +80,8 @@ passed fixed-vector checks including signed zero, 2^-24, 2^-25 tie-to-even, and
 
 - T4 (sm_75) has FP16 tensor cores but **no FP4/FP8 tensor cores**; FP4/FP8 here
   are storage formats. Nothing in this prototype measures speed.
-- The d2027 spike magnitudes are injected to emulate a known model property,
-  not read from the random test vectors.
+- The d2027 spike magnitudes are injected to emulate an unverified local hypothesis; not in
+  primary sources, not a known model property, and not read from the random test vectors.
 - Sequential float32 accumulation here is not claimed to match NumPy's or a
   WMMA tile's exact reduction order.
 - No end-to-end, kernel, or tok/s claims are made.

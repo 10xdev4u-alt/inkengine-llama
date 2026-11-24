@@ -1,4 +1,18 @@
 date	what	why	evidence	result
+# === CORRECTION (2026-11-24) — sourced fact-check; supersedes local premises ===
+# "Activation outlier at dimension 2027" is an UNVERIFIED LOCAL HYPOTHESIS;
+# NOT IN PRIMARY SOURCES (absent from TML's release post and model card).
+# The cross-loop gate is rank-r gain/forget controllers upstream
+# (LLM_TENSOR_LOOP_Q_CTRL_* / _K_CTRL_* / _V_CTRL_* / _FFN_CTRL_* _DOWN/_GAIN/_FORGET,
+# gate_rank=64), not the scalar softmax gamma in our earlier docs (a simplification).
+# Upstream already provides the looped graph and converter
+# (src/models/inkling2-loop.cpp, src/models/inkling2.cpp, conversion/inkling2.py,
+# gguf-py/gguf/constants.py); cache slots:
+# n_slot = n_phys + (n_passes-1)*(core_end-core_start) = 24 + 2*12 = 48.
+# Our fork's contribution is union-resident MoE routing on top of upstream,
+# not building the loop graph from scratch.
+# === END CORRECTION ===
+2026-11-24	correct d2027 and scalar-gate claims; upstream owns loop graph	2027 absent from TML/HF primary sources; upstream rank-r LOOP_*_CTRL_* gates and upstream loop graph/converter	src/models/inkling2-loop.cpp (n_slot formula, controller tensors); src/models/inkling2.cpp (control(): (1-forget)*cur + gain*message); conversion/inkling2.py; gguf-py/gguf/constants.py; loopkit/docs/INKLING_INTEGRATION.md	docs annotated: 2027 = unverified local hypothesis; scalar gamma = simplification; fork scope = union-resident MoE routing on top of upstream
 2026-11-23	fork llama.cpp instead of greenfield C++ engine	ggml already at HBM ceiling on T4; loop work is additive	SPEC_RISK.md transfer scorecard	adopted fork; branch main
 2026-11-24	drop exact route-once; use union-resident MoE cache	top-8 sets change across loop passes; union stays small	roret_probe 100k tokens: exact 0.15-76%, union 8.25-11.58 vs 24	GO for union, NO_GO for exact
 2026-11-24	pass-interleaved batching prototype	avoid half-filled m16 WMMA tiles	b8: steps 8->3, wasted slots 104->24	model only; no speed claim

@@ -1,7 +1,13 @@
 # Kaggle RORET probe — 100,000 tokens per setting
 
+> **Source-status note (2026-11-24).** The γ values below are synthetic scalar probe knobs standing
+> in for the upstream rank-r gain/forget loop controllers, not measured model parameters; our
+> earlier scalar-gamma model was a simplification. Upstream already provides the loop graph and
+> converter; this fork's contribution is union-resident MoE routing on top of it.
+
 Kernel: `jprinceraj/roret-probe-cpu`, built from fork `main` (commit f8a63c2),
-GCC 13.3 on Kaggle CPU. γ = [0, 0.3, 0.6], 128 experts / top-8, dim 256.
+GCC 13.3 on Kaggle CPU. γ = [0, 0.3, 0.6] **[synthetic scalar gate stand-ins; upstream gate is
+rank-r gain/forget controllers]**, 128 experts / top-8, dim 256.
 
 | msg_scale | exact all-3 agreement | mean overlap 1→2 | union experts | load reduction | pass-2/3 hit from pass-1 | exact verdict | union verdict |
 |---|---|---|---|---|---|---|---|

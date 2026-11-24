@@ -3,6 +3,7 @@
 #include "llama-impl.h"
 #include "llama-model.h"
 #include "llama-moe-cache.h"
+#include "llama-roret.h"
 #include "llama-batch.h"
 #include "llama-cparams.h"
 #include "llama-sampler.h"
@@ -2335,7 +2336,11 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
          ggml_tensor * gate_up_exps,
          ggml_tensor * selected_experts_in,
          ggml_tensor * post_exp_norm,
-               float   post_exp_norm_eps) const {
+               float   post_exp_norm_eps,
+ const llama_roret_union_cache * roret_cache,
+                          int   roret_pass,
+                  const int32_t * roret_selected_ids,
+                           size_t roret_n_selected) const {
     return build_moe_ffn(
         cur,
         gate_inp,  /* gate_inp_b  */ nullptr,
@@ -2355,7 +2360,11 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
         /* gate_up_exps_b */ nullptr,
         selected_experts_in,
         post_exp_norm,
-        post_exp_norm_eps
+        post_exp_norm_eps,
+        roret_cache,
+        roret_pass,
+        roret_selected_ids,
+        roret_n_selected
     );
 }
 
@@ -2382,7 +2391,11 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
          ggml_tensor * gate_up_exps_b,
          ggml_tensor * selected_experts_in,
          ggml_tensor * post_exp_norm,
-               float   post_exp_norm_eps) const {
+               float   post_exp_norm_eps,
+ const llama_roret_union_cache * roret_cache,
+                          int   roret_pass,
+                  const int32_t * roret_selected_ids,
+                           size_t roret_n_selected) const {
     const llm_arch arch = model.arch;
     const int64_t n_embd   = cur->ne[0];
     const int64_t n_tokens = cur->ne[1];
@@ -2476,6 +2489,20 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
         cb(selected_experts->src[0], "ffn_moe_argsort", il);
     }
     cb(selected_experts, "ffn_moe_topk", il);
+
+    // RORET (opt-in): host-side bookkeeping only. The router above ran normally
+    // on this pass; selected_experts and every tensor below are left untouched.
+    // roret_selected_ids are the host-observed top-k ids for this (il, pass) and
+    // are never substituted for the device `selected_experts` tensor.
+    if (roret_cache != nullptr && roret_pass >= 0 && roret_selected_ids != nullptr && roret_n_selected > 0) {
+        const llama_roret_union_cache::key rkey{il, roret_pass};
+        // Read before add(), so pass N sees only the passes registered before it.
+        const double hit_before = roret_cache->hit_rate(rkey, roret_selected_ids, roret_n_selected);
+        const size_t res_before = roret_cache->residents(il).size();
+        const bool   grew       = roret_cache->add(rkey, roret_selected_ids, roret_n_selected);
+        LLAMA_LOG_DEBUG("roret: il=%d pass=%d hit=%.3f residents_before=%zu grew=%d total=%zu\n",
+                il, roret_pass, hit_before, res_before, grew ? 1 : 0, roret_cache->total_residents(il));
+    }
 
     if (arch == LLM_ARCH_GROVEMOE && n_expert != hparams.n_expert) {
         // TODO: Use scalar div instead when/if implemented

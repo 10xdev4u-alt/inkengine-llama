@@ -1,7 +1,14 @@
 # ODSL — dequant / layout / outlier numeric prototype
 
+> **Source-status note (2026-11-24).** The d2027 outlier is an **unverified local hypothesis;
+> not in primary sources** (absent from TML's release post/model card; present only in our
+> config/tests/docs). The spike below is injected synthetically; it is not read from model weights.
+> Upstream already provides the loop graph and converter; this fork's contribution is
+> union-resident MoE routing on top of upstream.
+
 Standalone C++20 prototype for **ODSL** (dequant-to-FP16 WMMA with a block-major
-scale plane and an FP32 side-lane for the d2027 outlier) from Inkling 2 Mini.
+scale plane and an FP32 side-lane for the hypothetical d2027 outlier **[unverified local
+hypothesis; not in primary sources]**) from Inkling 2 Mini.
 It is a **numeric and layout model, not a kernel benchmark** and not a CUDA or
 tensor-core implementation. No llama.cpp build is needed.
 
@@ -20,9 +27,10 @@ tensor-core implementation. No llama.cpp build is needed.
 2. **FP16 drift + side lane.** For each of 256 rows, a 16-wide dot product is
    computed three ways: full float32 (oracle), FP16-cast operands accumulated
    in float32 (no side lane), and FP16-cast for 15 lanes plus an exact float32
-   product for the d2027 lane (with side lane). The known d2027 energy spike is
-   injected using the loopkit convention (16× weight, 20× activation); global
-   dim 2027 maps to block-local lane 11 (`2027 = 126*16 + 11`). The float16 cast
+   product for the d2027 lane (with side lane). The hypothesized d2027 energy spike
+   **[unverified local hypothesis; not in primary sources]** is injected using the loopkit
+   convention (16× weight, 20× activation); global dim 2027 maps to block-local lane 11
+   (`2027 = 126*16 + 11`). The float16 cast
    is round-to-nearest-even and implemented in portable bit manipulation.
    **No bit-exactness is claimed for the FP16 path — the drift is measured.**
 
@@ -50,8 +58,9 @@ The LUT header is read **read-only** from the sibling anchor at
   path. This prototype does not measure runtime, bandwidth, or tok/s.
 - The scale-load figures are a sector-granularity **estimate**, not a measured
   memory-transaction count on hardware.
-- The d2027 spike magnitudes are injected to emulate the model property seen in
-  loopkit (`tests/test_shc.py`); they are not read from the test vectors.
+- The d2027 spike magnitudes are injected to emulate an unverified local hypothesis; not in
+  primary sources (loopkit `tests/test_shc.py`); they are not read from the test vectors or model
+  weights.
 - FP32 accumulation mirrors `mma.sync` with f16 inputs and an f32 accumulator;
   reduction order here is simple sequential and is not claimed to match
   numpy's or a WMMA tile's exact reduction order.

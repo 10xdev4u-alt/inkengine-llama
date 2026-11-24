@@ -1,5 +1,15 @@
 # RORET integration — compile-safe union-resident MoE bookkeeping
 
+> **Scope note (2026-11-24 fact-check).** Upstream llama.cpp already provides the Inkling2 loop graph
+> and converter (`src/models/inkling2-loop.cpp`, `src/models/inkling2.cpp`,
+> `conversion/inkling2.py`): the loop uses rank-r gain/forget controllers
+> (`LLM_TENSOR_LOOP_*_CTRL_{DOWN,GAIN,FORGET}`, rank 64) and
+> `n_slot = n_phys + (n_passes-1)*(core_end-core_start)`. Our fork's contribution is union-resident
+> MoE routing on top of upstream, not building the loop graph from scratch. Any scalar `gamma` in
+> local docs was a simplification; the "outlier at dimension 2027" elsewhere is an unverified local
+> hypothesis; not in primary sources.
+
+
 Status: **applied and building**. No commit was made.
 
 Router still runs on every pass. This change adds only host-side bookkeeping to
@@ -115,3 +125,38 @@ If any of the unverified items fails once residency wiring exists, follow
 PATCH doc section 6: remove the block at `src/llama-graph.cpp:2493-2505`,
 drop the four params, and keep `roret_cache = nullptr`. The non-union
 `llama_moe_cache` path is the known-good bit-exact baseline.
+
+## Inkling2_loop graph wiring attempt (2026-11-24) — BLOCKED, not wired
+
+**What was wired: nothing new.** The opt-in hook in `build_moe_ffn` remains as
+described above. No loop-graph source was edited.
+
+`src/models/inkling2-loop.cpp` calls `build_layer(il, ip, ...)`, but `build_layer`
+is declared in `src/models/models.h:2567-2568` and defined in
+`src/models/inkling2.cpp:270-415`; its only MoE call is a fixed 17-argument
+`build_moe_ffn(...)` at `inkling2.cpp:393-406`. Neither file was in the permitted
+edit set, and `build_layer` is protected/non-virtual with no forwarding hook. The
+four RORET parameters therefore cannot be threaded to the MoE call. Two further
+gaps: `build_moe_ffn` sees the physical cache slot `il`, not the logical layer
+`ip` required for the union key; and no in-tree producer supplies host-observed
+top-k ids (device `ggml_argsort_top_k` output cannot be read at graph-build
+time). Actual reuse also needs `llama_moe_cache` to consume `residents(il)`.
+An ambient-state side channel was rejected as an unsafe change to the default
+no-op contract. See `docs/INKLING_UPSTREAM_WIRING.md` for the exact chain,
+blockers, and minimal additional files.
+
+**Build verification (requested commands, unchanged tree):**
+
+```
+cmake -S /tmp/build/inkengine-llama -B /tmp/ink-verify2 -DLLAMA_BUILD_TESTS=OFF -DGGML_CUDA=OFF -DLLAMA_CURL=OFF
+cmake --build /tmp/ink-verify2 --target llama-cli -j4
+```
+
+Configure OK; build reached **100% `Built target llama-cli`** (only the
+pre-existing `tools/mtmd` enum-conversion warnings). This proves the pre-existing
+hook compiles; it does not prove loop wiring.
+
+**Still unverified:** no loop-level registration occurs, no pass-2..N residency
+reuse exists, and **bit-exact parity was NOT measured** (no runtime model
+comparison, no `memcmp` of MoE tensors or logits). Do not claim any correctness
+or performance result for looped Inkling2 until the blockers above are resolved.

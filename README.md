@@ -23,6 +23,17 @@ The main goal of `llama.cpp` is to enable LLM (and MLLM) inference with minimal 
 
 The `llama.cpp` project is built on top of the [ggml](https://github.com/ggml-org/ggml) library.
 
+## Fork note (Inkling 2 Mini work)
+
+Upstream llama.cpp already ships the Inkling2 looped architecture (`LLM_ARCH_INKLING2_LOOP`,
+`src/models/inkling2-loop.cpp`, `src/models/inkling2.cpp`, `conversion/inkling2.py`,
+`gguf-py/gguf/constants.py`): the loop graph, the pass-indexed cache slots
+(`n_slot = n_phys + (n_passes-1)*(core_end-core_start)`) and the rank-r `LOOP_*_CTRL_*` gain/forget
+controllers are upstream, not ours. **This fork's contribution is union-resident MoE routing on top
+of upstream, not building the loop graph from scratch.** The "activation outlier at dimension
+2027" mentioned in some local docs is an **unverified local hypothesis; not in primary sources**
+(absent from TML's release post and model card); see `DECISIONS.tsv` and `tools/roret/`.
+
 ## Quick start
 
 A few options to get `llama.cpp` installed on your machine:

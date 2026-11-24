@@ -1,7 +1,14 @@
 # RORET probe results — 2026-11-24
 
+> **Source-status note (2026-11-24).** The γ values below are synthetic scalar probe knobs standing
+> in for the upstream rank-r gain/forget loop controllers (`LLM_TENSOR_LOOP_Q_CTRL_*` etc., rank
+> 64), not measured model parameters; our earlier scalar-gamma model was a simplification. Upstream
+> already provides the loop graph and converter; this fork's contribution is union-resident MoE
+> routing on top of it.
+
 Standalone C++ probe in this directory, 3,000 synthetic tokens per row,
-128 experts / top-8, dim 256, γ = [0, 0.3, 0.6], deterministic seed 20261124.
+128 experts / top-8, dim 256, γ = [0, 0.3, 0.6] **[synthetic scalar gate stand-ins; upstream gate
+is rank-r gain/forget controllers]**, deterministic seed 20261124.
 
 | msg_scale | exact top-8 agreement (all 3 passes) | mean top-8 overlap (1→2) | mean union experts | load reduction vs 24 | pass-2/3 hit rate from pass-1 | verdict (exact) | verdict (union) |
 |---|---|---|---|---|---|---|---|

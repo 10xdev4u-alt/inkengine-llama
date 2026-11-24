@@ -1,10 +1,21 @@
 # RORET — Route Once, pass-Resident Expert Tiles
 
-Inkling 2 Mini runs the middle 12 layers three times per token. The cross-loop
-gate `gamma` starts at 0, so pass 1 is a non-looping forward; passes 2–3 add a
-learned message. **Hypothesis:** the top-8 expert set is largely unchanged across
-the three passes. If true, we route once and keep the expert tiles resident,
-removing redundant routing and weight activations.
+Inkling 2 Mini runs the looped core layers (6–17) three times per token. In our
+simplified local model the cross-loop gate `gamma` starts at 0, so pass 1 is a
+non-looping forward; passes 2–3 add a
+learned message **[upstream implements this gate as rank-r gain/forget loop controllers, not a
+scalar gamma; our earlier scalar-gamma model was a simplification]**. **Hypothesis:** the top-8
+expert set is largely unchanged across the three passes.
+
+> **Scope / source fact-check (2026-11-24).** Upstream already provides the Inkling2 loop graph and
+> converter (`src/models/inkling2-loop.cpp`, `conversion/inkling2.py`); this fork's contribution is
+> union-resident MoE routing on top of upstream, not building the loop graph from scratch. The
+> `--gamma*` probe flags below are synthetic scalar stand-ins for the rank-r gate, not model
+> parameters. The "outlier at dimension 2027" in other local docs is an unverified local
+> hypothesis; not in primary sources.
+
+If true, we route once and keep the expert tiles resident, removing redundant
+routing and weight activations.
 
 ## Precondition probe (this directory)
 

@@ -1,5 +1,15 @@
 # Patch instructions — union-resident expert tiles (RORET)
 
+> **Scope note (2026-11-24 fact-check).** Upstream llama.cpp already provides the Inkling2 loop graph
+> and converter (`src/models/inkling2-loop.cpp`, `src/models/inkling2.cpp`,
+> `conversion/inkling2.py`): the loop uses rank-r gain/forget controllers
+> (`LLM_TENSOR_LOOP_*_CTRL_{DOWN,GAIN,FORGET}`, rank 64) and
+> `n_slot = n_phys + (n_passes-1)*(core_end-core_start)`. Our fork's contribution is union-resident
+> MoE routing on top of upstream, not building the loop graph from scratch. Any scalar `gamma` in
+> local docs was a simplification; the "outlier at dimension 2027" elsewhere is an unverified local
+> hypothesis; not in primary sources.
+
+
 Status: **instructions only, not applied to `src/`**. Only new files are
 `tools/roret/union_cache.hpp`, `tools/roret/test_union_cache.cpp`, and this
 document. Apply the changes below in a later pass, on a branch where you can

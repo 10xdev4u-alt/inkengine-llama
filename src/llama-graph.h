@@ -5,6 +5,7 @@
 #include "llama-hparams.h"
 #include "llama-adapter.h"
 
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <vector>
@@ -24,6 +25,7 @@ struct llama_prec_policy;
 struct llama_hadamard;
 
 class llama_moe_cache;
+class llama_roret_union_cache; // opt-in union-resident MoE routing bookkeeping
 
 struct llama_memory_context_i;
 
@@ -1278,7 +1280,11 @@ struct llm_graph_context {
              ggml_tensor * gate_up_exps = nullptr,
              ggml_tensor * selected_experts_in = nullptr,
              ggml_tensor * post_exp_norm = nullptr,
-                   float   post_exp_norm_eps = 1e-5f) const;
+                   float   post_exp_norm_eps = 1e-5f,
+   const llama_roret_union_cache * roret_cache = nullptr,
+                            int   roret_pass = -1,
+                const int32_t * roret_selected_ids = nullptr,
+                         size_t roret_n_selected = 0) const;
 
     ggml_tensor * build_moe_ffn(
              ggml_tensor * cur,
@@ -1303,7 +1309,11 @@ struct llm_graph_context {
              ggml_tensor * gate_up_exps_b = nullptr,
              ggml_tensor * selected_experts_in = nullptr,
              ggml_tensor * post_exp_norm = nullptr,
-                   float   post_exp_norm_eps = 1e-5f) const;
+                   float   post_exp_norm_eps = 1e-5f,
+   const llama_roret_union_cache * roret_cache = nullptr,
+                            int   roret_pass = -1,
+                const int32_t * roret_selected_ids = nullptr,
+                         size_t roret_n_selected = 0) const;
 
     //
     // inputs
