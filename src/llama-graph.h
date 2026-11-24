@@ -1284,7 +1284,8 @@ struct llm_graph_context {
    const llama_roret_union_cache * roret_cache = nullptr,
                             int   roret_pass = -1,
                 const int32_t * roret_selected_ids = nullptr,
-                         size_t roret_n_selected = 0) const;
+                         size_t roret_n_selected = 0,
+                        int32_t roret_key_il = -1) const;
 
     ggml_tensor * build_moe_ffn(
              ggml_tensor * cur,
@@ -1313,7 +1314,8 @@ struct llm_graph_context {
    const llama_roret_union_cache * roret_cache = nullptr,
                             int   roret_pass = -1,
                 const int32_t * roret_selected_ids = nullptr,
-                         size_t roret_n_selected = 0) const;
+                         size_t roret_n_selected = 0,
+                        int32_t roret_key_il = -1) const;
 
     //
     // inputs

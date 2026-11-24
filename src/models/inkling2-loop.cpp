@@ -99,12 +99,15 @@ llama_model_inkling2_loop::graph::graph(const llm_graph_params & params) : llama
         }
         for (int ip = start; ip < end; ++ip) {
             const int il = pass == 0 ? ip : m.n_phys + (pass - 1)*(end - start) + (ip - start);
+            // the union is keyed by the logical core layer ip and the pass index; il stays
+            // the physical cache slot used for cb names and per-slot hparams
             if (pass == 0) {
-                cur = build_layer(il, ip, cur, blocks);
+                cur = build_layer(il, ip, cur, blocks, nullptr, nullptr, ip, (int32_t) pass);
                 continue;
             }
             const auto & loop = m.loop_layers[ip - start];
-            cur = build_layer(il, ip, cur, blocks, mix(bank, bank_out, loop.msg_query), &loop);
+            cur = build_layer(il, ip, cur, blocks, mix(bank, bank_out, loop.msg_query), &loop,
+                    ip, (int32_t) pass);
         }
     }
 

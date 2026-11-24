@@ -2340,7 +2340,8 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
  const llama_roret_union_cache * roret_cache,
                           int   roret_pass,
                   const int32_t * roret_selected_ids,
-                           size_t roret_n_selected) const {
+                           size_t roret_n_selected,
+                          int32_t roret_key_il) const {
     return build_moe_ffn(
         cur,
         gate_inp,  /* gate_inp_b  */ nullptr,
@@ -2364,7 +2365,8 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
         roret_cache,
         roret_pass,
         roret_selected_ids,
-        roret_n_selected
+        roret_n_selected,
+        roret_key_il
     );
 }
 
@@ -2395,7 +2397,8 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
  const llama_roret_union_cache * roret_cache,
                           int   roret_pass,
                   const int32_t * roret_selected_ids,
-                           size_t roret_n_selected) const {
+                           size_t roret_n_selected,
+                          int32_t roret_key_il) const {
     const llm_arch arch = model.arch;
     const int64_t n_embd   = cur->ne[0];
     const int64_t n_tokens = cur->ne[1];
@@ -2495,13 +2498,15 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
     // roret_selected_ids are the host-observed top-k ids for this (il, pass) and
     // are never substituted for the device `selected_experts` tensor.
     if (roret_cache != nullptr && roret_pass >= 0 && roret_selected_ids != nullptr && roret_n_selected > 0) {
-        const llama_roret_union_cache::key rkey{il, roret_pass};
+        // the union is keyed by the logical layer, not the physical cache slot
+        const int32_t ril = roret_key_il >= 0 ? roret_key_il : il;
+        const llama_roret_union_cache::key rkey{ril, roret_pass};
         // Read before add(), so pass N sees only the passes registered before it.
         const double hit_before = roret_cache->hit_rate(rkey, roret_selected_ids, roret_n_selected);
-        const size_t res_before = roret_cache->residents(il).size();
+        const size_t res_before = roret_cache->residents(ril).size();
         const bool   grew       = roret_cache->add(rkey, roret_selected_ids, roret_n_selected);
-        LLAMA_LOG_DEBUG("roret: il=%d pass=%d hit=%.3f residents_before=%zu grew=%d total=%zu\n",
-                il, roret_pass, hit_before, res_before, grew ? 1 : 0, roret_cache->total_residents(il));
+        LLAMA_LOG_DEBUG("roret: il=%d key_il=%d pass=%d hit=%.3f residents_before=%zu grew=%d total=%zu\n",
+                il, ril, roret_pass, hit_before, res_before, grew ? 1 : 0, roret_cache->total_residents(ril));
     }
 
     if (arch == LLM_ARCH_GROVEMOE && n_expert != hparams.n_expert) {
@@ -2573,7 +2578,10 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
 
     // the experts of host-resident layers may be read from the MoE cache (see llama_moe_cache::build_lookup)
     const llama_moe_cache_lookup cache = moe_cache == nullptr ? llama_moe_cache_lookup{} :
-        moe_cache->build_lookup(*this, { il, up_exps, gate_exps, down_exps, gate_up_exps, weight_before_ffn }, selected_experts);
+        moe_cache->build_lookup(*this,
+                { il, up_exps, gate_exps, down_exps, gate_up_exps, weight_before_ffn,
+                  { roret_key_il, roret_pass } },
+                selected_experts);
 
     cur = ggml_reshape_3d(ctx0, cur, n_embd, 1, n_tokens);
 

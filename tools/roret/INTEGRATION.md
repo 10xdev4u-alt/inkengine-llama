@@ -1,4 +1,4 @@
-# RORET integration — compile-safe union-resident MoE bookkeeping
+# RORET integration — opt-in union-resident MoE wiring
 
 > **Scope note (2026-11-24 fact-check).** Upstream llama.cpp already provides the Inkling2 loop graph
 > and converter (`src/models/inkling2-loop.cpp`, `src/models/inkling2.cpp`,
@@ -9,25 +9,28 @@
 > local docs was a simplification; the "outlier at dimension 2027" elsewhere is an unverified local
 > hypothesis; not in primary sources.
 
+Status: **applied, wired into the Inkling2 loop graph, and building**. No commit was made.
 
-Status: **applied and building**. No commit was made.
-
-Router still runs on every pass. This change adds only host-side bookkeeping to
-`build_moe_ffn`; it does not alter the router, the selected-experts tensor, any
-weight, any matmul, or the graph node order. The feature is **off by default**:
-when `roret_cache == nullptr` (or `roret_pass < 0`, or no host ids), the added
-block is skipped and the original code path is byte-identical.
+The router runs on every pass. RORET adds host-side bookkeeping plus an opt-in
+residency hint to the MoE cache; it does not alter the router, the selected-experts
+tensor, any weight, any matmul, or the graph node order. The feature is off by
+default: without `LLAMA_RORET` (or when the MoE cache is not constructed), no union
+cache exists and every path is the upstream path.
 
 ## Files changed
 
 | File | Change |
 |------|--------|
-| `src/llama-roret.h` | **new**, header-only C++17 union bookkeeping, no ggml/llama includes |
-| `src/llama-graph.h` | forward declaration + 4 trailing defaulted params on **both** `build_moe_ffn` declarations; `#include <cstddef>` |
-| `src/llama-graph.cpp` | `#include "llama-roret.h"`; 4 params on both definitions; short overload forwards them; one gated registration block after the top-k `cb` |
+| `src/llama-roret.h` | **new**, header-only C++17 union bookkeeping, no ggml/llama includes; unchanged by the loop wiring |
+| `src/llama-graph.h` | forward declaration + 4 trailing defaulted params on both `build_moe_ffn` declarations, later a 5th `roret_key_il`; `#include <cstddef>` |
+| `src/llama-graph.cpp` | `#include "llama-roret.h"`; params on both definitions, short-overload forwarding, gated registration block, logical-key-aware `build_lookup` call |
+| `src/models/models.h` | `build_layer` gains trailing defaulted `roret_il`/`roret_pass` |
+| `src/models/inkling2.cpp` | `build_layer` definition accepts and forwards them to `build_moe_ffn` |
+| `src/models/inkling2-loop.cpp` | core passes pass `(ip, pass)` as the logical RORET key |
+| `src/llama-moe-cache.h` | `llama_moe_cache_layer` gains a defaulted `roret_key` |
+| `src/llama-moe-cache.cpp` | opt-in union cache, slot-map → `(ip, pass)` binding, runtime registration from real host ids, default-off protected-resident hint in `plan()` |
 
-`src/llama-moe-cache.h/.cpp` were **not** changed. `CMakeLists.txt` was not
-changed (the new header is header-only, so no build-system edit is needed).
+`CMakeLists.txt` was not changed (`llama-roret.h` is header-only).
 
 ### Why the API differs from `tools/roret/union_cache.hpp`
 
@@ -66,97 +69,101 @@ public:
 ```
 
 ```cpp
-// both declarations in src/llama-graph.h (appended after `post_exp_norm_eps`):
+// both declarations in src/llama-graph.h, appended after `post_exp_norm_eps`:
        float          post_exp_norm_eps = 1e-5f,
 const  llama_roret_union_cache * roret_cache = nullptr,
        int            roret_pass = -1,
 const  int32_t *       roret_selected_ids = nullptr,
-       size_t         roret_n_selected = 0
+       size_t         roret_n_selected = 0,
+       int32_t        roret_key_il = -1
 ```
 
 All existing `build_moe_ffn` call sites compile unchanged. The short overload
-(`src/llama-graph.cpp:2321`) forwards all four values to the long overload
-(`src/llama-graph.cpp:2363`).
+forwards all five values to the long overload.
 
-## Exact call sites
+`build_layer(int il, int ip, ..., ggml_tensor * messages = nullptr,
+const loop_layer * loop = nullptr, int32_t roret_il = -1,
+int32_t roret_pass = -1)` forwards `roret_pass` and `roret_key_il = roret_il` to
+`build_moe_ffn`. `il` stays the physical cache slot; only the RORET key uses `ip`.
 
-- `src/llama-graph.cpp:2493-2505` — registration block, inserted immediately
-  after `cb(selected_experts, "ffn_moe_topk", il);` and **before** the GROVEMoE
-  id remap and `ggml_get_rows(ctx0, probs, selected_experts)`. Order is
-  intentional: `hit_rate()` and `residents()` are read **before** `add()`, so
-  pass N observes only earlier passes. Nothing in this block writes to any
-  ggml tensor or changes `selected_experts`.
-- `src/llama-graph.cpp:2340-2343, 2364-2367` — short overload signature and
-  forwarding call.
-- `src/llama-graph.cpp:2395-2398` — long overload signature.
-- `src/llama-graph.h:1284-1287, 1313-1316` — declarations.
-- The values `roret_selected_ids` must be **host-observed** top-k ids supplied
-  by the loop driver. The device tensor `selected_experts` is produced by
-  `ggml_argsort_top_k` and cannot be read on the host at graph-build time; it is
-  never substituted or faked. Empty ids mean the whole patch is a no-op.
+## Reachability and runtime behaviour
 
-To use it, a looped model driver constructs one `llama_roret_union_cache`,
-passes `&cache`, the pass index (`0..4`) and the host top-k ids to each pass's
-`build_moe_ffn`, then calls `clear_layer(il)` for the looped layers at the end
-of each token. `cache.residents(il)` is the union available to a residency /
-warm-up mechanism on subsequent passes.
+1. `llama_model_inkling2_loop::graph::graph()` builds every pass of the loop in one
+   graph. For each core layer it calls `build_layer(il, ip, ..., ip, pass)`; `il`
+   is the physical slot, `ip` the logical layer, `pass` the loop index.
+2. `build_moe_ffn` passes `{roret_key_il, roret_pass}` to
+   `llama_moe_cache::build_lookup` in `llama_moe_cache_layer::roret_key`. When RORET
+   is enabled, `build_lookup` records `slot_map → (ip, pass)`; no graph node is
+   added or reordered.
+3. At execution time the upstream copy callback already reads the real selected
+   expert ids from the device (`ggml_backend_tensor_get_async` + sync). With RORET
+   enabled, `impl::copy()` uses them to `clear_layer(ip)` on pass 0, `add({ip,
+   pass}, ids)`, and — for passes > 0 — reads `residents(ip)` and passes them to
+   `moe_cache_lru::plan()` as protected hints.
+4. In `plan()`, protected hints are deduplicated against the real ids, capped so
+   they can never displace a real selection, marked as selected so their slots
+   cannot be evicted, and uploaded if missing (never sent through the CPU-miss
+   path). `selected_experts` and `mm_id` remain the only source of expert ids for
+   the graph's matmuls.
 
-## Bit-exactness checklist — verified vs not
+The union cache is owned by `llama_moe_cache::impl`, not by `llm_graph_context`:
+the latter is destroyed at the end of `llama_model::build_graph`, before the copy
+callback runs, so it would be a dangling pointer.
+
+Enable with:
+
+```
+LLAMA_RORET=1 llama-cli -m <inkling2-loop.gguf> --moe-cache-size <bytes> ...
+```
+
+`LLAMA_RORET` accepts `1`, `on` or `true`; anything else leaves the hook off. A MoE
+cache (GPU backend, `moe_cache_size > 0`) is required because the copy callback is
+the producer of host ids. The older build-time hook in `build_moe_ffn` still works
+for any driver that supplies `roret_cache` plus host ids directly; the loop driver
+does not fabricate ids.
+
+## Bit-exactness checklist
 
 ### Verified
 
-1. **Compile safety.** Exact commands requested were run:
-   - `cmake -S /tmp/build/inkengine-llama -B /tmp/ink-verify -DLLAMA_BUILD_TESTS=OFF -DGGML_CUDA=OFF -DLLAMA_CURL=OFF` — configure OK.
-   - `cmake --build /tmp/ink-verify --target llama-cli -j4` — **100%, built target llama-cli**, no errors attributable to this change (only pre-existing `-Wdeprecated-enum-enum-conversion` warnings in `tools/mtmd`).
-2. **Default path unchanged by inspection.** With the default arguments, all four `if` conditions are false, so no cache method is called and no tensor is touched.
-3. **Router/math untouched by inspection.** The diff adds only declarations, parameter forwarding, and one gated bookkeeping block. No line in the router (`ffn_moe_logits`, `ffn_moe_probs`, group mask, `ggml_argsort_top_k`, `ffn_moe_weights`, `norm_w`, `w_scale`), in `ggml_get_rows(probs, selected_experts)`, in `*_b` paths, in `build_experts`, or in the `n_expert_used_il` / precision / random-routing paths was modified. `selected_experts_in` remains `nullptr` on every pass; union ids never enter it.
-4. **Header logic.** A standalone C++17 smoke test (`-Wall -Wextra -Werror`) exercised multi-word bitmaps, ascending `residents`, hit-rate-before-add ordering, idempotent `add`, invalid ids/passes, and `clear_layer`; it passed.
+1. **Compile safety.** Requested commands were run against `/tmp/ink-verify3`:
+   configure OK and build reached **100% `Built target llama-cli`**. Only the
+   pre-existing `tools/mtmd` enum-conversion warnings appeared. An earlier attempt
+   with a duplicated trailing argument failed; the call was fixed and the exact
+   configure + build command passed afterwards.
+2. **Default path unchanged by inspection.** With no `LLAMA_RORET`, no union cache
+   is constructed, `roret_of` is empty, `extra == nullptr` in every `copy()`, and
+   `plan()` runs the original algorithm. Every `build_moe_ffn` / `build_layer`
+   default keeps other models on the upstream path.
+3. **Router/math untouched by inspection.** No line in `ffn_moe_logits`,
+   `ffn_moe_probs`, group masking, `ggml_argsort_top_k`, `ffn_moe_weights`,
+   `norm_w`, `w_scale`, `ggml_get_rows(probs, selected_experts)`, `*_b` paths,
+   `build_experts`, or `n_expert_used_il` logic was modified. `selected_experts_in`
+   is not populated from union ids; hints only affect which tiles are resident.
+4. **Header logic.** A standalone C++17 smoke test (`-Wall -Wextra -Werror`)
+   exercised multi-word bitmaps, ascending `residents`, hit-rate-before-add
+   ordering, idempotent `add`, invalid ids/passes, and `clear_layer`; it passed.
 
-### Not verified (required before any performance or bit-exactness claim)
+### Not verified — bit-exact parity is NOT measured
 
-1. **No runtime model comparison.** No `memcmp` of `ffn_moe_topk`, `ffn_moe_weights`, or `ffn_moe_out` across passes 0/1/2 with the feature off vs on. No end-to-end logits comparison. The graph is expected to be identical, but this was not measured.
-2. **No residency wiring.** `llama_moe_cache::build_lookup`, the copy callback / LRU `plan`, and `build_experts` are unchanged. `residents(il)` is exposed but no code pins or prefetches those tiles, so **no upload-traffic reduction or tok/s win exists yet**. Wiring it (PATCH doc sections 3.1–3.2, or a warm-up lookup) is a separate change and must be done with the bit-exactness checks below.
-3. **Scheduler splits / CPU miss path / slot-map consistency** were not exercised, since the graph is unchanged and no pins are applied. If residency wiring is added later, re-run PATCH doc section 5 items 4–7, including `cpu_share = 0` first and then `cpu_share > 0`.
-4. **No real Inkling 2 Mini router readback.** The loop driver that supplies host top-k ids is not part of this change; until it exists, the feature is structurally opt-in but has no producer of ids in-tree.
+1. **No runtime model comparison.** No `memcmp` of `ffn_moe_topk`,
+   `ffn_moe_weights` or `ffn_moe_out` across passes 0/1/2 with RORET off vs on, and
+   no end-to-end logits comparison was performed. Outputs are expected to be
+   identical because the graph is identical, but this has **not been measured**.
+2. **No real Inkling2 model run.** No real GGUF was executed, so no tok/s
+   improvement or upload-traffic reduction is claimed.
+3. **Scheduler split / CPU miss path with RORET on.** `cpu_share = 0` and
+   `cpu_share > 0` were not exercised with a model; the protected-hint path was
+   reviewed and compiles, but PATCH doc section 5 items 4–7 still need to be run
+   before any performance claim.
+4. **Cross-layer eviction.** Hints protect slots only for the layer being planned;
+   another layer's `plan()` in the same shared bank can still evict them. The union
+   is re-applied on every pass, but a tile is not guaranteed to survive an
+   unrelated layer's plan. No tok/s or upload-reduction result is claimed.
 
 ### Fallback
 
-If any of the unverified items fails once residency wiring exists, follow
-PATCH doc section 6: remove the block at `src/llama-graph.cpp:2493-2505`,
-drop the four params, and keep `roret_cache = nullptr`. The non-union
+If any of the unverified items fails once a real model is available, remove the
+RORET block from `impl::copy()`, the `extra`/`n_extra` parameters from
+`moe_cache_lru::plan()`, and set `LLAMA_RORET` handling to no-op. The non-union
 `llama_moe_cache` path is the known-good bit-exact baseline.
-
-## Inkling2_loop graph wiring attempt (2026-11-24) — BLOCKED, not wired
-
-**What was wired: nothing new.** The opt-in hook in `build_moe_ffn` remains as
-described above. No loop-graph source was edited.
-
-`src/models/inkling2-loop.cpp` calls `build_layer(il, ip, ...)`, but `build_layer`
-is declared in `src/models/models.h:2567-2568` and defined in
-`src/models/inkling2.cpp:270-415`; its only MoE call is a fixed 17-argument
-`build_moe_ffn(...)` at `inkling2.cpp:393-406`. Neither file was in the permitted
-edit set, and `build_layer` is protected/non-virtual with no forwarding hook. The
-four RORET parameters therefore cannot be threaded to the MoE call. Two further
-gaps: `build_moe_ffn` sees the physical cache slot `il`, not the logical layer
-`ip` required for the union key; and no in-tree producer supplies host-observed
-top-k ids (device `ggml_argsort_top_k` output cannot be read at graph-build
-time). Actual reuse also needs `llama_moe_cache` to consume `residents(il)`.
-An ambient-state side channel was rejected as an unsafe change to the default
-no-op contract. See `docs/INKLING_UPSTREAM_WIRING.md` for the exact chain,
-blockers, and minimal additional files.
-
-**Build verification (requested commands, unchanged tree):**
-
-```
-cmake -S /tmp/build/inkengine-llama -B /tmp/ink-verify2 -DLLAMA_BUILD_TESTS=OFF -DGGML_CUDA=OFF -DLLAMA_CURL=OFF
-cmake --build /tmp/ink-verify2 --target llama-cli -j4
-```
-
-Configure OK; build reached **100% `Built target llama-cli`** (only the
-pre-existing `tools/mtmd` enum-conversion warnings). This proves the pre-existing
-hook compiles; it does not prove loop wiring.
-
-**Still unverified:** no loop-level registration occurs, no pass-2..N residency
-reuse exists, and **bit-exact parity was NOT measured** (no runtime model
-comparison, no `memcmp` of MoE tensors or logits). Do not claim any correctness
-or performance result for looped Inkling2 until the blockers above are resolved.

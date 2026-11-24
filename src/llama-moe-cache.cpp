@@ -4,6 +4,7 @@
 #include "llama-impl.h"
 #include "llama-memory.h"
 #include "llama-model.h"
+#include "llama-roret.h"
 
 #include "ggml-cpp.h"
 
@@ -13,6 +14,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -50,8 +52,9 @@ struct moe_cache_lru {
 
     std::vector<uint32_t> seen; // [n_expert] seen[e] == seen_gen if expert e is selected by the current plan()
     uint32_t seen_gen = 0;
-    std::vector<int32_t> uniq;  // the distinct selected experts
+    std::vector<int32_t> uniq;  // the distinct selected experts, followed by the RORET residents to keep
     std::vector<int32_t> misses;
+    std::vector<int32_t> extra_misses; // RORET residents not yet in the cache, uploaded without a CPU miss
     std::vector<uint64_t> token_zero; // [n_tokens] zero slots used by each token
 
     void init(int32_t n_layer, int32_t n_expert, int32_t n_slots) {
@@ -183,10 +186,13 @@ struct moe_cache_lru {
     // give a slot to each expert selected by ids (n_tokens tokens) in layer il
     // n_cpu(n) of the n misses are left to the CPU and read a zero slot on the device, they are not cached
     // a zero slot is used at most once per token, a miss that does not get one is cached instead
-    // returns false if the ids select more distinct experts than there are slots
+    // extra/n_extra are the opt-in RORET residents to keep for this layer: they are treated as
+    // selected by plan() (never evicted) but never as CPU misses, and never change the expert ids
+    // that the graph reads. Returns false if the ids select more distinct experts than there are slots.
     template <typename F>
     bool plan(int32_t il, const int32_t * ids, size_t n_ids, int64_t n_tokens, int32_t n_used, int32_t n_zero, F && n_cpu,
-            std::vector<fill> & fills, std::vector<fill> & cpu, size_t & n_hit) {
+            std::vector<fill> & fills, std::vector<fill> & cpu, size_t & n_hit,
+            const int32_t * extra = nullptr, size_t n_extra = 0) {
         fills.clear();
         cpu.clear();
         n_hit = 0;
@@ -203,6 +209,23 @@ struct moe_cache_lru {
                 uniq.push_back(ids[i]);
             }
         }
+        const size_t n_real = uniq.size();
+        if (extra != nullptr) {
+            for (size_t i = 0; i < n_extra; ++i) {
+                const int32_t e = extra[i];
+                if (e < 0 || e >= n_expert) {
+                    continue;
+                }
+                if (seen[e] != seen_gen) {
+                    seen[e] = seen_gen;
+                    uniq.push_back(e);
+                }
+            }
+            // residents are hints only: never evict a real selection to make room for them
+            while (uniq.size() > (size_t) n_slots && uniq.size() > n_real) {
+                uniq.pop_back();
+            }
+        }
         if (uniq.size() > (size_t) n_slots) {
             return false;
         }
@@ -211,14 +234,20 @@ struct moe_cache_lru {
 
         // update the CRF of all selected experts and promote hits before choosing victims for misses
         misses.clear();
-        for (int32_t e : uniq) {
+        extra_misses.clear();
+        for (size_t i = 0; i < uniq.size(); ++i) {
+            const int32_t e = uniq[i];
             const int32_t key = make_key(il, e);
             use(il, key);
             if (slots[e] < n_slots) {
                 move(slots[e], class_of(key));
-                n_hit++;
-            } else {
+                if (i < n_real) {
+                    n_hit++;
+                }
+            } else if (i < n_real) {
                 misses.push_back(e);
+            } else {
+                extra_misses.push_back(e);
             }
         }
 
@@ -265,6 +294,9 @@ struct moe_cache_lru {
             }
             misses.erase(misses.begin(), misses.begin() + n_keep);
         }
+
+        // RORET residents are uploaded like misses, but were never candidates for the CPU path above
+        misses.insert(misses.end(), extra_misses.begin(), extra_misses.end());
 
         // fill the misses in expert order: victim() takes unused slots, and slots filled by one plan(), in list order,
         // so consecutive experts often get consecutive slots and one upload
@@ -384,6 +416,17 @@ struct llama_moe_cache::impl {
     std::vector<moe_cache_lru::fill> fills;
     std::vector<moe_cache_lru::fill> cpu;
 
+    // opt-in RORET union cache, owned here because the copy callback runs at graph
+    // execution time, after llm_graph_context has been destroyed. LLAMA_RORET=1 enables it.
+    std::unique_ptr<llama_roret_union_cache> roret;
+    // the slot map tensor copied at execution time identifies the (logical layer, pass) key
+    struct roret_binding {
+        int32_t il   = -1;
+        int32_t pass = -1;
+    };
+    std::unordered_map<const ggml_tensor *, roret_binding> roret_of;
+    std::vector<int32_t> roret_residents; // scratch for the copy callback
+
     float    cpu_share = 0.0f;
     uint32_t cpu_share_q = 0; // cpu_share in 1/65536, integer so that a simulator can reproduce the rounding
     int32_t  n_zero    = 0; // zero slots per group
@@ -401,6 +444,16 @@ struct llama_moe_cache::impl {
 
     impl(const llama_model & model, bool no_alloc, const std::vector<ggml_backend_t> & backends, const std::vector<ggml_backend_buffer_type_t> & bufts, size_t size, float cpu_share) :
             n_expert_used(model.hparams.n_expert_used_max()), layers(model.layers.size()), cpu_share(std::clamp(cpu_share, 0.0f, 1.0f)) {
+        // RORET is strictly opt-in: without LLAMA_RORET the fields above stay empty and
+        // every path below is identical to upstream, even for looped Inkling2 graphs.
+        if (const char * env = getenv("LLAMA_RORET"); env != nullptr) {
+            const std::string on(env);
+            if (on == "1" || on == "on" || on == "true") {
+                roret.reset(new llama_roret_union_cache(model.hparams.n_expert, n_expert_used));
+                LLAMA_LOG_INFO("%s: RORET union-resident MoE bookkeeping enabled\n", __func__);
+            }
+        }
+
         for (size_t i = 0; i < backends.size(); ++i) {
             const auto dev_type = ggml_backend_dev_type(ggml_backend_get_device(backends[i]));
             if (dev_type == GGML_BACKEND_DEVICE_TYPE_GPU || dev_type == GGML_BACKEND_DEVICE_TYPE_IGPU) {
@@ -809,6 +862,29 @@ struct llama_moe_cache::impl {
             write_trace(il, n_used);
         }
 
+        // RORET (opt-in): these are the real, host-observed top-k ids read back from the
+        // device above. Register them for the logical (layer, pass) key supplied by the
+        // loop graph, then keep the earlier passes' union resident for this pass. The
+        // selected_experts tensor and the router are never modified.
+        const int32_t * extra   = nullptr;
+        size_t          n_extra = 0;
+        if (roret) {
+            const auto ir = roret_of.find(src);
+            if (ir != roret_of.end()) {
+                const roret_binding & rb = ir->second;
+                if (rb.pass == 0) {
+                    // a fresh union for every token; pass 0 is executed before any later pass
+                    roret->clear_layer(rb.il);
+                }
+                roret->add({ rb.il, rb.pass }, ids.data(), ids.size());
+                if (rb.pass > 0) {
+                    roret_residents = roret->residents(rb.il);
+                    extra   = roret_residents.data();
+                    n_extra = roret_residents.size();
+                }
+            }
+        }
+
         // part of the misses is computed on the CPU once the cache is full, the carry keeps the share right on average
         const uint32_t share_q = has_cpu && g.lru.n_filled == g.lru.n_slots ? cpu_share_q : 0;
         auto n_cpu = [&](size_t n_miss) {
@@ -817,7 +893,7 @@ struct llama_moe_cache::impl {
             return (size_t) (acc >> 16);
         };
         size_t n_hit = 0;
-        if (!g.lru.plan(il, ids.data(), ids.size(), sel->src[0]->ne[1], n_used, n_zero, n_cpu, fills, cpu, n_hit)) {
+        if (!g.lru.plan(il, ids.data(), ids.size(), sel->src[0]->ne[1], n_used, n_zero, n_cpu, fills, cpu, n_hit, extra, n_extra)) {
             GGML_ABORT("the MoE cache is too small for the experts selected in layer %d", il);
         }
         if (has_cpu) {
@@ -903,6 +979,13 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     if (slot_map == nullptr) {
         return {};
     }
+
+    // RORET (opt-in): remember which logical (layer, pass) will be read back from this
+    // slot map by the copy callback at execution time. No extra graph nodes are added.
+    if (pimpl->roret && layer.roret_key.il >= 0 && layer.roret_key.pass >= 0) {
+        pimpl->roret_of[slot_map] = { layer.roret_key.il, layer.roret_key.pass };
+    }
+
     for (ggml_tensor * w : { layer.up_exps, layer.gate_exps, layer.down_exps, layer.gate_up_exps }) {
         if (w == nullptr) {
             continue;

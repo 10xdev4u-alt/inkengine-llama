@@ -268,7 +268,7 @@ ggml_tensor * llama_model_inkling2::graph::build_inputs() {
 }
 
 ggml_tensor * llama_model_inkling2::graph::build_layer(int il, int ip, ggml_tensor * cur, std::vector<ggml_tensor *> & blocks,
-        ggml_tensor * messages, const loop_layer * loop) {
+        ggml_tensor * messages, const loop_layer * loop, int32_t roret_il, int32_t roret_pass) {
     GGML_ASSERT(!messages == !loop);
 
     const auto & layer = model.layers[il];
@@ -402,8 +402,16 @@ ggml_tensor * llama_model_inkling2::graph::build_layer(int il, int ip, ggml_tens
             hparams.expert_weights_scale,
             LLAMA_EXPERT_GATING_FUNC_TYPE_SIGMOID,
             il,
-            nullptr,
-            layer.ffn_gate_up_exps);
+            nullptr,  /* probs_in */
+            layer.ffn_gate_up_exps,
+            nullptr,  /* selected_experts_in */
+            nullptr,  /* post_exp_norm */
+            1e-5f,    /* post_exp_norm_eps */
+            nullptr,  /* roret_cache */
+            roret_pass, /* roret_pass */
+            nullptr,  /* roret_selected_ids */
+            0,        /* roret_n_selected */
+            roret_il); /* roret_key_il */
 
     cur = convolve(cur, layer.ffn_post_conv, nullptr, state, history, recr, 2*n_embd_k_gqa + n_embd);
     cb(cur, "ffn_out", il);

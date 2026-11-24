@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ggml-backend.h"
+#include "llama-roret.h"
 
 #include <map>
 #include <memory>
@@ -17,6 +18,11 @@ struct llama_moe_cache_layer {
     ggml_tensor * down_exps;
     ggml_tensor * gate_up_exps;
     bool          weight_before_ffn; // the router weights scale the expert input
+
+    // opt-in RORET key of this MoE layer. il < 0 or pass < 0 disables the hook.
+    // For looped models this is the logical layer ip and the pass index, not the
+    // physical cache slot above, because the union is shared by all the passes of a layer.
+    llama_roret_union_cache::key roret_key = {};
 };
 
 // the lookup of the selected experts of a layer in the MoE cache, see llama_moe_cache::build_lookup
