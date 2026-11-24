@@ -331,7 +331,7 @@ ScaleLoads scale_load_estimate() {
 // ---------------------------------------------------------------------------
 
 #ifndef ODSL_VECTORS
-#define ODSL_VECTORS "/tmp/build/inkengine/tests/vectors.bin"
+#define ODSL_VECTORS "vectors.bin"
 #endif
 
 #define CHECK(cond, msg)                                                    \
