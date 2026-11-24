@@ -25,6 +25,7 @@ DEFAULT_WARMUP = 5
 DEFAULT_LOOPS = 3
 DEFAULT_SEED = 0
 SAMPLE_SEED = 7
+GATE_TIMEOUT_SECONDS = 60
 
 
 def default_loopkit_src() -> Path:
@@ -77,7 +78,8 @@ def write_samples(out_dir: Path, samples: dict) -> dict[str, Path]:
 
 def run_gate(claim: float, baseline: Path, candidate: Path, *,
              loops: int = DEFAULT_LOOPS, loopkit_src: Path | None = None,
-             python: str | None = None) -> dict:
+             python: str | None = None,
+             timeout: float = GATE_TIMEOUT_SECONDS) -> dict:
     """Drive the exact CLI command from AUDIT_PROTOCOL.md and parse its verdict."""
     src = Path(loopkit_src).resolve() if loopkit_src else default_loopkit_src()
     cmd = [
@@ -90,22 +92,33 @@ def run_gate(claim: float, baseline: Path, candidate: Path, *,
     env = dict(os.environ)
     env["PYTHONPATH"] = os.pathsep.join(
         [str(src), env.get("PYTHONPATH", "")]).rstrip(os.pathsep)
-    proc = subprocess.run(cmd, capture_output=True, text=True, env=env)
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, env=env,
+                              timeout=timeout)
+        returncode, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+    except subprocess.TimeoutExpired as exc:
+        returncode, stdout = -1, ""
+        stderr = f"gate timed out after {timeout}s: {exc}"
+    except OSError as exc:
+        returncode, stdout = -1, ""
+        stderr = f"gate could not start: {exc}"
 
     report: dict | None = None
     try:
-        report = json.loads(proc.stdout)
+        report = json.loads(stdout)
     except (ValueError, TypeError):
         pass
-    claim_valid = bool(report and report.get("claim_valid") is True)
+    report_present = report is not None
     loops_ok = bool(report and int(report.get("loops", -1)) == loops)
+    claim_valid = bool(report and report.get("claim_valid") is True)
     return {
         "claim": float(claim),
-        "returncode": proc.returncode,
+        "returncode": returncode,
         "claim_valid": claim_valid and loops_ok,
         "loops_ok": loops_ok,
+        "report_present": report_present,
         "report": report,
-        "stderr": proc.stderr.strip(),
+        "stderr": stderr.strip(),
     }
 
 
@@ -149,12 +162,19 @@ def verify(out_dir: Path, *, loopkit_src: Path | None = None,
             "claim_valid": case["result"]["claim_valid"],
             "returncode": case["result"]["returncode"],
             "claim": case["result"]["claim"],
+            "report_present": case["result"]["report_present"],
+            "stderr": case["result"]["stderr"],
             "ci_low": (case["result"]["report"] or {}).get("ci_low"),
             "ci_high": (case["result"]["report"] or {}).get("ci_high"),
         }
         for name, case in cases.items()
     }
-    passed = all(c["claim_valid"] is c["expect_valid"] for c in cases.values())
+    verdicts_match = all(c["claim_valid"] is c["expect_valid"]
+                         for c in cases.values())
+    # A crashed or hung CLI is not a fail-closed verdict.
+    rendered = all(c["report_present"] and "Traceback" not in c["stderr"]
+                   and "timed out" not in c["stderr"] for c in cases.values())
+    passed = verdicts_match and rendered
     summary = {
         "verified": bool(passed and probe["loops_ok"] and repeats >= MIN_REPEATS),
         "gate": {

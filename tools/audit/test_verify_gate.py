@@ -75,6 +75,35 @@ def test_claim_at_ci_low_passes_and_inflated_claim_fails(tmp_path, samples):
     assert inflated["returncode"] == 1
 
 
+def test_cli_crash_cannot_count_as_a_fail_closed_control(tmp_path, monkeypatch):
+    original = vg.run_gate
+
+    def crashing_gate(claim, baseline, candidate, **kwargs):
+        if claim == 1.01:
+            return {
+                "claim": claim, "returncode": 1, "claim_valid": False,
+                "loops_ok": False, "report": None, "report_present": False,
+                "stderr": "Traceback (most recent call last): boom",
+            }
+        return original(claim, baseline, candidate, **kwargs)
+
+    monkeypatch.setattr(vg, "run_gate", crashing_gate)
+    summary = vg.verify(tmp_path, loopkit_src=LOOPKIT_SRC, seed=7)
+    assert summary["verified"] is False
+    assert summary["cases"]["self"]["report_present"] is False
+    assert "Traceback" in summary["cases"]["self"]["stderr"]
+
+
+def test_missing_interpreter_does_not_hang_or_report_valid(tmp_path, samples):
+    paths = vg.write_samples(tmp_path, samples)
+    result = vg.run_gate(1.0, paths["baseline"], paths["candidate"],
+                         loopkit_src=LOOPKIT_SRC,
+                         python="/nonexistent/python-interpreter")
+    assert result["report_present"] is False
+    assert result["claim_valid"] is False
+    assert result["returncode"] != 0
+
+
 def test_verify_runs_all_controls_and_is_deterministic(tmp_path):
     first = vg.verify(tmp_path, loopkit_src=LOOPKIT_SRC, seed=7)
     second = vg.verify(tmp_path, loopkit_src=LOOPKIT_SRC, seed=7)
@@ -85,6 +114,7 @@ def test_verify_runs_all_controls_and_is_deterministic(tmp_path):
     assert first["cases"]["slower"]["claim_valid"] is False
     assert first["cases"]["at_bound"]["claim_valid"] is True
     assert first["cases"]["inflated"]["claim_valid"] is False
+    assert all(c["report_present"] for c in first["cases"].values())
     assert first["gate"]["loops"] == 3
     assert first["gate"]["min_repeats"] >= 20
     assert (tmp_path / "gate_verification.json").is_file()
