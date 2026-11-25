@@ -246,3 +246,55 @@ return claim_speedup <= report.ci_low
   `ci_high`, and labelling FP16 tensor-core output bit-exact. This report's §2
   byte figures are therefore explicitly **estimates**, and §1 explicitly a
   **load-count model**, so neither is submitted as a CycleAudit claim.
+
+---
+
+## Engine-side per-pass counters (CPU-test path, synthetic fixture)
+
+This section records engine-side instrumentation added after sections 1-5. It
+does not change the load-count model; it makes those quantities directly visible
+in the engine.
+
+The counters are opt-in: the per-pass table is populated only when LLAMA_RORET=1,
+the same switch that creates the union-resident cache. With LLAMA_RORET unset the
+bookkeeping path is inert. Each row is attributed to a (logical layer il, loop
+pass) pair from the RORET binding, so the pooled log_stats() output no longer has
+to mix all passes together.
+
+A CPU-test build is used because Kaggle images have no nvcc, so a CUDA build is
+not available there. tools/roret/pass_traffic.sh uses -DLLAMA_RORET_CPU_TEST=ON
+and -DGGML_CUDA=OFF and runs the same synthetic looped GGUF twice, with
+LLAMA_RORET unset and with LLAMA_RORET=1, then prints the table below.
+
+Field meanings:
+
+- n_hit: real selected experts already resident in the MoE cache for that pass;
+  resident hints are not counted.
+- upload_ops: number of coalesced host-to-buffer tensor uploads for that pass.
+- uploaded_bytes: byte total of those uploads.
+- residents: earlier-pass union size (union of passes 0..p-1, sampled before this
+  pass's ids are added); 0 on pass 0, which has no prior passes. This is a counter
+  only and does not affect the hint set handed to the planner.
+
+These are load counts and byte counters. They are NOT HBM bandwidth, NOT
+wall-clock time, NOT tok/s, and no speed claim is made from them. No CycleAudit
+result is implied or reported here.
+
+### Blocker: the CPU-test path does not invoke the copy callback
+
+Measured on 2026-11-25 with fork `main`, a fresh `-DGGML_CUDA=OFF
+-DLLAMA_RORET_CPU_TEST=ON` build and the synthetic GGUF (sha256 `cf72921a…`).
+`LLAMA_RORET=1` constructs the cache and logs the hook, and the graph contains
+`moe_cache.slot_map_cpu` lookups and `MUL_MAT_ID` nodes, but the scheduler never
+copies the slot map between host and device buffers, so
+`llama_moe_cache::copy()` is never invoked. Instrumenting the very first line of
+`copy()` produced zero calls, and `log_stats()` reported an empty counter map.
+The per-pass counters are therefore UNEXERCISED locally: this is absence of a
+measurement, not a parity failure and not a speed claim.
+
+`tools/roret/pass_traffic.sh` reports `VERDICT: NO_GO` in this case rather than
+printing an empty table as a pass. Producing the table requires a CUDA build
+where the slot-map copy fires; Kaggle images have no `nvcc`, so that GPU run is
+out of reach in this environment. No T4 traffic measurement is claimed here.
+
+<!-- PASS_TRAFFIC_TABLE -->

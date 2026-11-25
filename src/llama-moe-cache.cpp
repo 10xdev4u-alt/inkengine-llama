@@ -19,6 +19,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "llama-roret-traffic.h"
+
 namespace {
 
 // gate, up, down or gate_up, down
@@ -121,6 +123,7 @@ struct llama_moe_cache::impl {
     // opt-in RORET union cache, owned here because the copy callback runs at graph
     // execution time, after llm_graph_context has been destroyed. LLAMA_RORET=1 enables it.
     std::unique_ptr<llama_roret_union_cache> roret;
+    ::roret_traffic roret_traffic; // per-pass load counts and byte counters, inert unless roret is set
     // the slot map tensor copied at execution time identifies the (logical layer, pass) key
     struct roret_binding {
         int32_t il   = -1;
@@ -589,14 +592,21 @@ struct llama_moe_cache::impl {
         // selected_experts tensor and the router are never modified.
         const int32_t * extra   = nullptr;
         size_t          n_extra = 0;
+        int32_t         r_il        = -1;
+        int32_t         r_pass      = -1;
+        size_t          r_residents = 0;
         if (roret) {
             const auto ir = roret_of.find(src);
             if (ir != roret_of.end()) {
                 const roret_binding & rb = ir->second;
+                r_il   = rb.il;
+                r_pass = rb.pass;
                 if (rb.pass == 0) {
                     // a fresh union for every token; pass 0 is executed before any later pass
                     roret->clear_layer(rb.il);
                 }
+                // counter only: the union of EARLIER passes, before this pass is added
+                r_residents = roret->residents(rb.il).size();
                 roret->add({ rb.il, rb.pass }, ids.data(), ids.size());
                 if (rb.pass > 0) {
                     roret_residents = roret->residents(rb.il);
@@ -631,6 +641,7 @@ struct llama_moe_cache::impl {
 
         // upload the missing experts, consecutive experts going to consecutive slots are uploaded together
         size_t bytes = 0;
+        uint64_t upload_ops = 0;
         for (size_t ip = 0; ip < l.experts.size(); ++ip) {
             const ggml_tensor * w    = l.experts[ip];
             ggml_tensor       * bank = g.banks[ip];
@@ -641,6 +652,7 @@ struct llama_moe_cache::impl {
                     n++;
                 }
                 ggml_backend_tensor_set_async(backend, bank, (const uint8_t *) w->data + fills[i].expert*expert_size, fills[i].slot*expert_size, n*expert_size);
+                ++upload_ops;
                 bytes += n*expert_size;
                 i += n;
             }
@@ -651,6 +663,10 @@ struct llama_moe_cache::impl {
         st.misses += fills.size() + cpu.size();
         st.cpu    += cpu.size();
         st.bytes  += bytes;
+
+        if (roret && r_il >= 0 && r_pass >= 0) {
+            roret_traffic.add(r_il, r_pass, n_hit, upload_ops, bytes, (uint64_t) r_residents);
+        }
 
         // the next copy synchronizes the backend before it changes the slot map again
         ggml_backend_tensor_set_async(backend, dst, l.slot_map->data, 0, ggml_nbytes(l.slot_map));
@@ -671,6 +687,14 @@ struct llama_moe_cache::impl {
         log("ubatch  > 8", stats_large);
         if (stats_copy.hits > 0) {
             LLAMA_LOG_INFO("llama_moe_cache: large batches: %zu experts copied from the cache, %.2f MiB\n", stats_copy.hits, stats_copy.bytes/1024.0/1024.0);
+        }
+        for (const auto & kv : roret_traffic.rows()) {
+            const int32_t il   = kv.first.first;
+            const int32_t pass = kv.first.second;
+            const roret_pass_stats & s = kv.second;
+            LLAMA_LOG_INFO("llama_moe_cache: RORET_PASS il=%d pass=%d plans=%llu hits=%llu upload_ops=%llu uploaded_bytes=%llu residents=%llu\n",
+                il, pass, (unsigned long long) s.plans, (unsigned long long) s.hits, (unsigned long long) s.upload_ops,
+                (unsigned long long) s.uploaded_bytes, (unsigned long long) s.residents);
         }
     }
 };

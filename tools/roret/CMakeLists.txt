@@ -18,6 +18,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(test_union_cache PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
 endif()
 
+add_executable(test_roret_traffic test_roret_traffic.cpp)
+target_include_directories(test_roret_traffic PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../src")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(test_roret_traffic PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
+endif()
+
 add_executable(test_roret_tile_bitexact test_roret_tile_bitexact.cpp)
 target_include_directories(test_roret_tile_bitexact PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
@@ -27,4 +34,5 @@ endif()
 
 enable_testing()
 add_test(NAME test_union_cache COMMAND test_union_cache)
+add_test(NAME test_roret_traffic COMMAND test_roret_traffic)
 add_test(NAME test_roret_tile_bitexact COMMAND test_roret_tile_bitexact)
