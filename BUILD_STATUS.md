@@ -34,3 +34,13 @@ RESULTS.md for the honest numeric models.
 - audit fixture + gate verifier: 13 passed in 10.30s
 - Overall: **COMPLETE / KAGGLE FORK BUILD PASS**
 - Note: audit tests require loopkit cloned at `/tmp/loopkit/src`; the kernel now does that.
+
+## Local re-verification 2026-11-25 (M4 increment, branch `main`)
+
+- Full `GGML_CUDA=OFF` `llama-cli` build: OK (100%).
+- roret ctest: **2/2** (`test_union_cache`, `test_roret_tile_bitexact`); pibs 1/1; odsl 1/1.
+- audit pytest: 13 passed. Standalone bit-exact tests clean under C++17 and C++20 with `-Werror`.
+- `tools/roret/test_roret_tile_bitexact.cpp` exercises the real LRU planner and real
+  RORET header on synthetic tiles: 24 configs, 0 differing bytes. Host/tile-level
+  parity only; engine-level `ffn_moe_*`/logits parity remains NO_GO (see
+  `tools/roret/BITEXACT_REPORT.md`). No speed claim.
