@@ -13,6 +13,7 @@ SEED=${SEED:-0}
 N=${N:-16}
 NGL=${NGL:-0}
 MOE_MIB=${MOE_MIB:-0}
+CPU_SHARE=${CPU_SHARE:-1.0}
 
 CLI="$BUILD/bin/llama-cli"
 DBG="$BUILD/bin/llama-debug"
@@ -23,7 +24,7 @@ rm -f "$OUT"/*.txt "$OUT"/*.log "$OUT"/*.bin "$OUT"/*.sha256
 run_cli() {
     local tag=$1; shift
     "$@" "$CLI" -m "$MODEL" -p "$PROMPT" -s "$SEED" -n "$N" -t 1 -ngl "$NGL" \
-        --moe-cache-mib "$MOE_MIB" --temp 0 -o "$OUT/$tag.txt" > "$OUT/$tag.log" 2>&1
+        --moe-cache-mib "$MOE_MIB" --moe-cache-cpu-share "$CPU_SHARE" --temp 0 --verbose -o "$OUT/$tag.txt" > "$OUT/$tag.log" 2>&1
 }
 
 echo "=== llama-cli: LLAMA_RORET unset ==="

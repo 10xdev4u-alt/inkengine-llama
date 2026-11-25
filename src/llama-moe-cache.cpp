@@ -463,7 +463,26 @@ struct llama_moe_cache::impl {
             }
         }
         if (devices.empty()) {
+#ifdef LLAMA_RORET_CPU_TEST
+            // Test-only: allow the CPU backend so the opt-in RORET hook can be
+            // exercised on machines without a CUDA toolkit. Never enabled by default.
+            bool added = false;
+            for (size_t i = 0; i < backends.size(); ++i) {
+                if (ggml_backend_dev_type(ggml_backend_get_device(backends[i])) == GGML_BACKEND_DEVICE_TYPE_CPU) {
+                    auto & d = devices.emplace_back();
+                    d.backend = backends[i];
+                    d.buft = bufts[i];
+                    added = true;
+                    break;
+                }
+            }
+            if (!added) {
+                throw std::runtime_error("MoE cache requires a GPU backend");
+            }
+            LLAMA_LOG_INFO("%s: LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache\n", __func__);
+#else
             throw std::runtime_error("MoE cache requires a GPU backend");
+#endif
         }
         if (model.split_mode() == LLAMA_SPLIT_MODE_TENSOR) {
             throw std::runtime_error("MoE cache does not support tensor parallelism");
