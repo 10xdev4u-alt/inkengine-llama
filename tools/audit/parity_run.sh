@@ -11,6 +11,8 @@ OUT=${OUT:-/tmp/ink-parity/parity-out}
 PROMPT=${PROMPT:-Hello my name is}
 SEED=${SEED:-0}
 N=${N:-16}
+NGL=${NGL:-0}
+MOE_MIB=${MOE_MIB:-0}
 
 CLI="$BUILD/bin/llama-cli"
 DBG="$BUILD/bin/llama-debug"
@@ -20,8 +22,8 @@ rm -f "$OUT"/*.txt "$OUT"/*.log "$OUT"/*.bin "$OUT"/*.sha256
 
 run_cli() {
     local tag=$1; shift
-    "$@" "$CLI" -m "$MODEL" -p "$PROMPT" -s "$SEED" -n "$N" -t 1 -ngl 0 \
-        --temp 0 -o "$OUT/$tag.txt" > "$OUT/$tag.log" 2>&1
+    "$@" "$CLI" -m "$MODEL" -p "$PROMPT" -s "$SEED" -n "$N" -t 1 -ngl "$NGL" \
+        --moe-cache-mib "$MOE_MIB" --temp 0 -o "$OUT/$tag.txt" > "$OUT/$tag.log" 2>&1
 }
 
 echo "=== llama-cli: LLAMA_RORET unset ==="
@@ -55,11 +57,11 @@ if [[ -x "$DBG" ]]; then
         rm -f "$OUT/$tag-logits"/*.bin
         if [[ $tag == off ]]; then
             env -u LLAMA_RORET "$DBG" -m "$MODEL" -p "$PROMPT" -s "$SEED" -n "$N" \
-                -t 1 -ngl 0 --temp 0 --save-logits \
+                -t 1 -ngl "$NGL" --moe-cache-mib "$MOE_MIB" --temp 0 --save-logits \
                 --logits-output-dir "$OUT/$tag-logits" > "$OUT/$tag-debug.log" 2>&1
         else
             env LLAMA_RORET=1 "$DBG" -m "$MODEL" -p "$PROMPT" -s "$SEED" -n "$N" \
-                -t 1 -ngl 0 --temp 0 --save-logits \
+                -t 1 -ngl "$NGL" --moe-cache-mib "$MOE_MIB" --temp 0 --save-logits \
                 --logits-output-dir "$OUT/$tag-logits" > "$OUT/$tag-debug.log" 2>&1
         fi
     done
