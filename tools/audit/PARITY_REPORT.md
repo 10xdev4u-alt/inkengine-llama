@@ -58,3 +58,7 @@ PYTHONPATH=gguf-py python3 tools/audit/make_synthetic_gguf.py --out synthetic.gg
 ROOT=$PWD BUILD=$PWD/build MODEL=$PWD/synthetic.gguf OUT=/tmp/parity \
   NGL=0 MOE_MIB=1 CPU_SHARE=1.0 N=16 bash tools/audit/parity_run.sh
 ```
+
+## Kaggle reproduction
+
+Kernel `jprinceraj/inkengine-cpu-parity` (CPU, fork `main`, CPU-test build): **COMPLETE / PASS** — `TEXT_PARITY: 0 differing bytes`, `off: RORET_HOOK_ABSENT`, `on: RORET_HOOK_ACTIVE`, `LOGITS_PARITY: 0 differing bytes`, `KAGGLE CPU PARITY PASS`.
