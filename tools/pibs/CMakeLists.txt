@@ -11,5 +11,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(pibs PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
+add_executable(test_pibs_wiring test_pibs_wiring.cpp)
+target_include_directories(test_pibs_wiring PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  # assert() is the test oracle; Release -DNDEBUG would silently disable it.
+  target_compile_options(test_pibs_wiring PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
+endif()
+
 enable_testing()
 add_test(NAME pibs_model COMMAND pibs)
+add_test(NAME pibs_wiring COMMAND test_pibs_wiring)

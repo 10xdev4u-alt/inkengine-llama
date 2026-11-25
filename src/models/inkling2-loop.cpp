@@ -1,4 +1,8 @@
 #include "models.h"
+#include "llama-impl.h"
+#include "llama-pibs.h"
+
+#include <cstdlib>
 
 int llama_model_inkling2_loop::layer_phys(int il) const {
     return il < n_phys ? il : core_start + (il - n_phys) % (core_end - core_start);
@@ -79,6 +83,19 @@ llama_model_inkling2_loop::graph::graph(const llm_graph_params & params) : llama
     const int end   = m.core_end;
 
     auto * cur = build_inputs();
+
+    // PIBS (default-off decision seam): plan the pass schedule for this batch.
+    // Only the plan is computed and logged; the pass loop below and all tensors
+    // are unchanged, so gate off/on graphs are bit-identical by construction.
+    {
+        const bool gate_on  = llama_pibs::gate_enabled(getenv("INKLING2_PIBS"));
+        const int  n_tokens = static_cast<int>(cur->ne[1]);
+        const auto plan     = llama_pibs::decide(n_tokens, gate_on);
+        LLAMA_LOG_DEBUG("pibs: n_tokens=%d gate=%d interleave=%d steps=%d padded=%zu wasted=%zu\n",
+                n_tokens, gate_on ? 1 : 0, plan.interleave ? 1 : 0,
+                plan.c.steps, plan.c.padded_total, plan.c.wasted_total);
+    }
+
     std::vector<ggml_tensor *> blocks;
     for (int il = 0; il < start; ++il) {
         cur = build_layer(il, il, cur, blocks);
