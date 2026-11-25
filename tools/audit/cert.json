@@ -1,0 +1,9 @@
+{
+  "model": "inkling2mini",
+  "n_passes": 1,
+  "passes": [
+    "PassCertificate(pass_index=0, layer='', tensor='*', n_elements=3, n_mismatch=0, max_abs_err=0.0, exact=True, digest='e9b89a60aafdf371b2b8fc7c92b2631073fd3ac9a088eeb01c432c7dfe18a474')"
+  ],
+  "all_exact": true,
+  "root_digest": "503bc937c36c66d09853c0845fe5d17e1b7750027f171ec5fe75bf416a80a2dd"
+}

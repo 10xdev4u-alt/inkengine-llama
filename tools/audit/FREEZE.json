@@ -1,0 +1,142 @@
+{
+  "cert": {
+    "all_exact": true,
+    "model": "inkling2mini",
+    "n_passes": 3,
+    "passes": [
+      {
+        "digest": "e5e6fada7662aa58aaea404565320bdb628b1ce2d6a5c06d9ddfd409d0777be9",
+        "exact": true,
+        "layer": "",
+        "max_abs_err": 0.0,
+        "n_elements": 625920,
+        "n_mismatch": 0,
+        "pass_index": 0,
+        "tensor": "*"
+      },
+      {
+        "digest": "3f09bec23cb010f353be6e132abf58b47ad055f6fb3fefa69f11ed74c5d01691",
+        "exact": true,
+        "layer": "",
+        "max_abs_err": 0.0,
+        "n_elements": 625920,
+        "n_mismatch": 0,
+        "pass_index": 1,
+        "tensor": "*"
+      },
+      {
+        "digest": "4b4e6a225760d6cd6e09bfffe03fc91251c8ebcb51af7969ed451eef29a200bf",
+        "exact": true,
+        "layer": "",
+        "max_abs_err": 0.0,
+        "n_elements": 625920,
+        "n_mismatch": 0,
+        "pass_index": 2,
+        "tensor": "*"
+      }
+    ],
+    "root_digest": "22b36c0a9335e5d7ad9a31316c45d5de5cdcc896771aec204c165da6b60dfb27"
+  },
+  "cli_cert": {
+    "all_exact": true,
+    "model": "inkling2mini",
+    "n_passes": 1,
+    "passes": [
+      {
+        "digest": "e9b89a60aafdf371b2b8fc7c92b2631073fd3ac9a088eeb01c432c7dfe18a474",
+        "exact": true,
+        "layer": "",
+        "max_abs_err": 0.0,
+        "n_elements": 3,
+        "n_mismatch": 0,
+        "pass_index": 0,
+        "tensor": "*"
+      }
+    ],
+    "root_digest": "503bc937c36c66d09853c0845fe5d17e1b7750027f171ec5fe75bf416a80a2dd"
+  },
+  "dump_sha256": {
+    "cand": "c85a8629c4b45a6f81bc505f5959dea469249f13e18029c47d13513fb686f5ec",
+    "ref": "c85a8629c4b45a6f81bc505f5959dea469249f13e18029c47d13513fb686f5ec"
+  },
+  "fdm": {
+    "max_abs_err_vs_ref": 0.0,
+    "path": "fused-staging"
+  },
+  "fixture": {
+    "cand": {
+      "canonical_sha256": "fff0e60fa4f55ba717d1e0bdc0e89695a0d35c85df680a15fd57ed1a0ac959ff",
+      "file_sha256": "5b752043e81ed2aefc19c13c9df8df28f8fce6b20a21e626025b0db1cfa7787b",
+      "manifest": "cand_fixture.npz.manifest.json",
+      "npz": "cand_fixture.npz"
+    },
+    "ref": {
+      "canonical_sha256": "fff0e60fa4f55ba717d1e0bdc0e89695a0d35c85df680a15fd57ed1a0ac959ff",
+      "file_sha256": "5b752043e81ed2aefc19c13c9df8df28f8fce6b20a21e626025b0db1cfa7787b",
+      "manifest": "ref_fixture.npz.manifest.json",
+      "npz": "ref_fixture.npz"
+    }
+  },
+  "generator": "make_cert.py",
+  "loopkit_src": "loopkit/src",
+  "model": "inkling2mini",
+  "negative_control": {
+    "all_exact": false,
+    "exit_code": 1,
+    "flip": "cand/pass1.npy layer_output byte 0 XOR 1",
+    "n_mismatch": 1,
+    "root_digest": "b9fa443528b91003e99e0ff41d4b411c6ac98eb21f4935cb6985e001311c452f",
+    "three_pass": {
+      "all_exact": false,
+      "n_mismatch": 1,
+      "passes": [
+        {
+          "digest": "e5e6fada7662aa58aaea404565320bdb628b1ce2d6a5c06d9ddfd409d0777be9",
+          "exact": true,
+          "layer": "",
+          "max_abs_err": 0.0,
+          "n_elements": 625920,
+          "n_mismatch": 0,
+          "pass_index": 0,
+          "tensor": "*"
+        },
+        {
+          "digest": "9412cfd2e87ba985828b2881476e6ba4b622d2863554a3b0c513a39f971ec73b",
+          "exact": false,
+          "layer": "",
+          "max_abs_err": 2.9802322387695312e-08,
+          "n_elements": 625920,
+          "n_mismatch": 1,
+          "pass_index": 1,
+          "tensor": "*"
+        },
+        {
+          "digest": "4b4e6a225760d6cd6e09bfffe03fc91251c8ebcb51af7969ed451eef29a200bf",
+          "exact": true,
+          "layer": "",
+          "max_abs_err": 0.0,
+          "n_elements": 625920,
+          "n_mismatch": 0,
+          "pass_index": 2,
+          "tensor": "*"
+        }
+      ],
+      "root_digest": "1b9d8738ce32ed1850c8f003a1c396b51dadca017a4ded7698b93b3beb52a55b"
+    }
+  },
+  "notes": [
+    "cli certify bundles all pass*.npy files into one state (n_passes=1)",
+    "cert is loopkit.bitloop.certify_loop over the same three pass states",
+    "negative control proves a single flipped bit invalidates the certificate",
+    "no speedup is claimed or measured"
+  ],
+  "numpy_version": "2.5.4",
+  "nvfp4": {
+    "ans_bytes": 1220,
+    "lossless": true,
+    "ratio": 4.7656,
+    "tensor_bytes": 256
+  },
+  "python_version": "3.14.8",
+  "seed": 0
+}

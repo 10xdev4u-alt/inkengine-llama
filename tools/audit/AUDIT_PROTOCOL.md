@@ -97,16 +97,33 @@ python -m loopkit.cli certify --ref REF --cand CAND --model inkling2mini
 
 `certify` writes `cert.json` with `root_digest` and `all_exact`. The root digest is `sha256(concat(pass digests))`; one flipped bit in any pass invalidates it. The two guarantees from `loopkit/README.md` are `nvfp4-roundtrip` (`ans_decode(ans_encode(t)) == t` on codes, scales, shape, block) and `fdm-check` (`fdm_dot(a, b) == reference_dot(a, b)`, bit-exact).
 
+Measured 2026-11-25 with `make_cert.py` (seed 0, loopkit fast tests 40 passed / 1 deselected, producer re-run gave identical digests). Only the two small JSON files are committed; the large per-pass state arrays stay in the producer's `--out` directory.
+
 | Artifact | Field | Value |
 |---|---|---|
-| `cert.json` | `root_digest` | PENDING |
-| `cert.json` | `all_exact` | PENDING |
-| REF fixture | sha256 | PENDING |
-| CAND fixture | sha256 | PENDING |
-| `nvfp4-roundtrip` | lossless | PENDING |
-| `fdm-check` | max_abs_err_vs_ref | PENDING |
+| `FREEZE.json` -> `cert.root_digest` (3 passes) | `root_digest` | `22b36c0a9335e5d7ad9a31316c45d5de5cdcc896771aec204c165da6b60dfb27` |
+| `FREEZE.json` -> `cert.all_exact` | `all_exact` | `true` (3/3 passes, 0 mismatches, 625920 elements each) |
+| `FREEZE.json` -> `cert.passes[*].digest` | pass 0 / 1 / 2 | `e5e6fada7662aa58aaea404565320bdb628b1ce2d6a5c06d9ddfd409d0777be9` / `3f09bec23cb010f353be6e132abf58b47ad055f6fb3fefa69f11ed74c5d01691` / `4b4e6a225760d6cd6e09bfffe03fc91251c8ebcb51af7969ed451eef29a200bf` |
+| REF fixture | canonical sha256 | `fff0e60fa4f55ba717d1e0bdc0e89695a0d35c85df680a15fd57ed1a0ac959ff` |
+| CAND fixture | canonical sha256 | `fff0e60fa4f55ba717d1e0bdc0e89695a0d35c85df680a15fd57ed1a0ac959ff` |
+| REF / CAND fixture | file sha256 | `5b752043e81ed2aefc19c13c9df8df28f8fce6b20a21e626025b0db1cfa7787b` (both) |
+| REF / CAND F32 dump | canonical sha256 | `c85a8629c4b45a6f81bc505f5959dea469249f13e18029c47d13513fb686f5ec` (both) |
+| `nvfp4-roundtrip` | lossless | `true` (ratio 4.7656, 1220 ANS bytes / 256 tensor bytes) |
+| `fdm-check` | max_abs_err_vs_ref | `0.0` (path `fused-staging`) |
+| flipped-bit negative control | `all_exact` / exit / mismatch | `false` / 1 / 1 mismatch on pass 1, other passes exact |
 
-Any later wiring change (union-resident MoE, 3-pass looped graph) must keep `root_digest` identical on all 3 passes; a changed digest voids the audit. Per `ENGINE_SPEC.md` section 3, stored representation and dequantized FP32 operands are bit-exact; FP16 tensor-core output is measured drift, never labelled bit-exact.
+**CLI scope caveat, measured not assumed.** `loopkit.cli certify --ref REF --cand CAND` loads one file or one directory as a **single** state, so the committed `tools/audit/cert.json` reports `n_passes: 1` and its root `503bc937c36c66d09853c0845fe5d17e1b7750027f171ec5fe75bf416a80a2dd` is a single-bundled-state digest. It is recorded for CLI plumbing evidence and is **not** the 3-pass gate digest. The authoritative 3-pass certificate is `FREEZE.json -> cert`, produced by loopkit's own `certify_loop` over the same three pass states; the test independently recomputes `sha256(concat(pass digests))` from the three frozen pass digests. Do not substitute the CLI digest for the frozen one.
+
+Any later wiring change (union-resident MoE, 3-pass looped graph) must keep the `FREEZE.json` 3-pass `root_digest` identical on all 3 passes; a changed digest voids the audit. Per `ENGINE_SPEC.md` section 3, stored representation and dequantized FP32 operands are bit-exact; FP16 tensor-core output is measured drift, never labelled bit-exact.
+
+Reproduce the freeze (large pass states are written only to `--out`, never into the repo):
+
+```bash
+python3 tools/audit/make_cert.py --loopkit-src <loopkit>/src \
+  --out /tmp/opencode/b1-freeze --seed 0
+python3 -m pytest -q tools/audit/test_make_cert.py tools/audit/test_fixture.py \
+  tools/audit/test_verify_gate.py
+```
 
 ## 8. Honesty rules
 
@@ -135,7 +152,9 @@ Any later wiring change (union-resident MoE, 3-pass looped graph) must keep `roo
 | Negative control self (claim 1.01, expect exit 1) | PASS: `claim_valid=false`, exit 1, `ci_low=0.9832` |
 | Negative control slower (claim 2.0, expect exit 1) | PASS: `claim_valid=false`, exit 1, `ci_low=0.7869` |
 | Claim at `ci_low` / `ci_low + 0.05` | PASS / FAIL as expected (synthetic samples) |
-| Certify `root_digest` / `all_exact` | PENDING (fixture not generated; issue #2) |
+| Certify 3-pass `root_digest` / `all_exact` | `22b36c0a...dfb27` / `true` (FREEZE.json; 17 audit tests passed) |
+| Certify flipped-bit negative control | `all_exact=false`, exit 1, 1 mismatch on pass 1 (fails closed) |
+| Fixture determinism (REF/CAND, two producer runs) | canonical sha `fff0e60f...959ff` both; dump sha `c85a8629...5fec` both |
 | Real T4 baseline b1 (`ci_low`, repeats, loops) | PENDING |
 | Real T4 baseline b8 (`ci_low`, repeats, loops) | PENDING |
 | Publishable claim vs llama.cpp Q4_K_M (claim <= ci_low) | PENDING |

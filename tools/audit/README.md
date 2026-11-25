@@ -88,6 +88,39 @@ completes in a few seconds.
 - The "activation outlier at dimension 2027" idea is an unverified local hypothesis, not a
   property asserted by this fixture.
 
+## B1 bit-exact certificate freeze
+
+`make_cert.py` freezes the bit-exact baseline over the deterministic fixture and
+`test_make_cert.py` checks it through the producer's public CLI. The committed
+`FREEZE.json` is the full record; `cert.json` is the CLI's single-bundled-state
+certificate (`n_passes=1`) and is **not** the 3-pass gate digest.
+
+```bash
+python3 tools/audit/make_cert.py --loopkit-src <loopkit>/src \
+  --out /tmp/opencode/b1-freeze --seed 0
+python3 -m pytest -q tools/audit/test_make_cert.py \
+  tools/audit/test_fixture.py tools/audit/test_verify_gate.py
+```
+
+Frozen 2026-11-25 (seed 0): 3-pass `root_digest`
+`22b36c0a9335e5d7ad9a31316c45d5de5cdcc896771aec204c165da6b60dfb27`,
+`all_exact=true`, three passes of 625920 elements with 0 mismatches; REF and
+CAND fixtures both have canonical sha256
+`fff0e60fa4f55ba717d1e0bdc0e89695a0d35c85df680a15fd57ed1a0ac959ff`
+and F32 dump sha256
+`c85a8629c4b45a6f81bc505f5959dea469249f13e18029c47d13513fb686f5ec`;
+`nvfp4-roundtrip` lossless with ratio 4.7656; `fdm-check` max absolute error 0.0.
+A one-bit flip on pass 1 fails closed: `all_exact=false`, exit 1, one mismatch.
+Two producer runs produce the same digest and hashes. The producer writes the
+large per-pass state arrays and fixture files only under `--out`; only the two
+small JSON files are committed. No speedup is claimed or measured.
+
+Because `loopkit.cli certify` loads a whole directory as one state, the
+authoritative 3-pass certificate is computed with loopkit's own
+`certify_loop`; the test independently recomputes
+`sha256(concat(pass digests))` from the frozen pass digests. See
+[AUDIT_PROTOCOL.md](AUDIT_PROTOCOL.md) section 7 for the scope caveat.
+
 ## M9 CycleAudit artifact
 
 `CYCLE_AUDIT.json` is the local CPU producer output. `run_cycle_audit.py` records
