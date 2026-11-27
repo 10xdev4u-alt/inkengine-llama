@@ -1,0 +1,191 @@
+{
+  "kernel": "jprinceraj/inkengine-cuda-per-pass-traffic v3",
+  "head_sha": "369bdd30c827509d7b237147656ee27bcbe43bbf",
+  "build_ok": true,
+  "configure_exit": 0,
+  "build_exit": 0,
+  "nvcc_version": "nvcc: NVIDIA (R) Cuda compiler driver",
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "all_roret_pass_rows": [
+    {
+      "il": 1,
+      "pass": 2,
+      "plans": 19,
+      "hits": 150,
+      "upload_ops": 78,
+      "uploaded_bytes": 153600,
+      "residents": 812
+    },
+    {
+      "il": 1,
+      "pass": 2,
+      "plans": 19,
+      "hits": 150,
+      "upload_ops": 78,
+      "uploaded_bytes": 153600,
+      "residents": 812
+    }
+  ],
+  "per_share_distinct_pass_values": {
+    "0.0": [
+      2
+    ],
+    "1.0": [
+      2
+    ]
+  },
+  "per_share_gate_ok": {
+    "0.0": false,
+    "1.0": false
+  },
+  "per_pass_gate_ok": false,
+  "per_pass_verdict": "NO_GO: cpu_share=0.0: per-share pass gate failed; cpu_share=1.0: per-share pass gate failed",
+  "overall_verdict": "NO_GO",
+  "engine_verdict": "ENGINE_COPY_PATH_EXERCISED: YES",
+  "logits_parity_verdict": "LOGITS_PARITY: 0 differing bytes (cpu_share=0.0 and 1.0)",
+  "text_parity_verdict": "TEXT_PARITY: 0 differing bytes (cpu_share=0.0 and 1.0)",
+  "speed_claim": "NO SPEED CLAIM",
+  "bind_summary": {
+    "0.0-off": {
+      "counts": {
+        "set": 0,
+        "no_slot_map": 0,
+        "resolve": 0,
+        "hit": 0,
+        "miss": 0,
+        "add": 0,
+        "no_experts": 0,
+        "no_mulmat": 0,
+        "no_getrows": 0
+      },
+      "pass_key_hist": {
+        "set": {},
+        "no_slot_map": {},
+        "resolve": {},
+        "hit": {},
+        "miss": {},
+        "add": {},
+        "no_experts": {},
+        "no_mulmat": {},
+        "no_getrows": {}
+      }
+    },
+    "0.0-on": {
+      "counts": {
+        "set": 28,
+        "no_slot_map": 16,
+        "resolve": 38,
+        "hit": 19,
+        "miss": 19,
+        "add": 19,
+        "no_experts": 0,
+        "no_mulmat": 28,
+        "no_getrows": 0
+      },
+      "pass_key_hist": {
+        "set": {
+          "-1,-1": 14,
+          "1,2": 14
+        },
+        "no_slot_map": {
+          "-1,-1": 4,
+          "1,0": 4,
+          "1,1": 4,
+          "1,2": 4
+        },
+        "resolve": {},
+        "hit": {
+          "1,2": 19
+        },
+        "miss": {},
+        "add": {
+          "1,2": 19
+        },
+        "no_experts": {},
+        "no_mulmat": {
+          "1,0": 14,
+          "1,1": 14
+        },
+        "no_getrows": {}
+      }
+    },
+    "1.0-off": {
+      "counts": {
+        "set": 0,
+        "no_slot_map": 0,
+        "resolve": 0,
+        "hit": 0,
+        "miss": 0,
+        "add": 0,
+        "no_experts": 0,
+        "no_mulmat": 0,
+        "no_getrows": 0
+      },
+      "pass_key_hist": {
+        "set": {},
+        "no_slot_map": {},
+        "resolve": {},
+        "hit": {},
+        "miss": {},
+        "add": {},
+        "no_experts": {},
+        "no_mulmat": {},
+        "no_getrows": {}
+      }
+    },
+    "1.0-on": {
+      "counts": {
+        "set": 28,
+        "no_slot_map": 16,
+        "resolve": 38,
+        "hit": 19,
+        "miss": 19,
+        "add": 19,
+        "no_experts": 0,
+        "no_mulmat": 28,
+        "no_getrows": 0
+      },
+      "pass_key_hist": {
+        "set": {
+          "-1,-1": 14,
+          "1,2": 14
+        },
+        "no_slot_map": {
+          "-1,-1": 4,
+          "1,0": 4,
+          "1,1": 4,
+          "1,2": 4
+        },
+        "resolve": {},
+        "hit": {
+          "1,2": 19
+        },
+        "miss": {},
+        "add": {
+          "1,2": 19
+        },
+        "no_experts": {},
+        "no_mulmat": {
+          "1,0": 14,
+          "1,1": 14
+        },
+        "no_getrows": {}
+      }
+    }
+  },
+  "kernel_log_sha256": "1d5b4be984f593f3f2e4de080da1a76fba1c932c44dba5896fd093520657f770",
+  "stdout_sha256": "bb68ccb54fcdaf70209e765c922ff5b6b2046e6501f12bc20508844e860ce188",
+  "notebook_sha256": "343aafd1f691e7fd52ce32e49301c2819df2db2b3a5a39705b214f5090476c13",
+  "binary_exits": {
+    "off_cli": 0,
+    "off_debug": 0,
+    "on_cli": 0,
+    "on_debug": 0
+  },
+  "hook_state": {
+    "off": "ABSENT",
+    "on": "ACTIVE"
+  },
+  "assert_line_count": 0,
+  "host_compiler": "GNU 13.3.0"
+}
