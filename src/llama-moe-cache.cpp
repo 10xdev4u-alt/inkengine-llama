@@ -778,11 +778,17 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
         }
         ggml_tensor * experts = pimpl->get_experts(w);
         if (experts == nullptr) {
+            if (pimpl->roret && roret_trace_enabled()) {
+                LLAMA_LOG_INFO("RORET_BIND no_experts layer_il=%d key_il=%d pass=%d\n", il, layer.roret_key.il, layer.roret_key.pass);
+            }
             return {};
         }
         // the device of the cache must compute the matmul, else the scheduler copies the cache to another backend
         ggml_tensor * b = ggml_new_tensor_3d(ctx0, GGML_TYPE_F32, experts->ne[0], w == layer.down_exps ? selected_experts->ne[0] : 1, selected_experts->ne[1]);
         if (!ggml_backend_supports_op(pimpl->backend(il), ggml_mul_mat_id(ctx0, experts, b, selected_experts))) {
+            if (pimpl->roret && roret_trace_enabled()) {
+                LLAMA_LOG_INFO("RORET_BIND no_mulmat layer_il=%d key_il=%d pass=%d\n", il, layer.roret_key.il, layer.roret_key.pass);
+            }
             return {};
         }
     }
@@ -797,6 +803,9 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     // the callback reads the selected experts, uploads the missing ones and updates the slot map
     ggml_tensor * slots = ggml_get_rows(ctx0, slot_map, ids); // [1, n_expert_used*n_tokens]
     if (!ggml_backend_supports_op(pimpl->backend(il), slots)) {
+        if (pimpl->roret && roret_trace_enabled()) {
+            LLAMA_LOG_INFO("RORET_BIND no_getrows layer_il=%d key_il=%d pass=%d\n", il, layer.roret_key.il, layer.roret_key.pass);
+        }
         return {};
     }
     ggml_backend_sched_set_tensor_backend(g.sched, slots, pimpl->backend(il));
