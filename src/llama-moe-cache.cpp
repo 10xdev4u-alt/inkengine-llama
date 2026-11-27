@@ -4,6 +4,7 @@
 #include "llama-impl.h"
 #include "llama-memory.h"
 #include "llama-model.h"
+#include "llama-moe-cache-sel.h"
 #include "llama-roret.h"
 
 #include "ggml-cpp.h"
@@ -115,6 +116,8 @@ struct llama_moe_cache::impl {
     std::vector<layer> layers;
     std::unordered_map<const ggml_tensor *, binding> bindings; // host experts -> cached experts
     std::unordered_map<const ggml_tensor *, std::pair<int32_t, bool>> layer_of; // slot map -> layer, and if the graph that looks it up has a CPU part
+    // ids dims of the selected experts, keyed by slot map and flat id count: a slot map is shared by graphs with different ubatch sizes
+    std::map<std::pair<const ggml_tensor *, size_t>, std::pair<int32_t, int32_t>> sel_dims;
 
     std::vector<int32_t> ids;
     std::vector<moe_cache_lru::fill> fills;
@@ -574,13 +577,31 @@ struct llama_moe_cache::impl {
             }
         }
         GGML_ASSERT(ggml_is_contiguous(sel));
-        GGML_ASSERT(sel->op == GGML_OP_RESHAPE); // of the [n_expert_used, n_tokens] ids, see build_lookup
 
-        const int32_t n_used = (int32_t) sel->src[0]->ne[0];
+        const size_t n_ids = ggml_nelements(sel);
+        llama_moe_cache_sel_dims dims;
+        const auto is = sel_dims.find({src, n_ids});
+        if (is != sel_dims.end()) {
+            dims = llama_moe_cache_sel_dims_resolve(true, is->second.first, is->second.second, n_ids);
+        }
+        if (!dims.ok && sel->op == GGML_OP_RESHAPE && sel->src[0] != nullptr) {
+            // graphs built without build_lookup still expose the ids through the reshape
+            dims = llama_moe_cache_sel_dims_resolve(true, (int32_t) sel->src[0]->ne[0], (int32_t) sel->src[0]->ne[1], n_ids);
+        }
+        LLAMA_LOG_DEBUG("llama_moe_cache: sel il=%d op=%s ne=[%d,%d,%d] n_used=%d n_tokens=%d n_ids=%zu ok=%d\n",
+                il, ggml_op_name(sel->op), (int) sel->ne[0], (int) sel->ne[1], (int) sel->ne[2],
+                dims.n_used, dims.n_tokens, n_ids, (int) dims.ok);
+        GGML_ASSERT(dims.ok && "cannot resolve the shape of the selected experts");
 
-        ids.resize(ggml_nelements(sel));
-        ggml_backend_tensor_get_async(backend, sel, ids.data(), 0, ggml_nbytes(sel));
-        ggml_backend_synchronize(backend);
+        const int32_t n_used = dims.n_used;
+
+        ids.resize(n_ids);
+        if (sel->op == GGML_OP_RESHAPE) {
+            ggml_backend_tensor_get_async(backend, sel, ids.data(), 0, ggml_nbytes(sel));
+            ggml_backend_synchronize(backend);
+        } else {
+            ggml_backend_tensor_get(sel, ids.data(), 0, ggml_nbytes(sel));
+        }
 
         if (trace != nullptr) {
             write_trace(il, n_used);
@@ -624,7 +645,7 @@ struct llama_moe_cache::impl {
             return (size_t) (acc >> 16);
         };
         size_t n_hit = 0;
-        if (!g.lru.plan(il, ids.data(), ids.size(), sel->src[0]->ne[1], n_used, n_zero, n_cpu, fills, cpu, n_hit, extra, n_extra)) {
+        if (!g.lru.plan(il, ids.data(), ids.size(), dims.n_tokens, n_used, n_zero, n_cpu, fills, cpu, n_hit, extra, n_extra)) {
             GGML_ABORT("the MoE cache is too small for the experts selected in layer %d", il);
         }
         if (has_cpu) {
@@ -724,6 +745,8 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     if (slot_map == nullptr) {
         return {};
     }
+    const size_t n_ids = (size_t) selected_experts->ne[0] * (size_t) selected_experts->ne[1];
+    pimpl->sel_dims[{slot_map, n_ids}] = { (int32_t) selected_experts->ne[0], (int32_t) selected_experts->ne[1] };
 
     // RORET (opt-in): remember which logical (layer, pass) will be read back from this
     // slot map by the copy callback at execution time. No extra graph nodes are added.
