@@ -238,4 +238,5 @@ and extra hint parameters on `plan()` instead of `std::span` arguments or a
 separate `pin()` call. Same insertion points; no graph nodes added or reordered.
 
 This is a patch artifact only. No tensor-level off-vs-on parity was measured here;
-`BITEXACT_REPORT.md` remains NO_GO.
+`BITEXACT_REPORT.md` was NO_GO at this increment and is now layered PASS-scoped
+after M18 (engine final logits only, synthetic fixture).

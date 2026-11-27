@@ -190,9 +190,11 @@ Not proven by this report or any current artifact:
 * **No `tok/s`, no wall-clock speedup.** The 51.7–65.6% figure is a reduction in
   *upload counts*, not time. `AUDIT_PROTOCOL.md` §8–§9 explicitly forbids
   treating a load-count reduction as wall-clock.
-* **Bit-exact parity is NOT measured.** No `memcmp` of `ffn_moe_topk`,
-  `ffn_moe_weights` or `ffn_moe_out`, and no logits comparison, was performed;
-  `tools/roret/BITEXACT_REPORT.md` remains NO_GO.
+* **Bit-exact parity was NOT measured at that point.** No `memcmp` of
+  `ffn_moe_topk`, `ffn_moe_weights` or `ffn_moe_out`, and no logits comparison,
+  had been performed; `tools/roret/BITEXACT_REPORT.md` was NO_GO then. M18 later
+  measured raw F32 final-logits parity PASS-scoped; the per-pass tensors above
+  remain unmeasured.
 * **Cross-layer LRU eviction.** Protected hints apply only to the layer being
   planned; another layer's `plan()` in the shared bank can still evict a resident
   union tile. The union is re-applied every pass, but survival across intervening
@@ -392,5 +394,32 @@ the binary produced byte-identical stdout including the hash.
 
 These are COUNTS only, with zero uploaded bytes by construction. NO speed claim
 is made here. CycleAudit claim<=ci_low with repeats>=20 and loops=3 remains
-mandatory for any published performance claim; nothing in this section changes
-that gate or the engine-side NO_GO above.
+mandatory for any published performance claim. The engine-side NO_GO above was
+current at M12; the M18 section below supersedes it at the engine final-logits
+level only.
+
+## Engine-side RORET_PASS row on Kaggle 2xT4 (M18, 2026-11-28)
+
+This supersedes the engine-side NO_GO statements in section 4 and the M12
+counter section above at the engine final-logits level. It does not change the
+NO_GO status for intermediate per-pass MoE tensors or real weights.
+
+The older no-nvcc premise in section 3 was disproved in M14: Kaggle GPU images
+ship nvcc 13.0.88. The M18 kernel `jprinceraj/inkengine-cuda-engine-parity`
+built the CUDA fork with `-DGGML_CUDA_NO_VMM=ON` and ran the synthetic GGUF
+with RORET off and on for `cpu_share = 0.0` and `1.0`. The paired `llama-cli`
+logs produced one real `RORET_PASS` row per share on the `on` run:
+
+| cpu_share | il | pass | plans | hits | upload_ops | uploaded_bytes | residents |
+|---|---|---|---|---|---|---|---|
+| 0.0 | 1 | 2 | 19 | 150 | 78 | 153600 | 812 |
+| 1.0 | 1 | 2 | 19 | 150 | 78 | 153600 | 812 |
+
+Evidence: `tools/roret/ENGINE_PARITY_REPORT.md` and
+`tools/roret/kaggle-engine-parity/M18_SUMMARY.json`. These are engine COUNTS
+from a single pass of a synthetic fixture, not a full per-pass traffic table
+and not wall-clock. The 8.25-11.59 union target from the 100k-token table in section 1 is a
+numeric-model probe on `msg_scale`, not a measured engine statistic (the 3k
+table tops out at 11.58), so this
+row neither confirms nor refutes it. NO speed claim; CycleAudit
+`claim <= ci_low` with `repeats >= 20` and `loops = 3` stays mandatory.

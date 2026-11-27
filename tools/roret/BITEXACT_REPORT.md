@@ -1,13 +1,22 @@
-# RORET bit-exact parity gate — status 2026-11-24
+# RORET bit-exact parity gate - updated 2026-11-28
 
-**Decision: NO_GO** for the next milestone (any bit-exact-parity or performance claim).
+**Decision (M18 update): layered PASS, scoped.** Engine-level raw F32 FINAL logits
+off vs on now have 0 differing bytes on the 3-pass synthetic GGUF for both
+`cpu_share 0.0` and `1.0` on a Kaggle 2xT4 runner (M18; see
+`tools/roret/ENGINE_PARITY_REPORT.md`). Host/tile-level parity stays PASS-scoped
+(M13, real fixture ids across all three passes). Intermediate per-pass MoE tensor
+parity and real-weight parity remain NOT measured. No speed claim exists; any
+speed number still needs CycleAudit `claim <= ci_low` with `repeats >= 20` and
+`loops = 3`.
+
+Historical status (2026-11-24, superseded at the engine final-logits level by M18):
+**NO_GO** for the next milestone (any bit-exact-parity or performance claim).
 The wiring is opt-in, builds, and its header contract now has an executable gate, but no
-engine-level off-vs-on comparison has been measured. No real or synthetic GGUF was run,
-and no throughput number exists. See "Evidence command" below for what would change
-the decision.
+engine-level off-vs-on comparison had been measured at that time. No real or synthetic GGUF had been run,
+and no throughput number existed.
 
-New files in this pass: `tools/roret/test_roret_bitexact.cpp` and this report. Nothing
-under `src/` or any other doc was modified by this pass.
+New files in the 2026-11-24 increment: `tools/roret/test_roret_bitexact.cpp` and this
+report. Nothing under `src/` or any other doc was modified by that increment.
 
 ## What HAS been verified
 
@@ -141,11 +150,12 @@ Change to GO only when all of the following exist:
 
 Until then: **NO_GO**. Absence of measured parity is not evidence of parity.
 
-## 2026-11-25 increment - real-LRU tile-level parity measured on the host
+## 2026-11-25 increment - real-LRU tile-level parity measured on the host (engine final-logits verdict superseded by M18)
 
 This section adds executable measurements. It does not replace the 2026-11-24
-evidence above, and it does not change the top-level decision: the engine-level
-gate is still NO_GO.
+evidence above. At that increment the engine-level gate was still NO_GO; M18
+later measured engine final-logits parity PASS-scoped on 2xT4. Intermediate
+per-pass MoE tensors remain unmeasured.
 
 ### Files changed in this increment
 
@@ -275,3 +285,24 @@ hashes prove only that the model is reproducible. If a later host or engine
 check shows a byte flip, that configuration is NO_GO and the scoped fallback is
 to pin only device-resident layers (disable hints for any layer whose tiles can
 be computed on the host), not to relax the byte comparison.
+
+## M18 engine-level GPU parity (2026-11-28) - closes the engine final-logits gap
+
+One Kaggle 2xT4 kernel (`jprinceraj/inkengine-cuda-engine-parity`) ran the
+corrected `tools/roret/kaggle-engine-parity/engine_parity.ipynb` at fork `main`
+HEAD `a6424630e7d78b4eecf817282eba369a2f6e4dcb`. The CUDA build succeeded
+(`build_ok = true`, configure exit 0, build exit 0), all eight binary runs
+exited 0 with the hook ABSENT off and ACTIVE on in both `llama-cli` and
+`llama-debug`, and no assert lines appeared. On the synthetic 3-pass fixture
+(sha256 `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`),
+raw F32 final logits, token ids and generated text all had 0 differing bytes
+off vs on for both `cpu_share = 0.0` and `1.0`. `overall_verdict = PASS`,
+`blocker = ""`. Evidence: `tools/roret/ENGINE_PARITY_REPORT.md` and
+`tools/roret/kaggle-engine-parity/M18_SUMMARY.json`.
+
+Layered verdict now: host/tile parity PASS-scoped (M13); engine-level raw F32
+FINAL logits PASS-scoped (M18, synthetic fixture, both cpu_share values);
+intermediate per-pass MoE tensor parity and real-weight parity NOT measured.
+The M17-era engine NO_GO above is retained as history and is no longer the
+current verdict. RORET_PASS rows from the paired `llama-cli` runs are count
+evidence only. NO SPEED CLAIM.

@@ -1,12 +1,60 @@
-# M17 - Engine-level logits parity attempt on Kaggle 2xT4 (2026-11-27)
+# Engine-level logits parity on Kaggle 2xT4
 
-Status: **NO_GO on Kaggle**. One kernel was spent; the CUDA build was cut off
-by a 300 s timeout before any engine run. The timeout was introduced by this
-milestone's own review fix and applied to the build step as well as the binary
-runs. No engine-level GPU parity number was measured.
+Current status: **PASS (scoped)** as of M18 on 2026-11-28. Raw F32 final logits
+from `llama-debug` have 0 differing bytes with RORET off vs on for both
+`--moe-cache-cpu-share 0.0` and `1.0` on the deterministic synthetic GGUF.
+This supersedes the M17 NO_GO recorded below, which was caused by a self-inflicted
+build timeout, not by a parity failure. Scope: raw F32 FINAL logits only, not
+intermediate per-pass MoE tensors; synthetic fixture only; no real weights;
+NO SPEED CLAIM.
 
-Fork: `10xdev4u-alt/inkengine-llama`, branch `main`, HEAD
-`6fb578632aa6b5ab6b9b6f136c55c6a1f78e10bf`.
+## M18 - corrected notebook retry (2026-11-28)
+
+The corrected checked-in notebook was pushed under a fresh kernel id so the
+M17 timeout bug could not be rerun:
+
+* Kernel `jprinceraj/inkengine-cuda-engine-parity` v1, private,
+  `machine_shape = NvidiaTeslaT4x2`. The title is `Inkengine CUDA engine parity`
+  so it resolves to the id (the old title resolved to the M17 slug and Kaggle
+  returned 409). Pushing auto-started the kernel; status reached `COMPLETE`.
+* Notebook `tools/roret/kaggle-engine-parity/engine_parity.ipynb`,
+  sha256 `157d8b444ced8affa00833b2c674594a1d36dd93fd0422eeac6ecdb96f753617`.
+  Logs read with `kaggle kernels logs`, not the output API: raw log
+  sha256 `29fdc682e37828b03c85e085db6b9daf80ea60e3e463ca8a26b8077e03ec2901`,
+  reconstructed stdout sha256
+  `b1bbe8175b005bdca4ae6af1f8ccee91f4d4ef76253f4d95efe0a00fcf15ea99`.
+* Clone `-b main` HEAD `a6424630e7d78b4eecf817282eba369a2f6e4dcb`;
+  nvcc 13.0.88; configure with `-DGGML_CUDA_NO_VMM=ON` exit 0;
+  `cmake --build build --target llama-cli llama-debug -j4` exit 0,
+  `build_ok = true`. Configure, build and GGUF generation were uncapped;
+  only the eight binary runs kept `timeout = 300`.
+* Fixture sha256
+  `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`,
+  matches M15/M16/M17.
+* All 8 binary runs (2 shares x off/on x cli/debug) exited 0. Hook ABSENT off
+  and ACTIVE on in both binaries. Zero `GGML_ASSERT`/`Assertion` lines.
+* Each share produced non-empty `llamacpp-synthetic.bin` (logits) and
+  `llamacpp-synthetic-tokens.bin` (tokens) for off and on. Off/on differing
+  bytes: logits 0, tokens 0, generated text 0 (text sha256
+  `cf915b84cf60abfd20ced6ac8ec7e69a72c2f0c4b0e2f6abbe8c9c9130bbec3d`
+  for all four runs).
+* `RORET_PASS` rows from `llama-cli`: 2 total, one per share on the `on` run,
+  `il=1 pass=2 plans=19 hits=150 upload_ops=78 uploaded_bytes=153600
+  residents=812`. These are count evidence that the copy path ran, not timing.
+* Summary: `logits_parity_verdict = LOGITS_PARITY: 0 differing bytes
+  (cpu_share=0.0 and 1.0)`, `text_parity_verdict` likewise,
+  `engine_verdict = ENGINE_COPY_PATH_EXERCISED: YES`, `blocker = ""`,
+  `overall_verdict = PASS`. Parsed summary saved at
+  `tools/roret/kaggle-engine-parity/M18_SUMMARY.json`, sha256
+  `7eb2230cb0727cc5240b1b973c4f022ab4009a7c5b0adfb61fd613b5a151d2a6`.
+* Local tests this pass: roret ctest 7/7, pibs 2/2, odsl 1/1;
+  `tools/audit` pytest 17 passed; loopkit fast pytest 40 passed, 1 deselected.
+  No `src/` edit.
+
+NO SPEED CLAIM. Any speed number still needs CycleAudit `claim <= ci_low`
+with `repeats >= 20` and `loops = 3`.
+
+## M17 attempt (history - NO_GO, build timeout)
 
 ## What was attempted
 
@@ -79,7 +127,7 @@ CPU evidence on the synthetic fixture, not GPU evidence.
 * `UNION_WIRING.patch` sha256 `a9186808...ca1e84` and `PIBS_WIRING.patch`
   sha256 `f69543d2...371804` unchanged. No `src/` edit, no issue or PR filed.
 
-## Verdict and next step
+### Verdict and next step (M17 history, superseded by M18 above)
 
 * Kaggle engine-level GPU logits parity: **NO_GO (build timeout, no runs)**.
 * Engine-level GPU parity issue #4 and T4 traffic issue #5 remain NO_GO.

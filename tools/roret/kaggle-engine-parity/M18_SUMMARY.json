@@ -1,0 +1,178 @@
+{
+  "head_sha": "a6424630e7d78b4eecf817282eba369a2f6e4dcb",
+  "nvcc_version": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Wed_Aug_20_01:58:59_PM_PDT_2025\nCuda compilation tools, release 13.0, V13.0.88\nBuild cuda_13.0.r13.0/compiler.36424714_0",
+  "nvcc_available": true,
+  "build_ok": true,
+  "configure_command": [
+    "cmake",
+    "-S",
+    ".",
+    "-B",
+    "build",
+    "-DGGML_CUDA=ON",
+    "-DCMAKE_CUDA_ARCHITECTURES=75",
+    "-DLLAMA_BUILD_TESTS=OFF",
+    "-DLLAMA_CURL=OFF",
+    "-DGGML_CUDA_NO_VMM=ON"
+  ],
+  "configure_exit": 0,
+  "build_exit": 0,
+  "configure_log_tail": "-- Detecting CUDA compiler ABI info\n-- Detecting CUDA compiler ABI info - done\n-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped\n-- Detecting CUDA compile features\n-- Detecting CUDA compile features - done\n-- Using CMAKE_CUDA_ARCHITECTURES=75 CMAKE_CUDA_ARCHITECTURES_NATIVE=75-real\n-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16;f8_e4m3-f8_e4m3\n-- Found NCCL: /usr/lib/x86_64-linux-gnu/libnccl.so\n-- CUDA host compiler is GNU 13.3.0\n-- Including CUDA backend\n-- ggml version: 1.0.0\n-- ggml commit:  a6424630e\n-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version \"3.0.13\")\n-- Performing Test OPENSSL_VERSION_SUPPORTED\n-- Performing Test OPENSSL_VERSION_SUPPORTED - Success\n-- OpenSSL found: 3.0.13\n-- Generating embedded license file for target: llama-app\n-- Configuring done (5.2s)\n-- Generating done (0.3s)\n-- Build files have been written to: /kaggle/working/inkengine-llama/build",
+  "build_log_tail": "[ 98%] Built target llama-server-impl\n[100%] Building CXX object tools/cli/CMakeFiles/llama-cli-impl.dir/cli-client.cpp.o\n[100%] Building CXX object tools/cli/CMakeFiles/llama-cli-impl.dir/cli.cpp.o\n[100%] Building CXX object tools/cli/CMakeFiles/llama-cli-impl.dir/cli-context.cpp.o\n[100%] Linking CXX shared library ../../bin/libllama-cli-impl.so\n[100%] Built target llama-cli-impl\n[100%] Building CXX object tools/cli/CMakeFiles/llama-cli.dir/main.cpp.o\n[100%] Linking CXX executable ../../bin/llama-cli\n[100%] Built target llama-cli\n[  0%] Built target llama-common-base\n[  0%] Built target cpp-httplib\n[  3%] Built target ggml-base\n[  9%] Built target ggml-cpu\n[ 61%] Built target ggml-cuda\n[ 63%] Built target ggml\n[ 78%] Built target llama\n[100%] Built target llama-common\n[100%] Building CXX object examples/debug/CMakeFiles/llama-debug.dir/debug.cpp.o\n[100%] Linking CXX executable ../../bin/llama-debug\n[100%] Built target llama-debug",
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "runs": {
+    "0.0": {
+      "off_exit": {
+        "cli": 0,
+        "debug": 0
+      },
+      "on_exit": {
+        "cli": 0,
+        "debug": 0
+      },
+      "off_hook_active": false,
+      "on_hook_active": true,
+      "off_hook_active_cli": false,
+      "on_hook_active_cli": true,
+      "off_hook_active_debug": false,
+      "on_hook_active_debug": true,
+      "logits_files": {
+        "off": [
+          "llamacpp-synthetic.bin"
+        ],
+        "on": [
+          "llamacpp-synthetic.bin"
+        ]
+      },
+      "token_files": {
+        "off": [
+          "llamacpp-synthetic-tokens.bin"
+        ],
+        "on": [
+          "llamacpp-synthetic-tokens.bin"
+        ]
+      },
+      "text_sha": {
+        "off": "cf915b84cf60abfd20ced6ac8ec7e69a72c2f0c4b0e2f6abbe8c9c9130bbec3d",
+        "on": "cf915b84cf60abfd20ced6ac8ec7e69a72c2f0c4b0e2f6abbe8c9c9130bbec3d"
+      },
+      "logits_differing_bytes": 0,
+      "token_differing_bytes": 0,
+      "text_differing_bytes": 0,
+      "roret_pass_rows": {
+        "off": [],
+        "on": [
+          {
+            "il": 1,
+            "pass": 2,
+            "plans": 19,
+            "hits": 150,
+            "upload_ops": 78,
+            "uploaded_bytes": 153600,
+            "residents": 812
+          }
+        ]
+      },
+      "roret_pass_source": {
+        "off": "llama-cli",
+        "on": "llama-cli"
+      },
+      "assert_lines": {
+        "off": [],
+        "on": []
+      },
+      "share_verdict": "LOGITS_PARITY: 0 differing bytes",
+      "share_text_verdict": "TEXT_PARITY: 0 differing bytes"
+    },
+    "1.0": {
+      "off_exit": {
+        "cli": 0,
+        "debug": 0
+      },
+      "on_exit": {
+        "cli": 0,
+        "debug": 0
+      },
+      "off_hook_active": false,
+      "on_hook_active": true,
+      "off_hook_active_cli": false,
+      "on_hook_active_cli": true,
+      "off_hook_active_debug": false,
+      "on_hook_active_debug": true,
+      "logits_files": {
+        "off": [
+          "llamacpp-synthetic.bin"
+        ],
+        "on": [
+          "llamacpp-synthetic.bin"
+        ]
+      },
+      "token_files": {
+        "off": [
+          "llamacpp-synthetic-tokens.bin"
+        ],
+        "on": [
+          "llamacpp-synthetic-tokens.bin"
+        ]
+      },
+      "text_sha": {
+        "off": "cf915b84cf60abfd20ced6ac8ec7e69a72c2f0c4b0e2f6abbe8c9c9130bbec3d",
+        "on": "cf915b84cf60abfd20ced6ac8ec7e69a72c2f0c4b0e2f6abbe8c9c9130bbec3d"
+      },
+      "logits_differing_bytes": 0,
+      "token_differing_bytes": 0,
+      "text_differing_bytes": 0,
+      "roret_pass_rows": {
+        "off": [],
+        "on": [
+          {
+            "il": 1,
+            "pass": 2,
+            "plans": 19,
+            "hits": 150,
+            "upload_ops": 78,
+            "uploaded_bytes": 153600,
+            "residents": 812
+          }
+        ]
+      },
+      "roret_pass_source": {
+        "off": "llama-cli",
+        "on": "llama-cli"
+      },
+      "assert_lines": {
+        "off": [],
+        "on": []
+      },
+      "share_verdict": "LOGITS_PARITY: 0 differing bytes",
+      "share_text_verdict": "TEXT_PARITY: 0 differing bytes"
+    }
+  },
+  "logits_parity_verdict": "LOGITS_PARITY: 0 differing bytes (cpu_share=0.0 and 1.0)",
+  "text_parity_verdict": "TEXT_PARITY: 0 differing bytes (cpu_share=0.0 and 1.0)",
+  "engine_verdict": "ENGINE_COPY_PATH_EXERCISED: YES",
+  "speed_claim": "NO SPEED CLAIM",
+  "speed_gate": "CycleAudit claim <= ci_low with repeats >= 20 and loops = 3",
+  "blocker": "",
+  "overall_verdict": "PASS",
+  "all_roret_pass_rows": [
+    {
+      "il": 1,
+      "pass": 2,
+      "plans": 19,
+      "hits": 150,
+      "upload_ops": 78,
+      "uploaded_bytes": 153600,
+      "residents": 812
+    },
+    {
+      "il": 1,
+      "pass": 2,
+      "plans": 19,
+      "hits": 150,
+      "upload_ops": 78,
+      "uploaded_bytes": 153600,
+      "residents": 812
+    }
+  ]
+}

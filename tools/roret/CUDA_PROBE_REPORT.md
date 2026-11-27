@@ -64,7 +64,9 @@ and only then interpret `RORET_PASS` rows as engine-side counts.
 
 ## Standing verdicts
 
-* Issue #4 (engine-level GPU bit-exact parity): **NO_GO**, unchanged.
+* Issue #4 (engine-level GPU bit-exact parity): **NO_GO as of M14**; superseded
+  at the engine final-logits level by M18 (PASS-scoped on 2xT4, synthetic
+  fixture). Intermediate per-pass MoE tensors remain NOT measured.
 * Issue #5 (T4 per-pass MoE traffic): **NO_GO**, unchanged; no traffic rows exist.
 * No speed claim. Any future number still needs a CycleAudit result with
   `claim <= ci_low`, `repeats >= 20` and `loops = 3`.

@@ -1,6 +1,8 @@
 # RORET fixture parity (M13): host/tile bit-exact gate with real fixture ids
 
-**Verdict: HOST/TILE-level PASS. Engine-level GPU parity remains NO_GO.**
+**Verdict: HOST/TILE-level PASS. Engine-level GPU final-logits parity is
+PASS-scoped as of M18 (it was NO_GO at this M13 increment); intermediate
+per-pass MoE tensors and real weights remain NOT measured.**
 
 This milestone extends the chain from `union_census_ids.inc` (real seed-0
 fixture ids) and the per-pass traffic replay to a bit-exact tile comparison over
@@ -148,7 +150,8 @@ CUDA build or a GGUF, and does not compare `ffn_moe_topk`, `ffn_moe_weights`,
 traffic is measured. The deterministic F32 tiles are stand-ins, not model
 weights.
 
-* Issue #4 (engine GPU bit-exact parity): **NO_GO**, unchanged.
+* Issue #4 (engine GPU bit-exact parity): **NO_GO at M13**, superseded at the
+  engine final-logits level by M18; intermediate tensors still NOT measured.
 * Issue #5 (T4 per-pass MoE traffic): **NO_GO**, unchanged.
 * No speed claim is made. Tile byte counts are not time or `tok/s`.
 

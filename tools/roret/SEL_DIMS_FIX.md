@@ -79,7 +79,9 @@ extract sha256 `392521c126ddbd5a6441fa7f8ea701630d1dbccdad4656924340e2b5015146e7
 This resolves the blocker recorded in issue #8: the engine completes a CUDA
 `-cmoe` run with RORET both off and on. It does not by itself prove F32 tensor
 or logit parity (issue #4) or a full off/on traffic table (issue #5); those
-remain NO_GO. `RORET_PASS` figures are counts, not time or tok/s.
+remain NO_GO at this increment; M18 later closed the engine final-logits part
+of issue #4 as PASS-scoped on 2xT4, with intermediate tensors still NOT measured.
+`RORET_PASS` figures are counts, not time or tok/s.
 
 ## Standing constraints
 

@@ -6,8 +6,9 @@ host-side census driven by fixture top-k ids with the real llama_roret_union_cac
 
 Standing rule: any speed number requires loopkit CycleAudit claim <= ci_low with repeats>=20 and loops=3.
 
-Issue #4 (engine GPU bit-exact parity) remains NO_GO: no nvcc/GPU build is
-available locally, so no engine-level F32 tensor comparison was run.
+Issue #4 (engine GPU bit-exact parity) was NO_GO at M11: no nvcc/GPU build was
+available locally then. M18 later measured engine final-logits parity PASS-scoped
+on Kaggle 2xT4; intermediate per-pass tensors remain NOT measured.
 
 Issue #5 (T4 per-pass MoE traffic) remains NO_GO: on GGML_CUDA=OFF with
 LLAMA_RORET_CPU_TEST=ON the scheduler never calls llama_moe_cache::copy(), so
@@ -189,5 +190,7 @@ The C++ census output was independently cross-checked in Python by replaying
 the same clear/hit/add sequence over dump['topk_ids']: per-layer means and the
 overall 976/48 = 20.333333 mean match exactly.
 
-NO speed claim. Issues #4 and #5 remain NO_GO. Any future speed number
-requires loopkit CycleAudit claim <= ci_low with repeats>=20 and loops=3.
+NO speed claim. Issue #4 is PASS-scoped at the engine final-logits level after
+M18 (intermediate tensors still NOT measured); issue #5 remains NO_GO. Any future
+speed number requires loopkit CycleAudit claim <= ci_low with repeats>=20 and
+loops=3.
