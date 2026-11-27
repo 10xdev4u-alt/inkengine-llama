@@ -54,6 +54,16 @@ static bool llama_moe_cache_is_host_weight(const ggml_tensor * t) {
         ggml_backend_buffer_is_host(t->buffer);
 }
 
+// Default-off diagnostic trace for RORET binding registration and resolution.
+static bool roret_trace_enabled() {
+    static const bool enabled = []() {
+        const char * value = getenv("LLAMA_RORET_TRACE");
+        return value != nullptr &&
+            (strcmp(value, "1") == 0 || strcmp(value, "on") == 0 || strcmp(value, "true") == 0);
+    }();
+    return enabled;
+}
+
 }
 
 struct llama_moe_cache::impl {
@@ -614,7 +624,17 @@ struct llama_moe_cache::impl {
         int32_t         r_pass      = -1;
         size_t          r_residents = 0;
         if (roret) {
+            if (roret_trace_enabled()) {
+                LLAMA_LOG_INFO("RORET_BIND resolve src=%p dst=%p lookup=%p n_nodes=%d\n", (const void *) src, (const void *) dst, (const void *) lookup, n_nodes);
+            }
             const llama_roret_binding * rb = roret_of.find(llama_roret_bind_key(src, lookup));
+            if (roret_trace_enabled()) {
+                if (rb != nullptr) {
+                    LLAMA_LOG_INFO("RORET_BIND hit key_il=%d pass=%d lookup=%p\n", rb->il, rb->pass, (const void *) lookup);
+                } else {
+                    LLAMA_LOG_INFO("RORET_BIND miss lookup=%p\n", (const void *) lookup);
+                }
+            }
             if (rb != nullptr) {
                 r_il   = rb->il;
                 r_pass = rb->pass;
@@ -683,6 +703,11 @@ struct llama_moe_cache::impl {
 
         if (roret && r_il >= 0 && r_pass >= 0) {
             roret_traffic.add(r_il, r_pass, n_hit, upload_ops, bytes, (uint64_t) r_residents);
+            if (roret_trace_enabled()) {
+                const roret_pass_stats & s = roret_traffic.rows().at({ r_il, r_pass });
+                LLAMA_LOG_INFO("RORET_BIND add key_il=%d pass=%d plans=%llu hits=%llu upload_ops=%llu\n",
+                        r_il, r_pass, (unsigned long long) s.plans, (unsigned long long) s.hits, (unsigned long long) s.upload_ops);
+            }
         }
 
         // the next copy synchronizes the backend before it changes the slot map again
@@ -739,6 +764,9 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     ggml_tensor * cpu_map  = cpu_part ? pimpl->get_cpu_map(il, selected_experts->ne[1]) : nullptr;
     ggml_tensor * slot_map = pimpl->get_slot_map(il, selected_experts->ne[1], selected_experts->ne[0], cpu_map != nullptr);
     if (slot_map == nullptr) {
+        if (pimpl->roret && roret_trace_enabled()) {
+            LLAMA_LOG_INFO("RORET_BIND no_slot_map layer_il=%d key_il=%d pass=%d\n", il, layer.roret_key.il, layer.roret_key.pass);
+        }
         return {};
     }
     const size_t n_ids = (size_t) selected_experts->ne[0] * (size_t) selected_experts->ne[1];
@@ -781,6 +809,9 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     // slot map is shared by all passes; the copy callback finds this lookup node.
     if (pimpl->roret) {
         pimpl->roret_of.set(llama_roret_bind_key(slot_map, slots), layer.roret_key.il, layer.roret_key.pass);
+        if (roret_trace_enabled()) {
+            LLAMA_LOG_INFO("RORET_BIND set lookup=%p slot_map=%p key_il=%d pass=%d\n", (const void *) slots, (const void *) slot_map, layer.roret_key.il, layer.roret_key.pass);
+        }
     }
 
     // the misses computed from the host experts, read after the lookup has picked them
