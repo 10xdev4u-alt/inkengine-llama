@@ -1,6 +1,6 @@
 {
-  "id": "jprinceraj/inkengine-cuda-engine-parity",
-  "title": "Inkengine CUDA engine parity",
+  "id": "jprinceraj/inkengine-cuda-per-pass-traffic",
+  "title": "Inkengine CUDA per-pass traffic",
   "code_file": "engine_parity.ipynb",
   "language": "python",
   "kernel_type": "notebook",
