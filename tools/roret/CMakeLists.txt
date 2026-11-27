@@ -32,6 +32,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(test_roret_tile_bitexact PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
 endif()
 
+add_executable(test_roret_fixture_parity test_roret_fixture_parity.cpp)
+target_include_directories(test_roret_fixture_parity PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(test_roret_fixture_parity PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
+endif()
+
 add_executable(test_roret_union_census test_roret_union_census.cpp)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -53,3 +60,4 @@ add_test(NAME test_roret_traffic COMMAND test_roret_traffic)
 add_test(NAME test_roret_tile_bitexact COMMAND test_roret_tile_bitexact)
 add_test(NAME roret_union_census COMMAND test_roret_union_census)
 add_test(NAME roret_pass_traffic COMMAND test_roret_pass_traffic)
+add_test(NAME roret_fixture_parity COMMAND test_roret_fixture_parity)
