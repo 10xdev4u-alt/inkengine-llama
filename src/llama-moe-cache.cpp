@@ -4,6 +4,7 @@
 #include "llama-impl.h"
 #include "llama-memory.h"
 #include "llama-model.h"
+#include "llama-moe-cache-group.h"
 #include "llama-moe-cache-sel.h"
 #include "llama-roret-binding.h"
 #include "llama-roret.h"
@@ -206,17 +207,28 @@ struct llama_moe_cache::impl {
             throw std::runtime_error("MoE cache requires a MoE model");
         }
 
+        std::unordered_map<const ggml_tensor *, int32_t> expert_group; // host experts -> device group id
         // only cache layers that keep all of their experts in host memory, on the device the layer is assigned to
         for (size_t il = 0; il < model.layers.size(); ++il) {
             auto experts = llama_moe_cache_layer_experts(model.layers[il]);
             if (experts.empty() || !std::all_of(experts.begin(), experts.end(), llama_moe_cache_is_host_weight)) {
                 continue;
             }
-            const auto it_dev = std::find_if(devices.begin(), devices.end(), [&](const device & d) { return ggml_backend_get_device(d.backend) == model.dev_layer(il); });
-            if (it_dev == devices.end()) {
-                continue;
+            int32_t shared_id = -1;
+            const auto it_shared = expert_group.find(experts.front());
+            if (it_shared != expert_group.end()) {
+                // a loop slot reuses host experts already assigned to a group
+                shared_id = it_shared->second;
             }
-            const int32_t id = (int32_t) (it_dev - devices.begin());
+            int32_t own_id = -1;
+            if (shared_id < 0) {
+                const auto it_dev = std::find_if(devices.begin(), devices.end(), [&](const device & d) { return ggml_backend_get_device(d.backend) == model.dev_layer(il); });
+                if (it_dev == devices.end()) {
+                    continue;
+                }
+                own_id = (int32_t) (it_dev - devices.begin());
+            }
+            const int32_t id = llama_moe_cache_shared_group(own_id, shared_id);
             auto it = std::find_if(groups.begin(), groups.end(), [&](const group & g) { return g.id == id && llama_moe_cache_same_layout(g.ref, experts); });
             if (it == groups.end()) {
                 groups.emplace_back();
@@ -228,6 +240,7 @@ struct llama_moe_cache::impl {
             for (const ggml_tensor * t : experts) {
                 it->host_bytes         += ggml_nbytes(t);
                 devices[id].host_bytes += ggml_nbytes(t);
+                expert_group[t] = id;
             }
         }
         if (groups.empty()) {
