@@ -39,8 +39,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(test_roret_union_census PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
 endif()
 
+add_executable(test_roret_pass_traffic test_roret_pass_traffic.cpp)
+target_include_directories(test_roret_pass_traffic PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../src")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  # assert() is the oracle here; Release -DNDEBUG would silently disable it.
+  target_compile_options(test_roret_pass_traffic PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG)
+endif()
+
 enable_testing()
 add_test(NAME test_union_cache COMMAND test_union_cache)
 add_test(NAME test_roret_traffic COMMAND test_roret_traffic)
 add_test(NAME test_roret_tile_bitexact COMMAND test_roret_tile_bitexact)
 add_test(NAME roret_union_census COMMAND test_roret_union_census)
+add_test(NAME roret_pass_traffic COMMAND test_roret_pass_traffic)

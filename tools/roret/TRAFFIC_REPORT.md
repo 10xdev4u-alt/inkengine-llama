@@ -298,3 +298,99 @@ where the slot-map copy fires; Kaggle images have no `nvcc`, so that GPU run is
 out of reach in this environment. No T4 traffic measurement is claimed here.
 
 <!-- PASS_TRAFFIC_TABLE -->
+
+---
+
+## Host-side replay of the per-pass traffic counters (M12)
+
+The new ctest `roret_pass_traffic` (`tools/roret/test_roret_pass_traffic.cpp`)
+drives the REAL `roret_traffic` aggregator from `src/llama-roret-traffic.h` and
+the REAL `llama_roret_union_cache` from `src/llama-roret.h`, using the REAL seed-0
+fixture ids in `tools/roret/union_census_ids.inc`, at HOST level. It replays the
+bookkeeping order of `llama_moe_cache::copy()` for ip=6..17, pass=0..2,
+token=0..3: pass 0 clears the layer, residents and the read-only hit_rate()
+sample are taken before `add()`, then the pass ids are registered.
+
+This does NOT exercise `llama_moe_cache::copy()`. It does NOT measure device
+residency or bytes, and it is NOT engine-side traffic. The blocker above still
+stands and the engine-side table placeholder above is still pending: the table
+needs a CUDA build where the slot-map copy fires.
+
+Field meanings in the table below:
+
+- plans: four token events per (ip, pass) row.
+- hits: integer count of earlier-pass top-k ids already in the union before
+  `add()` (hit_rate() multiplied by top-k, then rounded to an exact integer).
+- upload_ops: 8 minus hits, an UPPER BOUND of one upload per not-yet-resident
+  id. No coalescing is modelled. These are replay-model proxy values, not the
+  engine's coalesced upload count from `ggml_backend_tensor_set_async`: union
+  membership and LRU slot residency are independent, so this column must not be
+  read as an engine-side counter.
+- uploaded_bytes: zero by construction; this replay has no device tensor.
+- residents: sum over the four tokens of the earlier-pass union size sampled
+  before `add()`; zero on pass 0.
+
+Measured table from the test stdout (COUNTS only):
+
+```
+RORET host-side per-pass traffic replay (COUNTS only; no device traffic, no time)
+ ip pass plans hits upload_ops uploaded_bytes residents
+  6    0     4    0         32               0         0
+  6    1     4    9         23               0        32
+  6    2     4   21         11               0        55
+  7    0     4    0         32               0         0
+  7    1     4    8         24               0        32
+  7    2     4   12         20               0        56
+  8    0     4    0         32               0         0
+  8    1     4    3         29               0        32
+  8    2     4    8         24               0        61
+  9    0     4    0         32               0         0
+  9    1     4    4         28               0        32
+  9    2     4   10         22               0        60
+ 10    0     4    0         32               0         0
+ 10    1     4    7         25               0        32
+ 10    2     4    7         25               0        57
+ 11    0     4    0         32               0         0
+ 11    1     4    7         25               0        32
+ 11    2     4    9         23               0        57
+ 12    0     4    0         32               0         0
+ 12    1     4    6         26               0        32
+ 12    2     4    5         27               0        58
+ 13    0     4    0         32               0         0
+ 13    1     4    7         25               0        32
+ 13    2     4    6         26               0        57
+ 14    0     4    0         32               0         0
+ 14    1     4    5         27               0        32
+ 14    2     4    9         23               0        59
+ 15    0     4    0         32               0         0
+ 15    1     4    1         31               0        32
+ 15    2     4    6         26               0        63
+ 16    0     4    0         32               0         0
+ 16    1     4    5         27               0        32
+ 16    2     4    8         24               0        59
+ 17    0     4    0         32               0         0
+ 17    1     4    4         28               0        32
+ 17    2     4    9         23               0        60
+TOTAL plans=144 hits=176 upload_ops=976 uploaded_bytes=0 residents=1086 hits_plus_upload_ops=1152
+TABLE_FNV1A64=f3eaaa28ac25472f
+```
+
+The hash is FNV-1a 64-bit over the printed table text (offset basis
+14695981039346656037, prime 1099511628211) up to and including the TOTAL line,
+excluding the hash line itself. It is a byte-comparison aid only, and the test
+asserts it equals `f3eaaa28ac25472f` so a changed table fails ctest.
+
+Assertions in the test hold: 36 rows, 4 plans per row, pass-0 hits and residents
+zero, union monotone across passes per (layer, token), hits + upload_ops = 8 per
+event and 32 per row, 144 plans, 1152 hits + upload_ops, residents=1086
+independently summed from the pre-add union sizes, and no negative or overflow
+values. Fresh `cmake -S tools/roret -B /tmp/opencode/m12-roret-build`
+plus build plus `ctest --output-on-failure` gave 5/5 passing, including the new
+test. Standalone compilation of the new source with `-std=c++17 -Werror` and
+`-std=c++20 -Werror` (with `../../src` on the include path) passed; two runs of
+the binary produced byte-identical stdout including the hash.
+
+These are COUNTS only, with zero uploaded bytes by construction. NO speed claim
+is made here. CycleAudit claim<=ci_low with repeats>=20 and loops=3 remains
+mandatory for any published performance claim; nothing in this section changes
+that gate or the engine-side NO_GO above.
