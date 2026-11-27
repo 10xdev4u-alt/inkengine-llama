@@ -5,6 +5,7 @@
 #include "llama-memory.h"
 #include "llama-model.h"
 #include "llama-moe-cache-sel.h"
+#include "llama-roret-binding.h"
 #include "llama-roret.h"
 
 #include "ggml-cpp.h"
@@ -127,12 +128,8 @@ struct llama_moe_cache::impl {
     // execution time, after llm_graph_context has been destroyed. LLAMA_RORET=1 enables it.
     std::unique_ptr<llama_roret_union_cache> roret;
     ::roret_traffic roret_traffic; // per-pass load counts and byte counters, inert unless roret is set
-    // the slot map tensor copied at execution time identifies the (logical layer, pass) key
-    struct roret_binding {
-        int32_t il   = -1;
-        int32_t pass = -1;
-    };
-    std::unordered_map<const ggml_tensor *, roret_binding> roret_of;
+    // the per-pass lookup tensor identifies the (logical layer, pass) key
+    llama_roret_bindings<ggml_tensor> roret_of;
     std::vector<int32_t> roret_residents; // scratch for the copy callback
 
     float    cpu_share = 0.0f;
@@ -617,20 +614,19 @@ struct llama_moe_cache::impl {
         int32_t         r_pass      = -1;
         size_t          r_residents = 0;
         if (roret) {
-            const auto ir = roret_of.find(src);
-            if (ir != roret_of.end()) {
-                const roret_binding & rb = ir->second;
-                r_il   = rb.il;
-                r_pass = rb.pass;
-                if (rb.pass == 0) {
+            const llama_roret_binding * rb = roret_of.find(llama_roret_bind_key(src, lookup));
+            if (rb != nullptr) {
+                r_il   = rb->il;
+                r_pass = rb->pass;
+                if (rb->pass == 0) {
                     // a fresh union for every token; pass 0 is executed before any later pass
-                    roret->clear_layer(rb.il);
+                    roret->clear_layer(rb->il);
                 }
                 // counter only: the union of EARLIER passes, before this pass is added
-                r_residents = roret->residents(rb.il).size();
-                roret->add({ rb.il, rb.pass }, ids.data(), ids.size());
-                if (rb.pass > 0) {
-                    roret_residents = roret->residents(rb.il);
+                r_residents = roret->residents(rb->il).size();
+                roret->add({ rb->il, rb->pass }, ids.data(), ids.size());
+                if (rb->pass > 0) {
+                    roret_residents = roret->residents(rb->il);
                     extra   = roret_residents.data();
                     n_extra = roret_residents.size();
                 }
@@ -748,12 +744,6 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
     const size_t n_ids = (size_t) selected_experts->ne[0] * (size_t) selected_experts->ne[1];
     pimpl->sel_dims[{slot_map, n_ids}] = { (int32_t) selected_experts->ne[0], (int32_t) selected_experts->ne[1] };
 
-    // RORET (opt-in): remember which logical (layer, pass) will be read back from this
-    // slot map by the copy callback at execution time. No extra graph nodes are added.
-    if (pimpl->roret && layer.roret_key.il >= 0 && layer.roret_key.pass >= 0) {
-        pimpl->roret_of[slot_map] = { layer.roret_key.il, layer.roret_key.pass };
-    }
-
     for (ggml_tensor * w : { layer.up_exps, layer.gate_exps, layer.down_exps, layer.gate_up_exps }) {
         if (w == nullptr) {
             continue;
@@ -786,6 +776,12 @@ llama_moe_cache_lookup llama_moe_cache::build_lookup(const llm_graph_context & g
 
     // add the lookup now: the transform of a Hadamard-folded expert reads host weights and would start its split first
     ggml_build_forward_expand(g.gf, slots);
+
+    // RORET (opt-in): bind the logical (layer, pass) to this per-pass lookup. The
+    // slot map is shared by all passes; the copy callback finds this lookup node.
+    if (pimpl->roret) {
+        pimpl->roret_of.set(llama_roret_bind_key(slot_map, slots), layer.roret_key.il, layer.roret_key.pass);
+    }
 
     // the misses computed from the host experts, read after the lookup has picked them
     ggml_tensor * cpu_ids = nullptr;
