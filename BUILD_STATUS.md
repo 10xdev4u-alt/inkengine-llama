@@ -286,3 +286,45 @@ RESULTS.md for the honest numeric models.
   rebuild, no Kaggle kernel. Metadata/header scope only: no weights loaded, no
   engine run, no timing, NO SPEED CLAIM. Any future number still needs
   CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M35 d2027 outlier-premise gate (2026-11-28, branch main)
+
+- Adds an offline, fail-closed gate `tools/audit/check_outlier_premise.py`,
+  frozen facts `tools/audit/OUTLIER_PREMISE.json`, report `OUTLIER_PREMISE.md`
+  and generated `M35_OUTLIER_PREMISE_SUMMARY.json`: verdict PASS, blocker empty,
+  27/27 checks true, `classification: LOCAL_ONLY_UNVERIFIED`,
+  `real_trace_verdict: NO_GO_BLOCKED`, `side_lane_enabled: false`,
+  `speed_claim: null`, note "outlier premise classification only; no timing".
+  Checker exit 0; no network calls and no loopkit imports.
+- Three out-of-band primary-source records are frozen: TML release post 448727
+  bytes sha256 `1301b66c36ff9112dd9c731cc5c83eba1e6b6c401c6364301fbc933d40f7249c`,
+  TML model card 222597 bytes sha256
+  `2fd49bae2efdbef1914314280ebc2d93742f89e903f66354c30b02b95f5efe28`, HF
+  `config.json` 2722 bytes sha256
+  `a7a349601f0984c4abf999c480ef775d8567d21f5f84b4e8a3e035b44f288dc2`; all
+  have zero "2027" hits. The 2722-byte `config.json` is embedded verbatim in
+  the facts and the offline checker recomputes its byte count, sha256 and
+  zero-hit count; the two HTML records remain out-of-band assertions the
+  offline checker cannot re-fetch or recompute. `hidden_size = 2304` is
+  recorded as INFO only, not evidence. Six live local files (loopkit config/model/integration doc, fork
+  README, two ODSL docs) are hash-gated with needles labeling d2027 an
+  unverified local hypothesis and the side-lane default-off.
+- Engine scope `src/`, `common/`, `ggml/`: 24 loop-specific files, no
+  `outlier_dim`, no `d2027`, no scoped 2027 literal and no ODSL side-lane
+  enable. Unrelated hits (`0x2027`, `2027.0`, `-1.453152027f`) are excluded by
+  scope and are not reported as evidence. The speculative FP32 side-lane is
+  NOT enabled in the fork engine path.
+- Fails closed on frozen primary sha/bytes/hits mutation, inline-content
+  mutation, facts-digest mismatch, needle or live-hash mismatch, missing file,
+  malformed JSON, extraction exception, and any enabled side-lane; a seeded
+  stale PASS is always overwritten with NO_GO. Path and content markers are
+  case-insensitive, so a new engine file cannot evade the scoped `2027` check
+  by uppercase marker text; a concrete bypass probe returned NO_GO.
+- Local tests this pass: checker exit 0; new audit suite 27 passed; full
+  `tools/audit` 280 passed with `PYTHONPATH=../loopkit/src:gguf-py`; loopkit
+  fast pytest 41 passed; `git diff --check` clean; all new files ASCII-only.
+  No `src/`, CMake, engine or sibling-repo edit, no engine rebuild, no Kaggle
+  kernel. Metadata/contract scope only: no weights, no forward-hook trace, no
+  timing, NO SPEED CLAIM. Real-trace falsification stays NO_GO_BLOCKED because
+  it needs weights or hosted inference. Any future number still needs
+  CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
