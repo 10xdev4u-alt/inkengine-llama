@@ -59,3 +59,20 @@ RESULTS.md for the honest numeric models.
   `tools/roret/kaggle-cycle-audit/M24_SUMMARY.json`.
 - Local tests on 2026-11-28: ctest roret 10/10, pibs 2/2, odsl 1/1; audit
   pytest 17 passed; loopkit fast pytest 40 passed, 1 deselected.
+
+## M26 re-verification 2026-11-28 (branch main)
+
+- New default-off raw intermediate-tensor dump in `common/debug.cpp`, gated by
+  `LLAMA_DUMP_TENSORS_DIR` plus an explicit `--tensor-filter`; no `src/` edit.
+- New `tools/roret/check_intermediate_parity.py` and report
+  `tools/roret/M26_INTERMEDIATE_PARITY.md`.
+- Incremental `GGML_CUDA=OFF` `LLAMA_RORET_CPU_TEST=ON` `llama-debug` rebuild:
+  exit 0, no warnings.
+- CPU-test parity: 40 tensors per cpu_share, 30080 bytes compared, 0 differing
+  bytes at both 0.0 and 1.0; hook ABSENT off / ACTIVE on; both exits 0; verdict
+  PASS at CPU-test scope only. Two fail-closed stub negative controls returned 1.
+- Local tests this pass: ctest roret 10/10, pibs 2/2, odsl 1/1; audit pytest 17
+  passed; loopkit fast pytest 41 passed.
+- No GPU run, no real weights, no speed claim; GPU intermediate parity remains
+  unmeasured. Any future number still needs CycleAudit `claim <= ci_low`,
+  `repeats >= 20`, `loops = 3`.

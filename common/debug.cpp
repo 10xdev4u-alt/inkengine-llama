@@ -4,8 +4,12 @@
 #include "log.h"
 
 #include <cmath>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
 #include <regex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 struct common_debug_cb_user_data::impl {
@@ -181,9 +185,50 @@ bool common_debug_cb_eval(struct ggml_tensor * t, bool ask, void * user_data) {
         ggml_backend_tensor_get(t, pimpl->data.data(), 0, n_bytes);
     }
 
+    uint8_t * data = is_host ? (uint8_t *) t->data : pimpl->data.data();
+
     if (!ggml_is_quantized(t->type) && matches_filter) {
-        uint8_t * data = is_host ? (uint8_t *) t->data : pimpl->data.data();
         common_debug_print_tensor(data, t->type, t->ne, t->nb, 3, pimpl->abort_on_nan);
+    }
+
+    static const std::string dump_dir = []() {
+        const char * value = std::getenv("LLAMA_DUMP_TENSORS_DIR");
+        return value != nullptr && value[0] != '\0' ? std::string(value) : std::string();
+    }();
+    static std::unordered_map<std::string, int> dump_occurrences;
+
+    // Dump only when an explicit filter is set, so we never dump the whole graph.
+    if (!dump_dir.empty() && matches_filter && !pimpl->tensor_filters.empty()) {
+        std::string basename = t->name;
+        for (char & c : basename) {
+            const bool ok = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                            (c >= '0' && c <= '9') || c == '.' || c == '_' || c == '-';
+            if (!ok) {
+                c = '_';
+            }
+        }
+        const int occurrence = dump_occurrences[basename]++;
+        const std::string filename = basename + "__" + std::to_string(occurrence) + ".bin";
+
+        const std::filesystem::path dir(dump_dir);
+        std::filesystem::create_directories(dir);
+
+        const size_t n_bytes = ggml_nbytes(t);
+        {
+            std::ofstream out(dir / filename, std::ios::binary | std::ios::trunc);
+            out.write((const char *) data, (std::streamsize) n_bytes);
+        }
+        {
+            std::ofstream out(dir / "manifest.tsv", std::ios::app);
+            out << t->name << '\t' << ggml_type_name(t->type);
+            for (int i = 0; i < GGML_MAX_DIMS; ++i) {
+                out << '\t' << t->ne[i];
+            }
+            for (int i = 0; i < GGML_MAX_DIMS; ++i) {
+                out << '\t' << t->nb[i];
+            }
+            out << '\t' << n_bytes << '\t' << filename << '\n';
+        }
     }
 
     return true;
