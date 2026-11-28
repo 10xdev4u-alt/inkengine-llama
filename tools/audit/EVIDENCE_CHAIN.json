@@ -1,51 +1,6 @@
 {
-  "schema_version": 1,
+  "checker_sha256": "5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a",
   "frozen_on": "2026-11-28",
-  "scope": null,
-  "note": null,
-  "speed_claim": null,
-  "summaries": {
-    "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json": {
-      "sha256": "d2df484e02cf2feb471968f3d8d6dd2e47251d5c218907b030851c9c8cac00a2",
-      "verdict": "PASS"
-    },
-    "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json": {
-      "sha256": "f5b0f0367379430706ab044f0963cd296dcbd04c4aa66ff6cdd522e6093e2de8",
-      "verdict": "PASS"
-    },
-    "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json": {
-      "sha256": "17c17dd3543f486fdbb579534253b524b8aba65b9b0f7a0b80983eab0bf386e7",
-      "verdict": "PASS"
-    },
-    "tools/audit/M32_PASS_INDEXED_KV_SUMMARY.json": {
-      "sha256": "7e924e6054ca3aa745d146796ef5b07546e1034fefb689bb986ca2543bb29595",
-      "verdict": "PASS"
-    },
-    "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json": {
-      "sha256": "81f7d4cd842b62b503993b60c1a6481775cdcd5d8e979dc3990de8dc77c4ebf9",
-      "verdict": "PASS"
-    },
-    "tools/audit/M34_MXFP8_SCALE_SUMMARY.json": {
-      "sha256": "11234a800afb4c0fc632e96117cf4be95a2a3caa2f9e8c51eb95ab6ef9dc8413",
-      "verdict": "PASS"
-    },
-    "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json": {
-      "sha256": "add7b5ccf99d0c329eae837eb4b360cfe0623e18b655da24f4b3dece25e257b3",
-      "verdict": "PASS"
-    },
-    "tools/audit/M36_UNION_WIRING_SUMMARY.json": {
-      "sha256": "0f3c4f866fe9c043b3a97717eee060dd2d79bf3401ca6e98a146ed1c890f77f7",
-      "verdict": "PASS"
-    },
-    "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json": {
-      "sha256": "693289c81e8d3e26affa58e5a3c22e167c56c2e7c2e49f9bed2d86fd849e1cfb",
-      "verdict": "PASS"
-    },
-    "tools/audit/M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json": {
-      "sha256": "0eda87b02afb183772bab4b2833f4613014242f154d5a74b7979f5fb6abf5ec5",
-      "verdict": "PASS"
-    }
-  },
   "milestones": [
     "M29",
     "M30",
@@ -58,8 +13,53 @@
     "M37",
     "M38"
   ],
-  "wiring_contract": "tools/audit/UNION_WIRING.json",
-  "checker_sha256": "aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79",
+  "no_engine_run": true,
   "no_weights": true,
-  "no_engine_run": true
+  "note": null,
+  "schema_version": 1,
+  "scope": null,
+  "speed_claim": null,
+  "summaries": {
+    "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json": {
+      "sha256": "d2df484e02cf2feb471968f3d8d6dd2e47251d5c218907b030851c9c8cac00a2",
+      "verdict": "PASS"
+    },
+    "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json": {
+      "sha256": "b207299febeba25d959a1a804b0133b1c436aa5c2f9e44626c445dfe25375e67",
+      "verdict": "PASS"
+    },
+    "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json": {
+      "sha256": "17c17dd3543f486fdbb579534253b524b8aba65b9b0f7a0b80983eab0bf386e7",
+      "verdict": "PASS"
+    },
+    "tools/audit/M32_PASS_INDEXED_KV_SUMMARY.json": {
+      "sha256": "7e924e6054ca3aa745d146796ef5b07546e1034fefb689bb986ca2543bb29595",
+      "verdict": "PASS"
+    },
+    "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json": {
+      "sha256": "1b44752269ccfc3f26717ad9874a39e0b1c3f0511ca9da13a4e42b1b3ca5bd49",
+      "verdict": "PASS"
+    },
+    "tools/audit/M34_MXFP8_SCALE_SUMMARY.json": {
+      "sha256": "11234a800afb4c0fc632e96117cf4be95a2a3caa2f9e8c51eb95ab6ef9dc8413",
+      "verdict": "PASS"
+    },
+    "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json": {
+      "sha256": "19416074c6979e612132758a3830da3cbb3d3ea228fc178639748460e5f45c55",
+      "verdict": "PASS"
+    },
+    "tools/audit/M36_UNION_WIRING_SUMMARY.json": {
+      "sha256": "0f3c4f866fe9c043b3a97717eee060dd2d79bf3401ca6e98a146ed1c890f77f7",
+      "verdict": "PASS"
+    },
+    "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json": {
+      "sha256": "693289c81e8d3e26affa58e5a3c22e167c56c2e7c2e49f9bed2d86fd849e1cfb",
+      "verdict": "PASS"
+    },
+    "tools/audit/M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json": {
+      "sha256": "01b33a65a7e437d44fec8b9fb04be0c0ffcbb7734cc930e0b04f355da1b0e2ce",
+      "verdict": "PASS"
+    }
+  },
+  "wiring_contract": "tools/audit/UNION_WIRING.json"
 }

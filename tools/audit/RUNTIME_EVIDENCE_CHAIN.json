@@ -1,20 +1,47 @@
 {
-  "schema_version": 1,
+  "checker_sha256": "bdb4be142fdf8eae9b5a9a7d2a99dac3a8dccf51ef0630444ae0baae0942f977",
+  "contracts": {
+    "binding_contract": {
+      "path": "tools/audit/THREEPASS_BINDING.json",
+      "sha256": "d7957f4809285c19f8e68d58ec2a12b5d7062127fef06fe693bcab10adeddd7e"
+    },
+    "evidence_chain": {
+      "path": "tools/audit/EVIDENCE_CHAIN.json",
+      "sha256": "39a40b9b60913e566423cd4329d1a4f892e20b17365141ed14a728e415f0ff89"
+    },
+    "evidence_chain_checker": {
+      "path": "tools/audit/check_evidence_chain.py",
+      "sha256": "5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a"
+    },
+    "replay_contract": {
+      "path": "tools/audit/THREEPASS_REPLAY.json",
+      "sha256": "00e7215637a42f08effaaa5a129846ffcbdb1297284f738b95c04df02ae4657b"
+    },
+    "runtime_contract": {
+      "path": "tools/audit/BIND_TENSOR_LINK.json",
+      "sha256": "f9628d0a755dab050f6f445ef2d5e3fa8eedec02069440b850d42cdd3cac4378"
+    },
+    "wiring_contract": {
+      "path": "tools/audit/UNION_WIRING.json",
+      "sha256": "c5e024c79b86a740e4dfb6123946610fbc74df0a58c70f0d1ae88ccde4b851da"
+    }
+  },
   "frozen_on": "2026-11-28",
-  "scope": null,
-  "note": null,
-  "speed_claim": null,
-  "no_weights": true,
-  "no_engine_run": true,
   "milestones": [
     "M39",
     "M40",
     "M41",
     "M42"
   ],
+  "no_engine_run": true,
+  "no_weights": true,
+  "note": null,
+  "schema_version": 1,
+  "scope": null,
+  "speed_claim": null,
   "summaries": {
     "tools/audit/M39_EVIDENCE_CHAIN_SUMMARY.json": {
-      "sha256": "4f6361b562a82ad2942f32b1b8f07bb5bf22417701f1ca940c0a1b837ae78ba3",
+      "sha256": "a8efa53efc0f2223c67b17a8db260fba7140c01e298760011906f3f461da09be",
       "verdict": "PASS"
     },
     "tools/audit/M40_3PASS_BINDING_SUMMARY.json": {
@@ -29,32 +56,5 @@
       "sha256": "953cfcc067aac769546a20792daac2ab8c86b51497fa5599e041f3919284c6d2",
       "verdict": "PASS"
     }
-  },
-  "contracts": {
-    "evidence_chain": {
-      "path": "tools/audit/EVIDENCE_CHAIN.json",
-      "sha256": "065311f38f1fff6f51771b57b0c6887775b0035af04a37f928ab304ccddae86b"
-    },
-    "evidence_chain_checker": {
-      "path": "tools/audit/check_evidence_chain.py",
-      "sha256": "aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79"
-    },
-    "wiring_contract": {
-      "path": "tools/audit/UNION_WIRING.json",
-      "sha256": "c5e024c79b86a740e4dfb6123946610fbc74df0a58c70f0d1ae88ccde4b851da"
-    },
-    "binding_contract": {
-      "path": "tools/audit/THREEPASS_BINDING.json",
-      "sha256": "d7957f4809285c19f8e68d58ec2a12b5d7062127fef06fe693bcab10adeddd7e"
-    },
-    "replay_contract": {
-      "path": "tools/audit/THREEPASS_REPLAY.json",
-      "sha256": "00e7215637a42f08effaaa5a129846ffcbdb1297284f738b95c04df02ae4657b"
-    },
-    "runtime_contract": {
-      "path": "tools/audit/BIND_TENSOR_LINK.json",
-      "sha256": "f9628d0a755dab050f6f445ef2d5e3fa8eedec02069440b850d42cdd3cac4378"
-    }
-  },
-  "checker_sha256": "87aac891e0a3267e0bb5e7aebef52c67521fe8b85f609fdecce9b03425102436"
+  }
 }

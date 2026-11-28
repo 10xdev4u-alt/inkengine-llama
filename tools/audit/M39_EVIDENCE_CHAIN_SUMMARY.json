@@ -5,7 +5,7 @@
     "passed": 94,
     "total": 94
   },
-  "checker_sha256": "aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79",
+  "checker_sha256": "5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a",
   "checks": {
     "build_status_M29": true,
     "build_status_M30": true,
@@ -105,7 +105,7 @@
   "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
   "frozen_on": "2026-11-28",
   "info": [
-    "checker sha256 frozen=aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79 live=aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79",
+    "checker sha256 frozen=5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a live=5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a",
     "wiring sha256 src/models/inkling2-loop.cpp frozen=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab live=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
     "wiring sha256 src/models/models.h frozen=cb57cd8bf72891ac99ec4acc58818a011ea12fda62ca4fec63cc2c33ea5afb9e live=cb57cd8bf72891ac99ec4acc58818a011ea12fda62ca4fec63cc2c33ea5afb9e",
     "wiring sha256 src/models/inkling2.cpp frozen=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f live=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f",

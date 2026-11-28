@@ -1,5 +1,5 @@
 {
-  "checker_sha256": "7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8",
+  "checker_sha256": "da7e4a5e67ffe926a9405ad28f05711306b297dce7498328328d10ef7cb49d46",
   "closure_note": {
     "evidence": [
       "M29",
@@ -10,19 +10,23 @@
       "M34",
       "M35",
       "M36",
-      "M37"
+      "M37",
+      "M44"
     ],
     "name": "section5_closure",
     "needles": [
       "- **M38 closure note (2026-11-28):** section-4 items 1, 2, 3, 5 and 6 and both",
       "  M29-M37; item 4 stays LOCAL_ONLY_UNVERIFIED with real-trace falsification",
-      "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory."
+      "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
+      "- **M46 closure note (2026-11-28):** section-3 item (d) is PASS-scoped by M44: 26/26 checks,",
+      "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json`. Section-3 item (b) real-weight conversion parity and",
+      "  no timing, NO SPEED CLAIM. CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory."
     ]
   },
   "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
-  "description": "M38 closes the loopkit INKLING_INTEGRATION.md [?] markers using the M29-M37 audit artifacts; this is a documentation-contract result, not an engine measurement.",
+  "description": "M38 closes the loopkit INKLING_INTEGRATION.md [?] markers using the M29-M37 audit artifacts; M46 adds M44 evidence for section-3 item (d); this is a documentation-contract result, not an engine measurement.",
   "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
-  "doc_sha256": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+  "doc_sha256": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
   "evidence": {
     "M29": [
       "tools/audit/UPSTREAM_LOOP_CONTRACT.json",
@@ -59,6 +63,10 @@
     "M37": [
       "tools/audit/GGUF_LOOP_SHAPES.json",
       "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json"
+    ],
+    "M44": [
+      "tools/audit/UPSTREAM_CLI_COMPAT.json",
+      "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json"
     ]
   },
   "frozen_on": "2026-11-28",
@@ -77,6 +85,7 @@
       ]
     }
   ],
+  "m44_summary_sha256": "38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122",
   "note": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
   "provenance": {
     "branch": "main",
@@ -136,6 +145,12 @@
         "contract": "tools/audit/GGUF_LOOP_SHAPES.json",
         "milestone": "M37",
         "summary": "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/UPSTREAM_CLI_COMPAT.json",
+        "milestone": "M44",
+        "summary": "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json",
         "verdict": "PASS"
       }
     ],
@@ -225,6 +240,24 @@
         "(M33/M34, `tools/audit/QUANT_LAYOUT.json`, `MXFP8_SCALE_HEADER.json` and their",
         "summaries: converter split-16 NVFP4 / flat-32 MXFP8 confirmed against the real",
         "HF header; Unsloth GGUF header shows IQ1_S/Q2_0 re-quant, not native NVFP4/MXFP8)."
+      ]
+    },
+    {
+      "evidence": [
+        "M44"
+      ],
+      "name": "section3_item_d",
+      "needles": [
+        "  MXFP8 layers; (d) RESOLVED by M44 (synthetic CPU stdout-byte compatibility only, evidence below);",
+        "- `[F]` Section-3 item (d) is resolved by M44 on a synthetic CPU fixture only: 26/26 checks",
+        "  PASS, 0 differing bytes at 918 bytes/side. Contract",
+        "  `inkengine-llama/tools/audit/UPSTREAM_CLI_COMPAT.json` (sha256",
+        "  5fb7e01e63c526844231daa6905ea7e78c9f5f37d85fbc595a0286bbae6b2ae6); summary",
+        "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json` (sha256",
+        "  38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122).",
+        "  Compile/stdout-byte scope only: no real weights, no GPU, no tensor or logits parity, no timing,",
+        "  NO SPEED CLAIM. Items (b) real-weight conversion parity and (e) tokenizer/chat-template",
+        "  remain open; (a), (c) and (f) are unchanged."
       ]
     }
   ],

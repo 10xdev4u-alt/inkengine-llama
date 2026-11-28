@@ -33,7 +33,7 @@ FROZEN_SUMMARIES = {
         "verdict": "PASS",
     },
     "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json": {
-        "sha256": "f5b0f0367379430706ab044f0963cd296dcbd04c4aa66ff6cdd522e6093e2de8",
+        "sha256": "b207299febeba25d959a1a804b0133b1c436aa5c2f9e44626c445dfe25375e67",
         "verdict": "PASS",
     },
     "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json": {
@@ -45,7 +45,7 @@ FROZEN_SUMMARIES = {
         "verdict": "PASS",
     },
     "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json": {
-        "sha256": "81f7d4cd842b62b503993b60c1a6481775cdcd5d8e979dc3990de8dc77c4ebf9",
+        "sha256": "1b44752269ccfc3f26717ad9874a39e0b1c3f0511ca9da13a4e42b1b3ca5bd49",
         "verdict": "PASS",
     },
     "tools/audit/M34_MXFP8_SCALE_SUMMARY.json": {
@@ -53,7 +53,7 @@ FROZEN_SUMMARIES = {
         "verdict": "PASS",
     },
     "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json": {
-        "sha256": "add7b5ccf99d0c329eae837eb4b360cfe0623e18b655da24f4b3dece25e257b3",
+        "sha256": "19416074c6979e612132758a3830da3cbb3d3ea228fc178639748460e5f45c55",
         "verdict": "PASS",
     },
     "tools/audit/M36_UNION_WIRING_SUMMARY.json": {
@@ -65,7 +65,7 @@ FROZEN_SUMMARIES = {
         "verdict": "PASS",
     },
     "tools/audit/M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json": {
-        "sha256": "0eda87b02afb183772bab4b2833f4613014242f154d5a74b7979f5fb6abf5ec5",
+        "sha256": "01b33a65a7e437d44fec8b9fb04be0c0ffcbb7734cc930e0b04f355da1b0e2ce",
         "verdict": "PASS",
     },
 }

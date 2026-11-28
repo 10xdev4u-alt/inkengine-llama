@@ -28,7 +28,7 @@ MILESTONES = ["M39", "M40", "M41", "M42"]
 
 FROZEN_SUMMARIES = {
     "tools/audit/M39_EVIDENCE_CHAIN_SUMMARY.json": {
-        "sha256": "4f6361b562a82ad2942f32b1b8f07bb5bf22417701f1ca940c0a1b837ae78ba3",
+        "sha256": "a8efa53efc0f2223c67b17a8db260fba7140c01e298760011906f3f461da09be",
         "verdict": "PASS",
     },
     "tools/audit/M40_3PASS_BINDING_SUMMARY.json": {
@@ -48,11 +48,11 @@ FROZEN_SUMMARIES = {
 FROZEN_CONTRACTS = {
     "evidence_chain": {
         "path": "tools/audit/EVIDENCE_CHAIN.json",
-        "sha256": "065311f38f1fff6f51771b57b0c6887775b0035af04a37f928ab304ccddae86b",
+        "sha256": "39a40b9b60913e566423cd4329d1a4f892e20b17365141ed14a728e415f0ff89",
     },
     "evidence_chain_checker": {
         "path": "tools/audit/check_evidence_chain.py",
-        "sha256": "aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79",
+        "sha256": "5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a",
     },
     "wiring_contract": {
         "path": "tools/audit/UNION_WIRING.json",

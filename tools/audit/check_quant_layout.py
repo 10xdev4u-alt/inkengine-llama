@@ -31,7 +31,7 @@ SOURCE_ROOTS = {
 
 FROZEN_SOURCE_SHA256 = {
     CONVERTER_PY: "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
-    INTEGRATION_MD: "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+    INTEGRATION_MD: "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
     FORMAT_FACTS_MD: "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
 }
 GATED_SOURCE_FILES = sorted(FROZEN_SOURCE_SHA256)
@@ -520,7 +520,7 @@ def run_check(root):
 
         lk_root = loopkit_root(root)
         checks["loopkit_present"] = lk_root.is_dir()
-        info.append("loopkit root %s (%s)" % (lk_root, "env" if os.environ.get("LOOPKIT_ROOT") else "default"))
+        info.append("loopkit root ../loopkit (%s)" % ("env" if os.environ.get("LOOPKIT_ROOT") else "default"))
         roots = source_roots(root, lk_root)
         for rel in GATED_SOURCE_FILES:
             path = roots[SOURCE_ROOTS[rel]] / rel

@@ -22,8 +22,8 @@ sys.path.insert(0, str(AUDIT_DIR))
 
 import check_integration_doc_closure as checker
 
-EXPECTED_TOTAL_CHECKS = 19
-EXPECTED_CHECKER_SHA256 = "7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8"
+EXPECTED_TOTAL_CHECKS = 21
+EXPECTED_CHECKER_SHA256 = "da7e4a5e67ffe926a9405ad28f05711306b297dce7498328328d10ef7cb49d46"
 NEW_FILES = [
     "INTEGRATION_DOC_CLOSURE.json",
     "check_integration_doc_closure.py",
@@ -123,6 +123,7 @@ class GateTest(unittest.TestCase):
         self.assertEqual(c["description"], checker.DESCRIPTION)
         self.assertEqual(c["doc_path"], "../loopkit/docs/INKLING_INTEGRATION.md")
         self.assertEqual(c["doc_sha256"], checker.DOC_SHA256)
+        self.assertEqual(c["m44_summary_sha256"], checker.M44_SUMMARY_SHA256)
         self.assertEqual(
             c["checker_sha256"],
             hashlib.sha256(CHECKER.read_bytes()).hexdigest(),
@@ -134,9 +135,9 @@ class GateTest(unittest.TestCase):
     def test_needle_entries_are_ascii_and_present_in_live_doc(self):
         doc = (REPO_ROOT / checker.DOC_REL).read_text(encoding="utf-8")
         entries = checker.RESOLVED_NEEDLES + checker.HONEST_BLOCKERS + [checker.CLOSURE_NOTE]
-        self.assertEqual(len(checker.RESOLVED_NEEDLES), 7)
+        self.assertEqual(len(checker.RESOLVED_NEEDLES), 8)
         self.assertEqual(len(checker.HONEST_BLOCKERS), 1)
-        self.assertEqual(len(entries), 9)
+        self.assertEqual(len(entries), 10)
         for entry in entries:
             self.assertTrue(entry["needles"])
             for needle in entry["needles"]:
@@ -146,13 +147,14 @@ class GateTest(unittest.TestCase):
     def test_check_names_unique_and_complete(self):
         self.assertEqual(len(checker.CHECK_NAMES), EXPECTED_TOTAL_CHECKS)
         self.assertEqual(len(checker.CHECK_NAMES), len(set(checker.CHECK_NAMES)))
-        self.assertEqual(len(checker.NEEDLE_NAMES), 9)
+        self.assertEqual(len(checker.NEEDLE_NAMES), 10)
         self.assertEqual(
             set(checker.CHECK_NAMES),
             {
                 "frozen_contract", "frozen_checker_sha256", "live_doc_sha256",
                 "no_open_markers", "evidence_pointers", "evidence_summaries",
-                "summary_expectations", "summary_shape", "no_network", "run_completed",
+                "m44_evidence_pins", "summary_expectations", "summary_shape",
+                "no_network", "run_completed",
             }
             | {"needle_" + name for name in checker.NEEDLE_NAMES},
         )
@@ -178,7 +180,7 @@ class GateTest(unittest.TestCase):
         self.assertIsNone(summary["speed_claim"])
         self.assertEqual(summary["evidence_verdicts"], {m: "PASS" for m in checker.EXPECTED_MILESTONES})
         self.assertIn("verdict: PASS", result.stdout)
-        self.assertIn("counts: 19/19 passed, 0 failed", result.stdout)
+        self.assertIn("counts: 21/21 passed, 0 failed", result.stdout)
 
     def test_real_tree_cli_passes_and_restores_summary_bytes(self):
         summary_path = REPO_ROOT / checker.SUMMARY_REL
@@ -263,6 +265,17 @@ class GateTest(unittest.TestCase):
         rel = checker.EVIDENCE["M37"][1]
         tamper_summary(self.root, rel, lambda s: s["check_counts"].__setitem__("failed", 2))
         self.assert_no_go("evidence_summaries")
+
+    def test_m44_summary_fields_tamper_forces_no_go(self):
+        def tamper(payload):
+            payload["verdict"] = "PASS"
+            payload["checks_passed"] = 0
+            payload["checks_failed"] = 26
+            payload["stdout_differing_bytes"] = 918
+            payload["blockers"] = ["forged M44 regression"]
+        tamper_summary(self.root, checker.M44_SUMMARY_REL, tamper)
+        summary = self.assert_no_go("m44_evidence_pins")
+        self.assertIs(summary["checks"]["evidence_summaries"], True)
 
     def test_malformed_milestone_summary_forces_no_go(self):
         (self.root / checker.EVIDENCE["M30"][1]).write_text("{not json\n", encoding="utf-8")

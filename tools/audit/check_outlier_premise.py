@@ -17,7 +17,7 @@ FACTS_PATH = AUDIT_DIR / "OUTLIER_PREMISE.json"
 SUMMARY_PATH = AUDIT_DIR / SUMMARY_REL
 NOTE = "outlier premise classification only; no timing"
 FROZEN_ON = "2026-11-28"
-FROZEN_FACTS_SHA256 = "46c7260707371d83a7f662f4c7fad1420736b6f38469c512b835fb74956d6917"
+FROZEN_FACTS_SHA256 = "0d73a0c2de1e0e15632f55cc0024cdf4ce1b57d323671e38a6b23db7424533a6"
 INLINE_VERIFICATION_URL = "https://huggingface.co/thinkingmachines/Inkling-2-Mini/raw/main/config.json"
 OUT_OF_BAND_CAVEAT = (
     "the two HTML primary-source zero-hit records are out-of-band assertions: this offline "
@@ -85,7 +85,7 @@ SOURCE_ROOTS = {
 FROZEN_SOURCE_SHA256 = {
     "configs/inkling2mini.toml": "8be0e650f90cb490af15057768fbe1d7cc9538f23f36edeb11ccd7c31d3a89eb",
     "src/loopkit/model.py": "523003de85142d9f4c1792a5698abf393ee3b620ec085057621e53b19d6a39bf",
-    "docs/INKLING_INTEGRATION.md": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+    "docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
     "README.md": "4d3d09f39975bfbaca2c3b757bb1c25d23957b8b24ab7d4a78d7e19cae68c293",
     "tools/odsl/README.md": "09b068e2f4bf36d266c1f2d27345846a577bb52e328794fc848d825e6faf2d74",
     "tools/odsl/LAYOUT_DESIGN.md": "23625beb8d9283572e824b29499ee3c1135cbc2a74876e1d06fccdd4e6604302",
@@ -554,7 +554,7 @@ def run_check(root):
         checks["open_findings_recorded"] = check_open_findings(facts)
 
         lk_root = loopkit_root(root)
-        info.append("loopkit root %s" % lk_root)
+        info.append("loopkit root ../loopkit")
         roots = source_roots(root, lk_root)
         texts = {}
         for source in sorted(SOURCE_ROOTS):

@@ -17,11 +17,14 @@ REPO_ROOT = AUDIT_DIR.parents[1]
 CONTRACT_REL = "tools/audit/INTEGRATION_DOC_CLOSURE.json"
 SUMMARY_REL = "tools/audit/M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json"
 DOC_REL = "../loopkit/docs/INKLING_INTEGRATION.md"
-DOC_SHA256 = "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0"
+DOC_SHA256 = "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+M44_SUMMARY_REL = "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json"
+M44_SUMMARY_SHA256 = "38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122"
 NOTE = "documentation-contract closure only; no weights, no engine run, no parity, no timing"
 DESCRIPTION = (
     "M38 closes the loopkit INKLING_INTEGRATION.md [?] markers using the M29-M37 "
-    "audit artifacts; this is a documentation-contract result, not an engine measurement."
+    "audit artifacts; M46 adds M44 evidence for section-3 item (d); this is a "
+    "documentation-contract result, not an engine measurement."
 )
 CYCLE_AUDIT_REQUIRED = "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number."
 FROZEN_ON = "2026-11-28"
@@ -31,10 +34,10 @@ EXPECTED_TOP_KEYS = {
     "schema_version", "frozen_on", "scope", "note", "description", "doc_path",
     "doc_sha256", "checker_sha256", "resolved_needles", "honest_blockers",
     "closure_note", "evidence", "summary_expectations", "provenance",
-    "cycle_audit_required", "speed_claim",
+    "cycle_audit_required", "speed_claim", "m44_summary_sha256",
 }
 
-EXPECTED_MILESTONES = ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37"]
+EXPECTED_MILESTONES = ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44"]
 EXPECTED_SUMMARY_KEYS = {
     "verdict", "blocker", "checks", "check_counts", "info", "provenance", "note",
     "scope", "speed_claim", "cycle_audit_required", "no_weights", "no_engine_run",
@@ -87,6 +90,18 @@ RESOLVED_NEEDLES = [
         "summaries: converter split-16 NVFP4 / flat-32 MXFP8 confirmed against the real",
         "HF header; Unsloth GGUF header shows IQ1_S/Q2_0 re-quant, not native NVFP4/MXFP8).",
     ]),
+    item("section3_item_d", ["M44"], [
+        "  MXFP8 layers; (d) RESOLVED by M44 (synthetic CPU stdout-byte compatibility only, evidence below);",
+        "- `[F]` Section-3 item (d) is resolved by M44 on a synthetic CPU fixture only: 26/26 checks",
+        "  PASS, 0 differing bytes at 918 bytes/side. Contract",
+        "  `inkengine-llama/tools/audit/UPSTREAM_CLI_COMPAT.json` (sha256",
+        "  5fb7e01e63c526844231daa6905ea7e78c9f5f37d85fbc595a0286bbae6b2ae6); summary",
+        "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json` (sha256",
+        "  38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122).",
+        "  Compile/stdout-byte scope only: no real weights, no GPU, no tensor or logits parity, no timing,",
+        "  NO SPEED CLAIM. Items (b) real-weight conversion parity and (e) tokenizer/chat-template",
+        "  remain open; (a), (c) and (f) are unchanged.",
+    ]),
 ]
 
 HONEST_BLOCKERS = [
@@ -99,11 +114,18 @@ HONEST_BLOCKERS = [
     ]),
 ]
 
-CLOSURE_NOTE = item("section5_closure", ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37"], [
-    "- **M38 closure note (2026-11-28):** section-4 items 1, 2, 3, 5 and 6 and both",
-    "  M29-M37; item 4 stays LOCAL_ONLY_UNVERIFIED with real-trace falsification",
-    "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
-])
+CLOSURE_NOTE = item(
+    "section5_closure",
+    ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44"],
+    [
+        "- **M38 closure note (2026-11-28):** section-4 items 1, 2, 3, 5 and 6 and both",
+        "  M29-M37; item 4 stays LOCAL_ONLY_UNVERIFIED with real-trace falsification",
+        "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
+        "- **M46 closure note (2026-11-28):** section-3 item (d) is PASS-scoped by M44: 26/26 checks,",
+        "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json`. Section-3 item (b) real-weight conversion parity and",
+        "  no timing, NO SPEED CLAIM. CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
+    ],
+)
 
 EVIDENCE = {
     "M29": ["tools/audit/UPSTREAM_LOOP_CONTRACT.json", "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json"],
@@ -115,6 +137,7 @@ EVIDENCE = {
     "M35": ["tools/audit/OUTLIER_PREMISE.json", "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json"],
     "M36": ["tools/audit/UNION_WIRING.json", "tools/audit/M36_UNION_WIRING_SUMMARY.json"],
     "M37": ["tools/audit/GGUF_LOOP_SHAPES.json", "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json"],
+    "M44": ["tools/audit/UPSTREAM_CLI_COMPAT.json", "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json"],
 }
 
 SUMMARY_EXPECTATIONS = {
@@ -149,8 +172,8 @@ PROVENANCE = {
 NEEDLE_NAMES = [entry["name"] for entry in RESOLVED_NEEDLES + HONEST_BLOCKERS + [CLOSURE_NOTE]]
 CHECK_NAMES = [
     "frozen_contract", "frozen_checker_sha256", "live_doc_sha256", "no_open_markers",
-    "evidence_pointers", "evidence_summaries", "summary_expectations", "summary_shape",
-    "no_network", "run_completed",
+    "evidence_pointers", "evidence_summaries", "m44_evidence_pins",
+    "summary_expectations", "summary_shape", "no_network", "run_completed",
 ] + ["needle_" + name for name in NEEDLE_NAMES]
 
 NETWORK_MODULES = {"socket", "http", "urllib", "requests", "httpx", "ftplib", "smtplib", "telnetlib", "xmlrpc"}
@@ -221,6 +244,7 @@ def check_frozen_contract(facts):
         and facts.get("description") == DESCRIPTION
         and facts.get("doc_path") == DOC_REL
         and facts.get("doc_sha256") == DOC_SHA256
+        and facts.get("m44_summary_sha256") == M44_SUMMARY_SHA256
         and is_sha256(facts.get("checker_sha256"))
         and facts.get("resolved_needles") == RESOLVED_NEEDLES
         and facts.get("honest_blockers") == HONEST_BLOCKERS
@@ -309,6 +333,32 @@ def check_evidence_summaries(root, facts):
                 if counts.get("failed") != 0 or counts.get("passed") + counts.get("failed") != counts.get("total"):
                     return False
     return True
+
+
+def check_m44_evidence_pins(root):
+    """Byte-pin the M44 summary and validate every PASS-scoped field it claims."""
+    try:
+        raw = (root / M44_SUMMARY_REL).read_bytes()
+    except OSError:
+        return False
+    if sha256_bytes(raw) != M44_SUMMARY_SHA256:
+        return False
+    try:
+        payload = json.loads(raw)
+    except (ValueError, UnicodeDecodeError):
+        return False
+    if not isinstance(payload, dict):
+        return False
+    return bool(
+        payload.get("verdict") == "PASS"
+        and payload.get("speed_claim") is None
+        and payload.get("blockers") == []
+        and payload.get("checks_passed") == 26
+        and payload.get("checks_total") == 26
+        and payload.get("checks_failed") == 0
+        and payload.get("stdout_differing_bytes") == 0
+        and payload.get("no_weights") is True
+    )
 
 
 def check_summary_expectations(root, facts):
@@ -414,6 +464,7 @@ def run_check(root):
         checks["no_open_markers"] = '`[?]`.' not in doc_text and doc_text.count('`[?]`') == 1
         checks["evidence_pointers"] = check_evidence_pointers(facts)
         checks["evidence_summaries"] = check_evidence_summaries(root, facts)
+        checks["m44_evidence_pins"] = check_m44_evidence_pins(root)
         checks["summary_expectations"] = check_summary_expectations(root, facts)
         checks["no_network"] = check_no_network()
         for entry in RESOLVED_NEEDLES + HONEST_BLOCKERS + [CLOSURE_NOTE]:

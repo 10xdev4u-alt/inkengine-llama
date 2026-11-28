@@ -92,7 +92,7 @@
     "source_sha256": {
       "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f",
       "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
-      "../loopkit/docs/INKLING_INTEGRATION.md": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0"
+      "../loopkit/docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
     }
   }
 }
