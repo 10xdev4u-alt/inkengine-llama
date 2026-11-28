@@ -1,0 +1,66 @@
+{
+  "blocker": "",
+  "checks": {
+    "converter_add_loop_count": true,
+    "converter_add_loop_end": true,
+    "converter_add_loop_gate_rank": true,
+    "converter_add_loop_start": true,
+    "converter_add_loop_varying": true,
+    "converter_loop_config_keys": true,
+    "converter_query_shape": true,
+    "converter_range_check": true,
+    "core_layer_set": true,
+    "derived_boundaries": true,
+    "engine_spec_inkengine_corrected": true,
+    "engine_spec_inkengine_no_stale": true,
+    "engine_spec_loopkit_corrected": true,
+    "engine_spec_loopkit_no_stale": true,
+    "frozen_facts": true,
+    "frozen_source_sha256": true,
+    "live_source_sha256": true,
+    "run_completed": true,
+    "slot_formula": true,
+    "slot_value": true,
+    "tensor_ctrl_aliases": true,
+    "tensor_ctrl_count": true
+  },
+  "frozen_facts_sha256": "c596d0f14ebe6f7ce5742cc66c8ce044e35ffea2e263e2fb7e2307402d43e492",
+  "frozen_on": "2026-11-28",
+  "frozen_source_sha256": {
+    "../loopkit/docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+    "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+    "gguf-py/gguf/constants.py": "f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b",
+    "gguf-py/gguf/tensor_mapping.py": "c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463",
+    "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab"
+  },
+  "info": [
+    "sha256 ../loopkit/docs/INKLING_FORMAT_FACTS.md frozen=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df live=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df (gated)",
+    "sha256 conversion/inkling2.py frozen=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 live=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 (gated)",
+    "sha256 gguf-py/gguf/constants.py frozen=f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b live=f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b (gated)",
+    "sha256 gguf-py/gguf/tensor_mapping.py frozen=c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463 live=c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463 (gated)",
+    "sha256 src/models/inkling2-loop.cpp frozen=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab live=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab (gated)",
+    "frozen facts sha256 c596d0f14ebe6f7ce5742cc66c8ce044e35ffea2e263e2fb7e2307402d43e492 (INFO only; semantic facts are gated)",
+    "controller tensor entries: 12 (expected 12)",
+    "n_slot = 24 + (3-1)*(18-6) = 48 (frozen 48)"
+  ],
+  "note": "loop boundary contract only, no timing",
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_FORMAT_FACTS.md",
+    "source_sha256": {
+      "../loopkit/docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "gguf-py/gguf/constants.py": "f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b",
+      "gguf-py/gguf/tensor_mapping.py": "c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab"
+    },
+    "source_sha256_live": {
+      "../loopkit/docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "gguf-py/gguf/constants.py": "f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b",
+      "gguf-py/gguf/tensor_mapping.py": "c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab"
+    }
+  },
+  "speed_claim": null,
+  "verdict": "PASS"
+}

@@ -158,3 +158,29 @@ RESULTS.md for the honest numeric models.
 - Local tests this pass: new audit suite 23 passed, full `tools/audit` 89 passed,
   ASCII-only new files, `git diff --check` clean. No `src/` or CMake edit, no
   engine rebuild, no Kaggle kernel, NO SPEED CLAIM.
+
+## M31 loop-boundary metadata gate (branch main)
+
+- Roadmap section 4 item 3 (next unchecked after M30). Reconciled primary-source
+  boundaries are now executable: `core_start=6`, `core_end=18` (exclusive), so the
+  loop core is layers 6..17 (12 layers), prelude 0..5, coda 18..23, and
+  `n_slot = 24 + 2*12 = 48`.
+- New `tools/audit/check_loop_boundaries.py` with frozen facts in
+  `LOOP_BOUNDARIES.json`, tests, report `LOOP_BOUNDARIES.md`, and generated
+  `M31_LOOP_BOUNDARIES_SUMMARY.json`: verdict PASS, 22/22 checks true, blocker
+  empty, `speed_claim: null`, note "loop boundary contract only, no timing".
+- Five live source hashes are gated (format facts doc, converter, tensor mapping,
+  loop graph source, GGUF constants); failure of any extraction, needle, hash or
+  stale-doc check forces NO_GO and overwrites the summary instead of leaving a
+  stale PASS. Independent review found one HIGH (en-dash/line-wrap fail-open in
+  the stale-phrase check) and one LOW (`12x3=48` shorthand); both fixed, and the
+  original `git show HEAD` wording is now caught by the gate.
+- Corrected the stale section 4 premises in both `loopkit/docs/ENGINE_SPEC.md` and
+  `inkengine/docs/ENGINE_SPEC.md` (byte-identical, sha256
+  `6557926f895811e326c1d64ce635b4721470dac3c9d423dc80a07eb616737d7d`); changed
+  lines ASCII-only, `git diff --check` clean in all three repos.
+- Local tests this pass: checker exit 0, `tools/audit` pytest 112 passed, loopkit
+  fast pytest 40 passed 1 deselected. No `src/` or CMake edit, no engine rebuild,
+  no Kaggle kernel. Metadata/contract scope only: no weights, no graph execution,
+  no timing, NO SPEED CLAIM. Any future number still needs CycleAudit
+  `claim <= ci_low`, `repeats >= 20`, `loops = 3`.

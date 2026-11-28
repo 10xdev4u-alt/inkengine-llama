@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen loop-boundary contract for the 3-pass Inkling2-loop GGUF, reconciled from primary sources.",
+  "scope": "loop boundary contract only, no timing",
+  "note": "loop boundary contract only, no timing",
+  "speed_claim": null,
+  "facts": {
+    "core_start": 6,
+    "core_end": 18,
+    "core_end_exclusive": true,
+    "num_passes": 3,
+    "gate_rank": 64,
+    "is_varloop": {
+      "mini": false,
+      "varloop": true
+    },
+    "n_phys": 24,
+    "n_slot": 48
+  },
+  "derived": {
+    "core_layers": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+    "core_layer_count": 12,
+    "prelude_layers": [0, 1, 2, 3, 4, 5],
+    "coda_layers": [18, 19, 20, 21, 22, 23],
+    "slot_formula": "n_phys + (size_t) (n_passes - 1)*(core_end - core_start)"
+  },
+  "loop_config_keys": ["core_start", "core_end", "num_passes", "gate_rank", "is_varloop"],
+  "converter_needles": {
+    "loop_config_keys": "set(self.loop) != {\"core_start\", \"core_end\", \"num_passes\", \"gate_rank\", \"is_varloop\"}",
+    "range_check": "0 < start < end <= self.block_count",
+    "query_shape": "2 * (self.loop[\"core_end\"] - start)",
+    "add_loop_start": "self.gguf_writer.add_loop_start(",
+    "add_loop_end": "self.gguf_writer.add_loop_end(",
+    "add_loop_count": "self.gguf_writer.add_loop_count(",
+    "add_loop_gate_rank": "self.gguf_writer.add_loop_gate_rank(",
+    "add_loop_varying": "self.gguf_writer.add_loop_varying("
+  },
+  "ctrl_tensor_count": 12,
+  "ctrl_alias_needle": "model.layers.{bid}.controllers.",
+  "engine_specs": {
+    "loopkit": "../loopkit/docs/ENGINE_SPEC.md",
+    "inkengine": "../inkengine/docs/ENGINE_SPEC.md"
+  },
+  "corrected_note_needles": [
+    "core layers 6..17 (core_start=6, core_end=18 exclusive)",
+    "prelude layers 0..5",
+    "coda layers 18..23",
+    "6 prelude + 12 loop layers x 3 passes + 6 coda = 48 layer applications",
+    "section 4 was corrected on 2026-11-28"
+  ],
+  "stale_phrases": [
+    "blocks 0-1, layers 0-11",
+    "middle block 3 (layers 18-23)",
+    "blocks 0-1's tail layers"
+  ],
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_FORMAT_FACTS.md",
+    "source_sha256": {
+      "../loopkit/docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "gguf-py/gguf/tensor_mapping.py": "c653a1993368f9967ef3788949f9e71c88b123938889d1180d13ac76b38aa463",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "gguf-py/gguf/constants.py": "f31289cf677a5125cc37cd58d87228199d5f0a124f583deb95a93fcfd79e086b"
+    }
+  }
+}
