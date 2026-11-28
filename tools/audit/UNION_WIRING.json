@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen union-residency wiring contract for the fork's opt-in RORET MoE chain, read from checked-in sources.",
+  "scope": "union-residency wiring source contract only, no timing, no weights, no engine run",
+  "note": "union-residency wiring source contract only, no timing, no weights, no engine run",
+  "speed_claim": null,
+  "sources": {
+    "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+    "src/models/models.h": "cb57cd8bf72891ac99ec4acc58818a011ea12fda62ca4fec63cc2c33ea5afb9e",
+    "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f",
+    "src/llama-graph.cpp": "5f7728c91f4dd0dcf80cbf8ce49bde9b7883af2cfd158788edf541ed3a5fac5e",
+    "src/llama-moe-cache.cpp": "5bab3cbf0a66698006f82188c47ceb8673e5a620888ba5e8e71d89c7559d10d4",
+    "src/llama-moe-cache-lru.h": "064de659111601d43cd6ba0fbe8a68e526ac73f3b41df183a5cde7648fc80358",
+    "src/llama-roret.h": "9018c1f5bb0a16e71743a7a452d5236761743ea7badd552a08717b02b9a89657",
+    "src/llama-roret-binding.h": "56d42b8db6bd6229e1dfd7a02e2e5cdae437fd54e7ffb9e18c5aa3f3033791c2"
+  },
+  "chain": [
+    {
+      "name": "env_gate",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "getenv(\"LLAMA_RORET\")"
+      ]
+    },
+    {
+      "name": "loop_logical_key",
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "cur = build_layer(il, ip, cur, blocks",
+        "ip, (int32_t) pass"
+      ]
+    },
+    {
+      "name": "build_layer_defaults",
+      "source": "src/models/models.h",
+      "needles": [
+        "int32_t roret_il = -1, int32_t roret_pass = -1"
+      ]
+    },
+    {
+      "name": "forward_roret_args",
+      "source": "src/models/inkling2.cpp",
+      "needles": [
+        "roret_pass",
+        "roret_il); /* roret_key_il */"
+      ]
+    },
+    {
+      "name": "graph_lookup_key",
+      "source": "src/llama-graph.cpp",
+      "needles": [
+        "{ roret_key_il, roret_pass }"
+      ]
+    },
+    {
+      "name": "binding_lookup_key",
+      "source": "src/llama-roret-binding.h",
+      "needles": [
+        "inline const T * llama_roret_bind_key(const T * slot_map, const T * lookup) {",
+        "return lookup;"
+      ]
+    },
+    {
+      "name": "binding_set_find",
+      "source": "src/llama-roret-binding.h",
+      "needles": [
+        "std::unordered_map<const T *, llama_roret_binding> by_lookup;",
+        "void set(const T * lookup, int32_t il, int32_t pass) {",
+        "by_lookup[lookup] = { il, pass };",
+        "const llama_roret_binding * find(const T * lookup) const {",
+        "return it == by_lookup.end() ? nullptr : &it->second;"
+      ]
+    },
+    {
+      "name": "bind_slot_map",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "pimpl->roret_of.set(llama_roret_bind_key(slot_map, slots), layer.roret_key.il, layer.roret_key.pass)"
+      ]
+    },
+    {
+      "name": "resolve_binding",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "const llama_roret_binding * rb = roret_of.find(llama_roret_bind_key(src, lookup));"
+      ]
+    },
+    {
+      "name": "copy_extra_defaults",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "const int32_t * extra   = nullptr",
+        "n_extra = 0;"
+      ]
+    },
+    {
+      "name": "clear_pass0_union",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "roret->clear_layer(rb->il)"
+      ]
+    },
+    {
+      "name": "union_state_and_clear",
+      "source": "src/llama-roret.h",
+      "needles": [
+        "std::vector<uint64_t> union_bits;",
+        "std::array<std::vector<uint64_t>, kMaxPass + 1> pass;",
+        "mutable std::map<int32_t, layer_state> layers_;",
+        "void clear_layer(int32_t il) const { layers_.erase(il); }"
+      ]
+    },
+    {
+      "name": "union_add",
+      "source": "src/llama-roret.h",
+      "needles": [
+        "bool add(const key & k, const int32_t * ids, size_t n_ids) const {",
+        "layer.union_bits[w] |= b;"
+      ]
+    },
+    {
+      "name": "register_real_ids",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "roret->add({ rb->il, rb->pass }, ids.data(), ids.size());"
+      ]
+    },
+    {
+      "name": "union_residents",
+      "source": "src/llama-roret.h",
+      "needles": [
+        "std::vector<int32_t> residents(int32_t il) const {",
+        "uint64_t bits = layer->union_bits[w];"
+      ]
+    },
+    {
+      "name": "extra_from_residents",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "extra   = roret_residents.data()",
+        "n_extra = roret_residents.size()"
+      ]
+    },
+    {
+      "name": "plan_with_extra",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "g.lru.plan(il, ids.data(), ids.size(), dims.n_tokens, n_used, n_zero, n_cpu, fills, cpu, n_hit, extra, n_extra)"
+      ]
+    },
+    {
+      "name": "lru_hint_contract",
+      "source": "src/llama-moe-cache-lru.h",
+      "needles": [
+        "extra/n_extra are the opt-in RORET residents"
+      ]
+    }
+  ],
+  "default_off": [
+    {
+      "name": "env_gate_explicit_values",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "if (const char * env = getenv(\"LLAMA_RORET\"); env != nullptr) {",
+        "if (on == \"1\" || on == \"on\" || on == \"true\") {"
+      ]
+    },
+    {
+      "name": "default_off_comment",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "// RORET is strictly opt-in: without LLAMA_RORET the fields above stay empty and"
+      ]
+    },
+    {
+      "name": "copy_extra_null",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "const int32_t * extra   = nullptr;",
+        "if (roret) {"
+      ]
+    },
+    {
+      "name": "default_build_layer_params",
+      "source": "src/models/models.h",
+      "needles": [
+        "int32_t roret_il = -1, int32_t roret_pass = -1"
+      ]
+    },
+    {
+      "name": "lru_default_params",
+      "source": "src/llama-moe-cache-lru.h",
+      "needles": [
+        "const int32_t * extra = nullptr, size_t n_extra = 0) {"
+      ]
+    },
+    {
+      "name": "graph_block_guard",
+      "source": "src/llama-graph.cpp",
+      "needles": [
+        "if (roret_cache != nullptr && roret_pass >= 0 && roret_selected_ids != nullptr && roret_n_selected > 0) {"
+      ]
+    },
+    {
+      "name": "bind_guard",
+      "source": "src/llama-moe-cache.cpp",
+      "needles": [
+        "if (pimpl->roret) {"
+      ]
+    }
+  ],
+  "absent": [
+    {
+      "name": "no_selected_experts_assign_in_roret_block",
+      "source": "src/llama-graph.cpp",
+      "needle": "selected_experts =",
+      "window": {
+        "start": "// RORET (opt-in): host-side bookkeeping only",
+        "end": "if (arch == LLM_ARCH_GROVEMOE"
+      }
+    },
+    {
+      "name": "no_router_rerun_in_roret_block",
+      "source": "src/llama-graph.cpp",
+      "needle": "ggml_argsort_top_k",
+      "window": {
+        "start": "// RORET (opt-in): host-side bookkeeping only",
+        "end": "if (arch == LLM_ARCH_GROVEMOE"
+      }
+    },
+    {
+      "name": "no_residents_overwrite_ids",
+      "source": "src/llama-moe-cache.cpp",
+      "needle": "ids = roret_residents",
+      "window": {
+        "start": "const int32_t * extra   = nullptr;",
+        "end": "// part of the misses is computed"
+      }
+    },
+    {
+      "name": "no_extra_mutates_selected_ids",
+      "source": "src/llama-moe-cache-lru.h",
+      "needle": "ids[i] =",
+      "window": {
+        "start": "template <typename F>\n    bool plan(",
+        "end": "if (uniq.size() > (size_t) n_slots) {"
+      }
+    },
+    {
+      "name": "no_forced_env_enable",
+      "source": "src/llama-moe-cache.cpp",
+      "needle": "setenv(\"LLAMA_RORET\"",
+      "window": null
+    }
+  ],
+  "provenance": {
+    "doc_path": "docs/INKLING_UPSTREAM_WIRING.md",
+    "branch": "main",
+    "fork_head": "04a2c23537226816d5348541329026d8483c3f59"
+  }
+}

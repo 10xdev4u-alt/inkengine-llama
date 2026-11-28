@@ -328,3 +328,38 @@ RESULTS.md for the honest numeric models.
   timing, NO SPEED CLAIM. Real-trace falsification stays NO_GO_BLOCKED because
   it needs weights or hosted inference. Any future number still needs
   CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M36 union-wiring contract gate (2026-11-28, branch main)
+
+- Adds five files under `tools/audit/`: `UNION_WIRING.json` (frozen source sha256
+  and needle contract), `check_union_wiring.py` (stdlib-only, offline, fail-closed
+  CLI with optional `--root`), `test_union_wiring.py` (58 tests: 47 invoke the
+  checker CLI through subprocess, 11 are direct assertion/unit tests),
+  `UNION_WIRING.md` (scope doc), and generated
+  `M36_UNION_WIRING_SUMMARY.json`.
+- Gate covers eight gated sources with 18 ordered chain checks, 7 default-off
+  checks and 5 absent checks, plus contract/hash/coverage/completion checks:
+  35 booleans total. The chain now gates the union-cache implementation in
+  `src/llama-roret.h` (add, residents, clear_layer, internal union bits/state)
+  and the lookup-keyed set/find binding semantics in
+  `src/llama-roret-binding.h`. Every requested needle was verified verbatim;
+  no substitution was needed. Generated summary: verdict PASS, blocker empty,
+  35/35 checks true, `check_counts` total 35 passed 35 failed 0,
+  `speed_claim: null`, `no_weights: true`, `no_engine_run: true`.
+- Fails closed on live or frozen sha256 mismatch, chain/default-off needle
+  deletion, absent-needle injection, frozen-field tamper, malformed or missing
+  contract, missing source, and any exception; a seeded stale PASS is always
+  overwritten with NO_GO. Tamper tests use isolated temp copies of the sources,
+  including dedicated hash/needle tamper cases for the two new headers.
+- Summary writes are robust: a NO_GO sentinel is written before checks and the
+  final result is written atomically (temp file plus `os.replace`); a write
+  failure returns exit 1 and leaves the last written file unchanged. Tests cover
+  the sentinel ordering, atomic write failure cleanup, and the non-zero CLI exit.
+- Local checks this pass: checker exit 0; new suite 58 passed; full
+  `tools/audit` 338 passed with `PYTHONPATH=../loopkit/src:gguf-py`; loopkit
+  fast pytest 41 passed from the loopkit root with `PYTHONPATH=src`;
+  `git diff --check` clean; all new files ASCII-only. No `src/`, CMake or
+  sibling-repo edit, no engine run, no Kaggle kernel, no weights. This is a
+  source-contract gate only: no graph execution, no bit-exact or tensor parity,
+  no timing and no speedup. NO SPEED CLAIM; CycleAudit `claim <= ci_low`,
+  `repeats >= 20`, `loops = 3` remains mandatory for any future number.
