@@ -44,3 +44,18 @@ RESULTS.md for the honest numeric models.
   RORET header on synthetic tiles: 24 configs, 0 differing bytes. Host/tile-level
   parity only; engine-level `ffn_moe_*`/logits parity remains NO_GO (see
   `tools/roret/BITEXACT_REPORT.md`). No speed claim.
+
+## M24/M25 re-verification 2026-11-28 (branch main)
+
+- Gate: `claim=1.0`, `ci_low=0.9977116162363447`,
+  `ci_high=0.9999835093546772`, point-estimate ratio `0.9999176055055583`,
+  `claim_valid=false`, gate exit 1, verdict `NO_CLAIM`. Notebook
+  `overall_verdict=PASS` means gate integrity only, NOT a speed claim.
+- No speed number is supported: the whole 95% interval is below 1.0 on the
+  synthetic 16-token fixture, scoped to a fixed-seed random-weight fixture, not
+  a real model. This is a NO SPEED CLAIM state; the point estimate must NOT be
+  published as a speed number.
+- Evidence: `tools/roret/M24_CYCLE_AUDIT.md` and
+  `tools/roret/kaggle-cycle-audit/M24_SUMMARY.json`.
+- Local tests on 2026-11-28: ctest roret 10/10, pibs 2/2, odsl 1/1; audit
+  pytest 17 passed; loopkit fast pytest 40 passed, 1 deselected.

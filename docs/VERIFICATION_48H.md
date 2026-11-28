@@ -11,6 +11,66 @@ Scope note: the roadmap's "Fresh Kaggle CPU rebuild" requirement is only PARTIAL
 MET. A fresh CPU rebuild was done locally (details in section 4); the prior Kaggle
 CPU parity kernel evidence is recorded, and no new Kaggle run was attempted.
 
+## M25 addendum (2026-11-28) - supersedes stale M10-era status below
+
+This pass is docs-only. No Kaggle kernel was run in this pass, no source file was
+edited, and no issue or PR was created. This addendum propagates the
+already-landed M24 Kaggle 2xT4 CycleAudit result into this honesty/status
+document. The M10 text below is kept intact as historical record; where it
+conflicts with this addendum, this addendum is current.
+
+### M24 Kaggle 2xT4 CycleAudit (already landed, not re-run here)
+
+- Kernel `jprinceraj/inkengine-cuda-cycleaudit` v1, T4x2, status COMPLETE.
+  Started 2026-11-27T23:36:27Z, finished ~2026-11-28T00:18:19Z. Logs were
+  read with `kaggle kernels logs`, not the output API. Kernel log sha256
+  `4d8d11a7146e2538018febe36e56416c9e9f607ed0e7ae0e5271664f02d5550d`;
+  decoded stdout sha256
+  `32edd02b472f992345909f4c31d23b73a00755b233676201ea6cbae0baa0bf40`.
+- Fork HEAD `9c975ae68f11e848ce7ecc0292e57e3ffe156ff6`; loopkit HEAD
+  `0597f5ea0ffe310bc1f96aea75352cb3c91a75ee`; nvcc 13.0 V13.0.88; configure
+  exit 0; build exit 0; `llama-cli` 1.0.0-dev build 12755, commit `9c975ae68`.
+- Fixture sha256
+  `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`;
+  `repeats=50`, `warmup=5`, `loops=3`, seed 0, 2000 bootstrap resamples. Hook
+  ABSENT off / ACTIVE on; generated text bytes equal. Negative controls (self
+  claim 1.01 and simulated 2x-slower claim 2.0) both exited 1 with
+  `claim_valid=false`.
+- Gate: `claim=1.0`, `ci_low=0.9977116162363447`,
+  `ci_high=0.9999835093546772`, point-estimate ratio `0.9999176055055583`,
+  `claim_valid=false`, gate exit 1, verdict `NO_CLAIM`. Notebook
+  `overall_verdict=PASS` means gate integrity only, NOT a speed claim.
+- Evidence: [M24_CYCLE_AUDIT.md](../tools/roret/M24_CYCLE_AUDIT.md) and
+  [M24_SUMMARY.json](../tools/roret/kaggle-cycle-audit/M24_SUMMARY.json).
+
+### Interpretation - NO SPEED CLAIM
+
+The whole 95% interval is below 1.0 on the synthetic 16-token fixture: no
+speedup is supported and the point estimate `0.9999176055055583` must NOT be
+published as a speed number. This result is scoped to the fixed-seed
+random-weight fixture, not a real model. M18 recorded engine-level raw F32 FINAL
+logits parity PASS-SCOPED on 2xT4 for the synthetic 3-pass GGUF at both
+`cpu_share 0.0` and `cpu_share 1.0`. M23 recorded 6 `RORET_PASS` rows (3 passes
+per share); these are COUNTS, not wall-clock savings.
+
+### Superseded M10-era lines (still present below as historical record)
+
+- Section 1, M9 row: still describes only the ineligible local CPU probe
+  (`ci_low=0.9714442869532246`). It is not the M24 gate.
+- Section 5, claim-integrity row (row 2): now points here; an eligible gate has
+  run with integrity and returned `NO_CLAIM`.
+- Section 6: "No Kaggle 2xT4 CycleAudit was run this pass" is true only of the
+  M10 pass. The M24 kernel did run and is reported above.
+- Section 7: blockers #2, #4 and #5 are CLOSED as of 2026-11-28; the "no
+  eligible claim exists" sentence is superseded by the M24 gate above.
+
+### Issue and local-test status as of 2026-11-28
+
+- All GitHub issues #1 through #8 in `10xdev4u-alt/inkengine-llama` are CLOSED
+  (verified today). In particular #2, #4 and #5 are closed.
+- Local tests on 2026-11-28: ctest roret 10/10, pibs 2/2, odsl 1/1; audit
+  pytest 17 passed; loopkit fast pytest 40 passed, 1 deselected.
+
 ## 1. Artifact ledger (M1-M9)
 
 | Milestone | Artifact | Status | One-line evidence |
@@ -149,7 +209,7 @@ Verbatim from [ROADMAP_48H.md](ROADMAP_48H.md), section "STOP conditions":
 | # | Hour-48 value | Evidence |
 |---|---|---|
 | 1. Correctness | NOT TRIGGERED | Host/tile level: 0 differing bytes out of 24576 compared (`BITEXACT_REPORT.md`). Fresh local CPU test path this pass: text 0 differing bytes and raw F32 logits 0 differing bytes with hook absent off / active on. No byte flip observed and no evidence that union ids reached `selected_experts_in` / `mm_ids` (diff inspection only). No GPU engine-level parity was measured, so that scope remains NO_GO; missing evidence is not a byte flip. |
-| 2. Claim-integrity | NOT TRIGGERED | `CYCLE_AUDIT.json`: `claim=0`, `claim_valid=false`, `gate_eligible=false`, `verdict=NO_CLAIM`; self-control claim 1.01 failed closed (exit 1). All other fork-authored reported figures are counts, models or drift/layout estimates. The claim-integrity audit is scoped to fork-authored artifacts; inherited upstream llama.cpp docs (for example `docs/moe-cache.md:10,22` and `docs/speculative.md:3,5`) predate this fork and make no claim about this fork's work. No fork speed statement is published and no eligible audit has twice failed. |
+| 2. Claim-integrity | NOT TRIGGERED | `CYCLE_AUDIT.json`: `claim=0`, `claim_valid=false`, `gate_eligible=false`, `verdict=NO_CLAIM`; self-control claim 1.01 failed closed (exit 1). All other fork-authored reported figures are counts, models or drift/layout estimates. The claim-integrity audit is scoped to fork-authored artifacts; inherited upstream llama.cpp docs (for example `docs/moe-cache.md:10,22` and `docs/speculative.md:3,5`) predate this fork and make no claim about this fork's work. No fork speed statement is published and no eligible audit has twice failed (M10-era status). SUPERSEDED by the M25 addendum above: an eligible Kaggle 2xT4 CycleAudit gate has now run with integrity and returned verdict `NO_CLAIM` (`claim=1.0`, `ci_low=0.9977116162363447`, `ci_high=0.9999835093546772`); see the addendum for current claim-integrity status. |
 | 3. Budget/policy | NOT TRIGGERED | No Kaggle kernel run in this pass and no GPU quota consumed; no GPU kernel failed; zero issues and zero PRs created this run; all checks used the synthetic fixture or vendored vectors, so no weight-dependent measurement was attempted. |
 
 ## 6. Fresh rebuild evidence and Kaggle status
@@ -186,20 +246,41 @@ Kaggle kernel was run in this pass:
 
 ## 7. Remaining blockers
 
+Historical M10-era blocker list, kept as record. All entries below are
+superseded by the M25 addendum above as of 2026-11-28; in particular #2, #4 and
+#5 are CLOSED and an eligible Kaggle 2xT4 CycleAudit gate has run.
+
 - Issue #2 - deterministic fixture / F32 dump harness: the artifacts now exist
   ([make_moe_fixture.py](../tools/audit/make_moe_fixture.py),
   [make_synthetic_gguf.py](../tools/audit/make_synthetic_gguf.py),
   `dump_f32.py`, [parity_run.sh](../tools/audit/parity_run.sh)) and reproduce stable
-  hashes, but the issue remains open; `cert.json` `root_digest` / `all_exact` are
-  still PENDING in [AUDIT_PROTOCOL.md](../tools/audit/AUDIT_PROTOCOL.md).
-- Issue #4 - engine-level GPU parity remains NO_GO. No GPU build, GPU tile
-  residency check, or raw `ffn_moe_*` off/on comparison has been measured. The
-  CPU-test PASS does not close this.
-- Issue #5 - T4 traffic counters and the CycleAudit claim remain open. No T4
-  `n_hit` / uploaded-byte measurement exists and no eligible claim exists.
+  hashes, but the issue was open at the M10 gate; `cert.json` `root_digest` /
+  `all_exact` were still PENDING in
+  [AUDIT_PROTOCOL.md](../tools/audit/AUDIT_PROTOCOL.md) then.
+  SUPERSEDED 2026-11-28: issue #2 is CLOSED (verified today); see the M25
+  addendum above.
+- Issue #4 - engine-level GPU parity was NO_GO at the M10 gate. At that gate no
+  GPU build, GPU tile residency check, or raw `ffn_moe_*` off/on comparison had
+  been measured; the CPU-test PASS did not close this.
+  SUPERSEDED 2026-11-28: issue #4 is CLOSED (verified today). M18 recorded
+  engine-level raw F32 FINAL logits parity PASS-SCOPED on 2xT4 for the synthetic
+  3-pass GGUF at both `cpu_share 0.0` and `cpu_share 1.0`. T4 tile-residency
+  counters remain unmeasured. See the M25 addendum above.
+- Issue #5 - T4 traffic counters and the CycleAudit claim were open at the M10
+  gate. At that gate no T4 `n_hit` / uploaded-byte measurement existed and no
+  eligible claim existed.
+  SUPERSEDED 2026-11-28: issue #5 is CLOSED (verified today). An eligible Kaggle
+  2xT4 CycleAudit gate has now run with integrity and returned verdict
+  `NO_CLAIM`. T4 `n_hit` / uploaded-byte counters remain unmeasured and the 6
+  M23 `RORET_PASS` rows are counts, not wall-clock savings. See the M25 addendum
+  above.
 - No speed number is publishable until a Kaggle 2xT4 CycleAudit with
   `repeats >= 20` and `loops = 3` supports `claim <= ci_low`. The current 40-pass
   plus NO_CLAIM record is the honest handoff state.
+  UPDATED 2026-11-28: the Kaggle 2xT4 CycleAudit ran with `repeats=50` and
+  `loops=3`, but the whole 95% interval is below 1.0, so NO SPEED CLAIM is
+  publishable. The M24 `NO_CLAIM` record is the honest handoff state; see the
+  M25 addendum above.
 
 ## 8. Discrepancies found
 
