@@ -116,3 +116,27 @@ RESULTS.md for the honest numeric models.
   weights_class `synthetic_or_unknown`, two blockers (frozen sha, size),
   no engine run. Local suite: `tools/audit` pytest 29 passed (17 existing plus
   12 new). No `src/` edit, no Kaggle kernel, no speed claim.
+
+## M29 upstream loop-contract parity (branch main)
+
+- First unchecked cheap-verification experiment in `loopkit/docs/INKLING_INTEGRATION.md`
+  section 4 item 1, now executable offline via `tools/audit/check_upstream_loop_contract.py`.
+- Frozen facts in `tools/audit/UPSTREAM_LOOP_CONTRACT.json` (upstream raw
+  `constants.py` sha256 `d904f1dc06317f950c51f82425593790e6bc0f6179b9f6c7b2861ba4c8420bfb`,
+  `inkling2-loop.cpp` sha256
+  `b5983c6ef955b54d35187933fb0295988997385a12d608c762eb67d06b473772`).
+- Checker exit 0, verdict PASS, 10/10 checks: arch string `inkling2_loop`;
+  47 tensor names identical to upstream; 5 `LLM_KV_LOOP_*` keys; slot formula
+  `n_phys + (size_t) (n_passes - 1)*(core_end - core_start)`; fork arch int 179
+  and 5 additive/default-off RORET wiring markers. Upstream arch int 181 is
+  recorded as benign version drift (INFO only).
+- `M29_UPSTREAM_CONTRACT_SUMMARY.json` sha256
+  `d2df484e02cf2feb471968f3d8d6dd2e47251d5c218907b030851c9c8cac00a2`;
+  `speed_claim: null`, note "contract parity only, no timing".
+- Independent review (0 CRITICAL/HIGH, 1 MEDIUM) hardening: extraction errors
+  now force a written NO_GO summary instead of leaving a stale PASS artifact;
+  regression test added. Five fail-closed negative controls verified.
+- Local tests this pass: new audit tests 20 passed, full `tools/audit` 66 passed,
+  loopkit fast pytest 40 passed 1 deselected, 5 standalone C++ RORET tests
+  compiled under C++17 `-Werror -UNDEBUG` and ran rc 0. No `src/` or CMake edit,
+  so no engine rebuild was needed. No Kaggle kernel, no speed claim.

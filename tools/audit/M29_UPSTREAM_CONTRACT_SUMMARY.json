@@ -1,0 +1,199 @@
+{
+  "checks": {
+    "arch_string": {
+      "actual": "inkling2_loop",
+      "expected": "inkling2_loop",
+      "name": "arch_string",
+      "result": "PASS"
+    },
+    "fork_arch_int": {
+      "actual": 179,
+      "expected": 179,
+      "name": "fork_arch_int",
+      "result": "PASS"
+    },
+    "loop_kv_keys": {
+      "actual": [
+        "LLM_KV_LOOP_COUNT",
+        "LLM_KV_LOOP_END",
+        "LLM_KV_LOOP_GATE_RANK",
+        "LLM_KV_LOOP_START",
+        "LLM_KV_LOOP_VARYING"
+      ],
+      "expected": [
+        "LLM_KV_LOOP_COUNT",
+        "LLM_KV_LOOP_END",
+        "LLM_KV_LOOP_GATE_RANK",
+        "LLM_KV_LOOP_START",
+        "LLM_KV_LOOP_VARYING"
+      ],
+      "name": "loop_kv_keys",
+      "result": "PASS"
+    },
+    "slot_formula": {
+      "actual": "n_phys + (size_t) (n_passes - 1)*(core_end - core_start)",
+      "expected": "n_phys + (size_t) (n_passes - 1)*(core_end - core_start)",
+      "name": "slot_formula",
+      "result": "PASS"
+    },
+    "tensor_names": {
+      "actual": [
+        "TOKEN_EMBD",
+        "TOKEN_EMBD_NORM",
+        "OUTPUT",
+        "OUTPUT_NORM",
+        "OUTPUT_RES_QUERY",
+        "ATTN_NORM",
+        "ATTN_Q",
+        "ATTN_K",
+        "ATTN_V",
+        "ATTN_OUT",
+        "ATTN_GATE",
+        "ATTN_REL",
+        "ATTN_REL_BIAS",
+        "ATTN_Q_CLIP",
+        "ATTN_REL_CLIP",
+        "ATTN_SINK_PROJ",
+        "ATTN_Q_INP_NORM",
+        "ATTN_K_INP_NORM",
+        "ATTN_V_INP_NORM",
+        "ATTN_K_CONV",
+        "ATTN_V_CONV",
+        "ATTN_K_CONV_PROJ",
+        "ATTN_V_CONV_PROJ",
+        "ATTN_POST_CONV",
+        "ATTN_RES_QUERY",
+        "FFN_NORM",
+        "FFN_GATE_INP",
+        "FFN_EXP_PROBS_B",
+        "FFN_GATE_EXP",
+        "FFN_UP_EXP",
+        "FFN_GATE_UP_EXP",
+        "FFN_DOWN_EXP",
+        "FFN_POST_CONV",
+        "FFN_RES_QUERY",
+        "LOOP_MSG_QUERY",
+        "LOOP_Q_CTRL_DOWN",
+        "LOOP_Q_CTRL_GAIN",
+        "LOOP_Q_CTRL_FORGET",
+        "LOOP_K_CTRL_DOWN",
+        "LOOP_K_CTRL_GAIN",
+        "LOOP_K_CTRL_FORGET",
+        "LOOP_V_CTRL_DOWN",
+        "LOOP_V_CTRL_GAIN",
+        "LOOP_V_CTRL_FORGET",
+        "LOOP_FFN_CTRL_DOWN",
+        "LOOP_FFN_CTRL_GAIN",
+        "LOOP_FFN_CTRL_FORGET"
+      ],
+      "expected": [
+        "TOKEN_EMBD",
+        "TOKEN_EMBD_NORM",
+        "OUTPUT",
+        "OUTPUT_NORM",
+        "OUTPUT_RES_QUERY",
+        "ATTN_NORM",
+        "ATTN_Q",
+        "ATTN_K",
+        "ATTN_V",
+        "ATTN_OUT",
+        "ATTN_GATE",
+        "ATTN_REL",
+        "ATTN_REL_BIAS",
+        "ATTN_Q_CLIP",
+        "ATTN_REL_CLIP",
+        "ATTN_SINK_PROJ",
+        "ATTN_Q_INP_NORM",
+        "ATTN_K_INP_NORM",
+        "ATTN_V_INP_NORM",
+        "ATTN_K_CONV",
+        "ATTN_V_CONV",
+        "ATTN_K_CONV_PROJ",
+        "ATTN_V_CONV_PROJ",
+        "ATTN_POST_CONV",
+        "ATTN_RES_QUERY",
+        "FFN_NORM",
+        "FFN_GATE_INP",
+        "FFN_EXP_PROBS_B",
+        "FFN_GATE_EXP",
+        "FFN_UP_EXP",
+        "FFN_GATE_UP_EXP",
+        "FFN_DOWN_EXP",
+        "FFN_POST_CONV",
+        "FFN_RES_QUERY",
+        "LOOP_MSG_QUERY",
+        "LOOP_Q_CTRL_DOWN",
+        "LOOP_Q_CTRL_GAIN",
+        "LOOP_Q_CTRL_FORGET",
+        "LOOP_K_CTRL_DOWN",
+        "LOOP_K_CTRL_GAIN",
+        "LOOP_K_CTRL_FORGET",
+        "LOOP_V_CTRL_DOWN",
+        "LOOP_V_CTRL_GAIN",
+        "LOOP_V_CTRL_FORGET",
+        "LOOP_FFN_CTRL_DOWN",
+        "LOOP_FFN_CTRL_GAIN",
+        "LOOP_FFN_CTRL_FORGET"
+      ],
+      "name": "tensor_names",
+      "result": "PASS"
+    },
+    "wiring_build_lookup_key": {
+      "actual": true,
+      "expected": true,
+      "name": "wiring_build_lookup_key",
+      "result": "PASS"
+    },
+    "wiring_defaulted_params": {
+      "actual": true,
+      "expected": true,
+      "name": "wiring_defaulted_params",
+      "result": "PASS"
+    },
+    "wiring_forwarding": {
+      "actual": true,
+      "expected": true,
+      "name": "wiring_forwarding",
+      "result": "PASS"
+    },
+    "wiring_gate": {
+      "actual": true,
+      "expected": true,
+      "name": "wiring_gate",
+      "result": "PASS"
+    },
+    "wiring_logical_key_loop": {
+      "actual": true,
+      "expected": true,
+      "name": "wiring_logical_key_loop",
+      "result": "PASS"
+    }
+  },
+  "frozen_on": "2026-11-28",
+  "info": [
+    "frozen fork arch int 179 vs frozen upstream arch int 181: benign upstream enum drift; gate keys on the fork value only"
+  ],
+  "mode": "frozen",
+  "note": "contract parity only, no timing",
+  "provenance": {
+    "fork_head": "1722606770f9ddb52edad4655f4b7cc22978bcff",
+    "fork_sources": {
+      "constants": "gguf-py/gguf/constants.py",
+      "loop_cpp": "src/models/inkling2-loop.cpp"
+    },
+    "upstream_sha256": {
+      "constants_probe": "d904f1dc06317f950c51f82425593790e6bc0f6179b9f6c7b2861ba4c8420bfb",
+      "loop_cpp": "b5983c6ef955b54d35187933fb0295988997385a12d608c762eb67d06b473772"
+    },
+    "upstream_snapshot_files": {
+      "constants_probe": "/tmp/upstream_constants_probe.py",
+      "loop_cpp": "/tmp/upstream_inkling2_loop.cpp"
+    },
+    "upstream_urls": {
+      "constants": "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/gguf-py/gguf/constants.py",
+      "loop_cpp": "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/src/models/inkling2-loop.cpp"
+    }
+  },
+  "speed_claim": null,
+  "verdict": "PASS"
+}

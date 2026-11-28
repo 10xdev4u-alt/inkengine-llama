@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen contract facts for the 3-pass Inkling2-loop GGUF contract and the additive, default-off RORET wiring.",
+  "note": "Upstream MODEL_ARCH enum integers advance over time. The gate fails only on drift from the frozen fork value (179); a different upstream integer is recorded as INFO.",
+  "scope": "contract parity only, no timing",
+  "speed_claim": null,
+  "provenance": {
+    "upstream_urls": {
+      "constants": "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/gguf-py/gguf/constants.py",
+      "loop_cpp": "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/src/models/inkling2-loop.cpp"
+    },
+    "upstream_sha256": {
+      "constants_probe": "d904f1dc06317f950c51f82425593790e6bc0f6179b9f6c7b2861ba4c8420bfb",
+      "loop_cpp": "b5983c6ef955b54d35187933fb0295988997385a12d608c762eb67d06b473772"
+    },
+    "upstream_snapshot_files": {
+      "constants_probe": "/tmp/upstream_constants_probe.py",
+      "loop_cpp": "/tmp/upstream_inkling2_loop.cpp"
+    },
+    "fork_head": "1722606770f9ddb52edad4655f4b7cc22978bcff",
+    "fork_sources": {
+      "constants": "gguf-py/gguf/constants.py",
+      "loop_cpp": "src/models/inkling2-loop.cpp"
+    }
+  },
+  "arch_string": "inkling2_loop",
+  "fork_arch_int": 179,
+  "upstream_arch_int": 181,
+  "tensor_count": 47,
+  "tensor_names": [
+    "TOKEN_EMBD",
+    "TOKEN_EMBD_NORM",
+    "OUTPUT",
+    "OUTPUT_NORM",
+    "OUTPUT_RES_QUERY",
+    "ATTN_NORM",
+    "ATTN_Q",
+    "ATTN_K",
+    "ATTN_V",
+    "ATTN_OUT",
+    "ATTN_GATE",
+    "ATTN_REL",
+    "ATTN_REL_BIAS",
+    "ATTN_Q_CLIP",
+    "ATTN_REL_CLIP",
+    "ATTN_SINK_PROJ",
+    "ATTN_Q_INP_NORM",
+    "ATTN_K_INP_NORM",
+    "ATTN_V_INP_NORM",
+    "ATTN_K_CONV",
+    "ATTN_V_CONV",
+    "ATTN_K_CONV_PROJ",
+    "ATTN_V_CONV_PROJ",
+    "ATTN_POST_CONV",
+    "ATTN_RES_QUERY",
+    "FFN_NORM",
+    "FFN_GATE_INP",
+    "FFN_EXP_PROBS_B",
+    "FFN_GATE_EXP",
+    "FFN_UP_EXP",
+    "FFN_GATE_UP_EXP",
+    "FFN_DOWN_EXP",
+    "FFN_POST_CONV",
+    "FFN_RES_QUERY",
+    "LOOP_MSG_QUERY",
+    "LOOP_Q_CTRL_DOWN",
+    "LOOP_Q_CTRL_GAIN",
+    "LOOP_Q_CTRL_FORGET",
+    "LOOP_K_CTRL_DOWN",
+    "LOOP_K_CTRL_GAIN",
+    "LOOP_K_CTRL_FORGET",
+    "LOOP_V_CTRL_DOWN",
+    "LOOP_V_CTRL_GAIN",
+    "LOOP_V_CTRL_FORGET",
+    "LOOP_FFN_CTRL_DOWN",
+    "LOOP_FFN_CTRL_GAIN",
+    "LOOP_FFN_CTRL_FORGET"
+  ],
+  "loop_kv_keys": [
+    "LLM_KV_LOOP_COUNT",
+    "LLM_KV_LOOP_END",
+    "LLM_KV_LOOP_GATE_RANK",
+    "LLM_KV_LOOP_START",
+    "LLM_KV_LOOP_VARYING"
+  ],
+  "slot_formula": "n_phys + (size_t) (n_passes - 1)*(core_end - core_start)",
+  "rorret_wiring": [
+    {
+      "name": "gate",
+      "file": "src/llama-moe-cache.cpp",
+      "needle": "getenv(\"LLAMA_RORET\")"
+    },
+    {
+      "name": "defaulted_params",
+      "file": "src/models/models.h",
+      "needle": "int32_t roret_il = -1, int32_t roret_pass = -1"
+    },
+    {
+      "name": "build_lookup_key",
+      "file": "src/llama-graph.cpp",
+      "needle": "{ roret_key_il, roret_pass }"
+    },
+    {
+      "name": "logical_key_loop",
+      "file": "src/models/inkling2-loop.cpp",
+      "needle": "ip, (int32_t) pass"
+    },
+    {
+      "name": "forwarding",
+      "file": "src/models/inkling2.cpp",
+      "needle": "int32_t roret_il, int32_t roret_pass"
+    }
+  ]
+}
