@@ -1,0 +1,125 @@
+{
+  "bin_bytes_compared": 30080,
+  "bin_differing_bytes": 0,
+  "bin_files_compared": 40,
+  "bind_counts_on": {
+    "0": 12,
+    "1": 12,
+    "2": 12
+  },
+  "bind_passes_on": [
+    0,
+    1,
+    2
+  ],
+  "bind_rows_off": 0,
+  "bind_sentinel_count_on": 12,
+  "blocker": [],
+  "check_counts": {
+    "failed": 0,
+    "passed": 31,
+    "total": 31
+  },
+  "checker_sha256": "340d96ff2dd99020bdc029f48b2f2cdeb2ee58aac8e108bd6a6e78f7721e188f",
+  "checks": {
+    "bin_parity": true,
+    "bind_counts_equal_positive": true,
+    "bind_pass_set": true,
+    "checker_sha256": true,
+    "cli_executable": true,
+    "cli_exists": true,
+    "contract_json": true,
+    "contract_keys": true,
+    "contract_values": true,
+    "fixture_arch": true,
+    "fixture_bytes": true,
+    "fixture_exists": true,
+    "fixture_pin_authority": true,
+    "fixture_sha256": true,
+    "no_network": true,
+    "off_absent_needles": true,
+    "off_exit_zero": true,
+    "off_manifest_ok": true,
+    "off_name_set": true,
+    "off_occurrences": true,
+    "off_slot_set": true,
+    "on_enable_needles": true,
+    "on_exit_zero": true,
+    "on_manifest_ok": true,
+    "on_name_set": true,
+    "on_occurrences": true,
+    "on_slot_set": true,
+    "on_trace_needles": true,
+    "run_completed": true,
+    "slot_map_distinct_per_pass": true,
+    "stdout_parity": true
+  },
+  "contract_path": "tools/audit/THREEPASS_REPLAY.json",
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "engine_run": "cpu_synthetic_only",
+  "expected_core_slots": [
+    1,
+    2,
+    3
+  ],
+  "expected_summary_path": "tools/audit/M41_3PASS_REPLAY_SUMMARY.json",
+  "fixture_bytes": 887392,
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "frozen_on": "2026-11-28",
+  "info": [
+    "checker sha256 frozen=340d96ff2dd99020bdc029f48b2f2cdeb2ee58aac8e108bd6a6e78f7721e188f live=340d96ff2dd99020bdc029f48b2f2cdeb2ee58aac8e108bd6a6e78f7721e188f",
+    "fixture sha256=cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617 bytes=887392",
+    "off_exit=0 on_exit=0",
+    "bind rows OFF=0 (must be 0)",
+    "manifest rows off=40 on=40; names off=20 on=20; slots off=[0, 1, 2, 3] on=[0, 1, 2, 3]",
+    "occurrence counts per name off=[2] on=[2]",
+    "bind set key_il=1 passes=[0, 1, 2] counts={'0': 12, '1': 12, '2': 12} sentinel(-1)=12 total=48",
+    "bin parity files=40 bytes=30080 differing=0; stdout bytes=20516 differing=0",
+    "pass-to-slot map={'0': 1, '1': 2, '2': 3} derived core=[1, 2, 3] observed ON core=[1, 2, 3] (set-level co-occurrence)",
+    "observed slot_map pointer counts per pass={'0': 2, '1': 2, '2': 2} disjoint=True (addresses intentionally not recorded: ASLR varies per run)",
+    "unconditional build marker off=2 on=2 (informational only): LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache",
+    "occurrence index encodes graph eval count, not pass",
+    "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number."
+  ],
+  "no_engine_run": false,
+  "no_weights": true,
+  "note": "CPU-only 3-pass loop replay and pass-to-slot mapping; no timing",
+  "off_exit": 0,
+  "off_manifest_rows": 40,
+  "off_occurrence_counts": [
+    2
+  ],
+  "off_slots": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "off_tensor_names": 20,
+  "on_exit": 0,
+  "on_manifest_rows": 40,
+  "on_occurrence_counts": [
+    2
+  ],
+  "on_slots": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "on_tensor_names": 20,
+  "pass_to_slot": {
+    "0": 1,
+    "1": 2,
+    "2": 3
+  },
+  "slot_map_pointer_counts_on": {
+    "0": 2,
+    "1": 2,
+    "2": 2
+  },
+  "speed_claim": null,
+  "stdout_bytes": 20516,
+  "stdout_differing_bytes": 0,
+  "verdict": "PASS"
+}

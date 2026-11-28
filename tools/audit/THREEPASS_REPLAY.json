@@ -1,0 +1,123 @@
+{
+  "checker_sha256": "340d96ff2dd99020bdc029f48b2f2cdeb2ee58aac8e108bd6a6e78f7721e188f",
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "engine_run": "cpu_synthetic_only",
+  "expected_arch": "inkling2_loop",
+  "expected_core_slots": [
+    1,
+    2,
+    3
+  ],
+  "expected_enable_needles": [
+    "RORET union-resident MoE bookkeeping enabled"
+  ],
+  "expected_fixture_bytes": 887392,
+  "expected_fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "expected_il_slots": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "expected_manifest_fields": 12,
+  "expected_occurrences_per_name": 2,
+  "expected_off_absent_needles": [
+    "RORET_BIND",
+    "RORET_PASS",
+    "RORET union-resident MoE bookkeeping enabled"
+  ],
+  "expected_passes": [
+    0,
+    1,
+    2
+  ],
+  "expected_summary_path": "tools/audit/M41_3PASS_REPLAY_SUMMARY.json",
+  "expected_tensor_kinds": [
+    "logits",
+    "probs",
+    "topk",
+    "weights",
+    "out"
+  ],
+  "expected_tensor_names": [
+    "ffn_moe_logits-0",
+    "ffn_moe_logits-1",
+    "ffn_moe_logits-2",
+    "ffn_moe_logits-3",
+    "ffn_moe_out-0",
+    "ffn_moe_out-1",
+    "ffn_moe_out-2",
+    "ffn_moe_out-3",
+    "ffn_moe_probs-0",
+    "ffn_moe_probs-1",
+    "ffn_moe_probs-2",
+    "ffn_moe_probs-3",
+    "ffn_moe_topk-0",
+    "ffn_moe_topk-1",
+    "ffn_moe_topk-2",
+    "ffn_moe_topk-3",
+    "ffn_moe_weights-0",
+    "ffn_moe_weights-1",
+    "ffn_moe_weights-2",
+    "ffn_moe_weights-3"
+  ],
+  "expected_trace_needles": [
+    "RORET_BIND set"
+  ],
+  "frozen_on": "2026-11-28",
+  "informational_build_markers": [
+    "LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache"
+  ],
+  "loop_constants": {
+    "CORE_END": 2,
+    "CORE_START": 1,
+    "GATE_RANK": 8,
+    "N_LAYER": 2,
+    "N_PASSES": 3
+  },
+  "no_engine_run": false,
+  "no_weights": true,
+  "no_weights_no_engine_run_note": "No real weights and no speed claim; the engine runs only on a fixed-seed synthetic GGUF. This is not a no-engine-run gate.",
+  "note": null,
+  "pass_to_slot": {
+    "0": 1,
+    "1": 2,
+    "2": 3
+  },
+  "schema_version": 1,
+  "scope": null,
+  "speed_claim": null,
+  "verify": [
+    "contract_json",
+    "contract_keys",
+    "contract_values",
+    "checker_sha256",
+    "no_network",
+    "cli_exists",
+    "cli_executable",
+    "fixture_exists",
+    "fixture_sha256",
+    "fixture_bytes",
+    "fixture_pin_authority",
+    "fixture_arch",
+    "off_exit_zero",
+    "on_exit_zero",
+    "off_absent_needles",
+    "on_enable_needles",
+    "on_trace_needles",
+    "off_manifest_ok",
+    "on_manifest_ok",
+    "off_name_set",
+    "on_name_set",
+    "off_slot_set",
+    "on_slot_set",
+    "off_occurrences",
+    "on_occurrences",
+    "bind_pass_set",
+    "bind_counts_equal_positive",
+    "bin_parity",
+    "stdout_parity",
+    "slot_map_distinct_per_pass",
+    "run_completed"
+  ]
+}

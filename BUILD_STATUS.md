@@ -588,3 +588,89 @@ RESULTS.md for the honest numeric models.
   timing, throughput or wall-clock win is claimed. NO SPEED CLAIM; CycleAudit
   `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future
   number. GPU traffic and real-weight parity stay outside this gate.
+
+## M41 - fail-closed runtime 3-pass loop replay / pass-to-slot mapping gate (2026-11-28, branch main)
+
+- Adds five new ASCII-only files under `tools/audit/`: `THREEPASS_REPLAY.json`
+  (sha256 `00e7215637a42f08effaaa5a129846ffcbdb1297284f738b95c04df02ae4657b`),
+  `check_3pass_replay.py` (sha256
+  `340d96ff2dd99020bdc029f48b2f2cdeb2ee58aac8e108bd6a6e78f7721e188f`),
+  `test_3pass_replay.py` (sha256
+  `c3e0f3ed9170234d578baf2ce671c77d257537e845f972ffb4d0f7a52bd32f8c`),
+  `THREEPASS_REPLAY.md` (sha256
+  `be1f1a5ca71873f22b37ebd503f9e2e2f82d7d1554a4af7a423943263ed57b58`), and
+  the generated `M41_3PASS_REPLAY_SUMMARY.json` (sha256
+  `94e67830ba309791b2bd87abc5c8ee1225fbe964f0c691e5082d8a31ccb9b186`).
+- Exact commands from the fork root with the parent-built binary:
+  `cmake -S . -B /tmp/opencode/m41-probe -DGGML_CUDA=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF -DLLAMA_RORET_CPU_TEST=ON -DCMAKE_BUILD_TYPE=Release`
+  and `cmake --build /tmp/opencode/m41-probe --target llama-debug -j4`;
+  `PYTHONPATH=gguf-py python3 tools/audit/make_synthetic_gguf.py --out /tmp/opencode/synthetic.gguf`;
+  `python3 tools/audit/check_3pass_replay.py --root . --cli /tmp/opencode/m41-probe/bin/llama-debug --gguf /tmp/opencode/synthetic.gguf --out-dir /tmp/opencode/m41-real`;
+  `python3 -m pytest tools/audit/test_3pass_replay.py -q`;
+  `PYTHONPATH=../loopkit/src:gguf-py python3 -m pytest tools/audit -q`;
+  `PYTHONPATH=../loopkit/src python3 -m pytest ../loopkit/tests -q -k 'not slow'`;
+  `git diff --check`. The suggested `PYTHONPATH=src` variant fails at
+  collection with `ModuleNotFoundError: No module named 'loopkit'`; the
+  sibling source path `../loopkit/src` is required.
+- The checker is stdlib-only, offline and fail-closed. It pins the exact
+  contract key set and its own sha256 in the contract (tests additionally pin
+  the contract sha256); the fixture sha256 and byte count are pinned both in
+  the contract and as literals in the checker (check
+  `fixture_pin_authority`). It verifies the 887392-byte synthetic fixture sha256
+  `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`,
+  its byte count and its `inkling2_loop` arch string, then runs the same
+  CPU-only `llama-debug` command with `LLAMA_RORET`/`LLAMA_RORET_TRACE`
+  unset and with both set to `1`. `LLAMA_DUMP_TENSORS_DIR` gives each phase a
+  private dump directory; the tensor filter is
+  `^ffn_moe_(logits|probs|topk|weights|out)-[0-9]+$`. It writes a NO_GO
+  sentinel before checks and the final verdict atomically. The only required
+  ON enable needle is `RORET union-resident MoE bookkeeping enabled`;
+  `LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache` is an unconditional
+  build marker counted in `info` (measured off=2, on=2), never a gating needle.
+- Honest measured result on the real binary: checker exit 0, verdict **PASS**,
+  31/31 checks true, empty blocker. Both phases exited 0. OFF and ON each
+  wrote 40 manifest rows, 20 names (5 kinds x il=0..3), slots `{0,1,2,3}`
+  and exactly 2 occurrences per name (`__0`, `__1`). The ON trace had 48
+  `RORET_BIND set` rows: `key_il=1` at passes 0, 1 and 2 with 12 rows each,
+  plus 12 `key_il=-1 pass=-1` sentinel rows; OFF had 0 bind rows. Core slots
+  `{1,2,3}` were derived from the frozen fixture constants
+  (`N_LAYER=2, CORE_START=1, CORE_END=2, N_PASSES=3, GATE_RANK=8`), giving the
+  recorded pass-to-slot map `{0:1, 1:2, 2:3}`. Raw dump parity was 40 files,
+  30080 bytes, 0 differing bytes; stdout was byte-identical at 20516 bytes.
+  These values match the independent feasibility probe with no deviation.
+- The pass set is read from the ON trace and the core slot set from the same
+  ON manifest, then compared through the derived map. The checker also extracts
+  each bind row's `slot_map=` pointer and requires the per-pass pointer sets to
+  be equally sized, nonzero and pairwise disjoint (two pointers per pass here,
+  one per graph eval); a shared pointer across passes fails closed. This is
+  observed slot-map separation, not a tautology from the frozen map. Raw
+  addresses are not recorded (ASLR varies them); the summary stores only
+  per-pass pointer counts and the disjointness verdict, and two consecutive
+  real runs produced byte-identical summaries. It remains set-level
+  co-occurrence, not a per-event pointer linkage; the occurrence
+  index encodes graph-eval count, not pass, and is never used as a pass
+  identifier.
+- Tamper coverage in isolated temp trees: mutated manifest name, mutated
+  slot, wrong occurrence count, malformed manifest row, missing pass, bind
+  rows OFF, enable marker flip in both directions, byte flip in a `.bin`,
+  stdout mismatch, nonzero engine exit, wrong fixture sha256, wrong fixture
+  byte count, checker hash drift, extra/missing contract key, malformed
+  contract JSON, missing CLI, stale PASS overwrite, sentinel-before-engine
+  check and atomic-write-failure exit 1. Also: a shared `slot_map` pointer
+  across all three passes is NO_GO, and a forged fixture plus matching contract
+  sha/byte pin still fails `fixture_pin_authority`. No tamper test touches the
+  real tree.
+- Local tests this pass: new suite 27 passed; full `tools/audit` suite 504
+  passed (477 baseline plus 27 new) with
+  `PYTHONPATH=../loopkit/src:gguf-py`; loopkit fast suite 41 passed with
+  `PYTHONPATH=../loopkit/src`; `git diff --check` clean; M39 evidence-chain
+  checker still PASS 94/94; all
+  five new files have 0 non-ASCII bytes. No `src/`, `common/`, `ggml/`,
+  CMake, `DECISIONS.tsv` or sibling-repo edit, no network call, no Kaggle
+  kernel and no real weights.
+- Scope: CPU-only synthetic runtime replay, disjoint per-pass slot-map pointer
+  sets and set-level pass/slot co-occurrence. No GPU, no per-event
+  binding-to-tensor linkage, no tensor-value reference and no timing,
+  throughput or wall-clock win. NO SPEED CLAIM;
+  CycleAudit `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for
+  any future number.
