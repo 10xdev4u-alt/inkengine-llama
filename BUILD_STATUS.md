@@ -140,3 +140,21 @@ RESULTS.md for the honest numeric models.
   loopkit fast pytest 40 passed 1 deselected, 5 standalone C++ RORET tests
   compiled under C++17 `-Werror -UNDEBUG` and ran rc 0. No `src/` or CMake edit,
   so no engine rebuild was needed. No Kaggle kernel, no speed claim.
+
+## M30 rank-64 gate semantics gate (branch main)
+
+- Roadmap section 4 item 2 (next unchecked after M29): the upstream graph uses
+  rank-64 per-channel gain/forget controllers, not the local scalar `gamma`.
+- New `tools/audit/check_gate_semantics.py` mirrors the exact op sequence at
+  `src/models/inkling2.cpp:236-244` and writes
+  `tools/audit/M30_GATE_SEMANTICS_SUMMARY.json`: verdict PASS, 23/23 boolean
+  checks PASS, blocker empty, `speed_claim: null`, note "gate semantics only,
+  no timing". Fails closed on tampered facts, marker needles, op sequence,
+  ctrl tensors or live `src/` sha256; stale PASS summaries are overwritten.
+- Fixed-seed synthetic instance: best scalar gamma 0.349170 leaves max abs gap
+  3.013654 (tol 0.010000); zero controller weights give `out == cur` exactly.
+  This is one small synthetic case, not a universal proof, no weights, no graph
+  execution and no timing.
+- Local tests this pass: new audit suite 23 passed, full `tools/audit` 89 passed,
+  ASCII-only new files, `git diff --check` clean. No `src/` or CMake edit, no
+  engine rebuild, no Kaggle kernel, NO SPEED CLAIM.

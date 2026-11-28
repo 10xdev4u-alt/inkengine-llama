@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen rank-64 gain/forget controller semantics for the Inkling2 cross-pass message mix, grounded in the fork graph.",
+  "scope": "gate semantics only, no timing",
+  "note": "gate semantics only, no timing",
+  "speed_claim": null,
+  "gate_rank": 64,
+  "n_embd": 2304,
+  "down_shape": [64, 4608],
+  "gain_shape": [2304, 64],
+  "forget_shape": [2304, 64],
+  "dtype": "F32",
+  "eps": 1e-06,
+  "formula": "(1-forget)*cur + gain*message",
+  "op_sequence": [
+    "rms_norm(cur, 1e-6) and rms_norm(message, 1e-6)",
+    "concat(norm_cur, norm_message, axis=0)",
+    "gate = down_weight @ concat",
+    "gain = tanh(gain_weight @ gate) and forget = tanh(forget_weight @ gate)",
+    "out = (1-forget)*cur + gain*message"
+  ],
+  "ctrl_streams": ["q", "k", "v", "ffn"],
+  "ctrl_tensors": {
+    "q": ["LOOP_Q_CTRL_DOWN", "LOOP_Q_CTRL_GAIN", "LOOP_Q_CTRL_FORGET"],
+    "k": ["LOOP_K_CTRL_DOWN", "LOOP_K_CTRL_GAIN", "LOOP_K_CTRL_FORGET"],
+    "v": ["LOOP_V_CTRL_DOWN", "LOOP_V_CTRL_GAIN", "LOOP_V_CTRL_FORGET"],
+    "ffn": ["LOOP_FFN_CTRL_DOWN", "LOOP_FFN_CTRL_GAIN", "LOOP_FFN_CTRL_FORGET"]
+  },
+  "loop": {
+    "core_start": 6,
+    "core_end": 18,
+    "num_passes": 3
+  },
+  "simplification": "local gamma softmax scalar is a simplification; the real gate is rank-64 with per-channel gain and forget",
+  "scalar_comparison_scope": "one fixed-seed synthetic instance shows a gap versus the best scalar gamma; this is not a universal proof",
+  "test_config": {
+    "seed": 20261128,
+    "n_embd": 8,
+    "rank": 4,
+    "n_tokens": 3,
+    "down_scale": 1.0,
+    "gate_weight_scale": 0.3,
+    "very_large_scale": 1000.0,
+    "scalar_gap_tol": 0.01,
+    "per_channel_tol": 0.01
+  },
+  "source_markers": [
+    {
+      "name": "mix_formula",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ggml_add(ctx0, ggml_sub(ctx0, cur, ggml_mul(ctx0, forget, cur)), ggml_mul(ctx0, gain, message))"
+    },
+    {
+      "name": "tanh_gates",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ggml_tanh"
+    },
+    {
+      "name": "rms_norm_cur",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ggml_rms_norm(ctx0, cur, 1e-6f)"
+    },
+    {
+      "name": "rms_norm_message",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ggml_rms_norm(ctx0, message, 1e-6f)"
+    },
+    {
+      "name": "ctrl_down",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ctrl_down"
+    },
+    {
+      "name": "ctrl_gain",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ctrl_gain"
+    },
+    {
+      "name": "ctrl_forget",
+      "file": "src/models/inkling2.cpp",
+      "needle": "ctrl_forget"
+    },
+    {
+      "name": "gate_rank",
+      "file": "src/models/inkling2-loop.cpp",
+      "needle": "LLM_KV_LOOP_GATE_RANK, gate_rank"
+    }
+  ],
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "source_sha256": {
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "../loopkit/docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432"
+    }
+  }
+}

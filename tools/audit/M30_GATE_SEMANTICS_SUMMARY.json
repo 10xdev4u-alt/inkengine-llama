@@ -1,0 +1,60 @@
+{
+  "blocker": "",
+  "checks": {
+    "determinism": true,
+    "forget_per_channel": true,
+    "frozen_facts": true,
+    "frozen_source_sha256": true,
+    "gate_rank_fact": true,
+    "live_source_sha256": true,
+    "marker_ctrl_down": true,
+    "marker_ctrl_forget": true,
+    "marker_ctrl_gain": true,
+    "marker_gate_rank": true,
+    "marker_mix_formula": true,
+    "marker_rms_norm_cur": true,
+    "marker_rms_norm_message": true,
+    "marker_tanh_gates": true,
+    "negative_corrupt_shapes": true,
+    "negative_scalar_substitution": true,
+    "negative_unbounded_gate": true,
+    "run_completed": true,
+    "scalar_gap_exceeds_tolerance": true,
+    "slow_reference_bitwise": true,
+    "tanh_bounded": true,
+    "tanh_bounded_very_large": true,
+    "zero_weights_identity": true
+  },
+  "frozen_facts_sha256": "493457e93f7c9317117dd5b988334e80e5a7e457c4f93bfbb3817a442ca671ab",
+  "frozen_on": "2026-11-28",
+  "frozen_source_sha256": {
+    "../loopkit/docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432",
+    "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+    "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+  },
+  "info": [
+    "sha256 ../loopkit/docs/INKLING_INTEGRATION.md frozen=69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432 live=69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432 (INFO only; not gated)",
+    "sha256 src/models/inkling2-loop.cpp frozen=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab live=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab (gated)",
+    "sha256 src/models/inkling2.cpp frozen=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f live=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f (gated)",
+    "frozen facts sha256 493457e93f7c9317117dd5b988334e80e5a7e457c4f93bfbb3817a442ca671ab (INFO only; semantic facts are gated)",
+    "small test shape: d=8 rank=4 tokens=3 (frozen contract is d=2304 rank=64)",
+    "best scalar gamma 0.349170 leaves max abs gap 3.013654 (tol 0.010000)",
+    "tanh strict bound checked below float64 saturation; at scale 1000 gates are finite and <= 1 in abs"
+  ],
+  "note": "gate semantics only, no timing",
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "source_sha256": {
+      "../loopkit/docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+    },
+    "source_sha256_live": {
+      "../loopkit/docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+    }
+  },
+  "speed_claim": null,
+  "verdict": "PASS"
+}
