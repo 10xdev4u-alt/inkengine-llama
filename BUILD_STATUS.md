@@ -82,3 +82,20 @@ RESULTS.md for the honest numeric models.
 - No GPU run, no real weights, no speed claim; GPU intermediate parity remains
   unmeasured. Any future number still needs CycleAudit `claim <= ci_low`,
   `repeats >= 20`, `loops = 3`.
+
+## M27 re-verification 2026-11-28 (Kaggle 2xT4, branch main)
+
+- Engine-level intermediate per-pass MoE tensor parity (RORET off vs on) now
+  measured on device: `cpu_share` 0.0 and 1.0 each give 40 tensors, 30080 bytes
+  compared, 0 differing bytes; hook ABSENT off / ACTIVE on; harness exit 0.
+- Kernel `jprinceraj/inkengine-cuda-intermediate-parity` v1 COMPLETE; clone
+  `-b main` HEAD `6353cf4`, CUDA configure with `-DGGML_CUDA_NO_VMM=ON` exit 0,
+  `llama-debug` build exit 0, fixture sha256 matches the frozen value.
+- `tools/roret/kaggle-intermediate-parity/M27_SUMMARY.json`:
+  `overall_verdict=PASS`, blocker empty, 20/20 gate keys true.
+- The harness `--ngl`/`--threads` flags are default-off; the CPU-test command
+  is unchanged and its parity regression still passes 40/30080/0 both shares.
+- Local suites this pass: ctest roret 10/10, pibs 2/2, odsl 1/1; audit pytest
+  17 passed; loopkit fast pytest 40 passed, 1 deselected.
+- Correctness scope only. No real weights, no timing. NO SPEED CLAIM; any future
+  number still requires CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.

@@ -1,0 +1,71 @@
+{
+  "blocker": "",
+  "build_exit": 0,
+  "build_log_tail": "[ 93%] Building CXX object common/CMakeFiles/llama-common.dir/ngram-mod.cpp.o\n[ 95%] Building CXX object common/CMakeFiles/llama-common.dir/peg-parser.cpp.o\n[ 95%] Building CXX object common/CMakeFiles/llama-common.dir/preset.cpp.o\n[ 95%] Building CXX object common/CMakeFiles/llama-common.dir/reasoning-budget.cpp.o\n[ 95%] Building CXX object common/CMakeFiles/llama-common.dir/sampling.cpp.o\n[ 95%] Building CXX object common/CMakeFiles/llama-common.dir/speculative.cpp.o\n[ 96%] Building CXX object common/CMakeFiles/llama-common.dir/subproc.cpp.o\n[ 96%] Building CXX object common/CMakeFiles/llama-common.dir/trie.cpp.o\n[ 96%] Building CXX object common/CMakeFiles/llama-common.dir/unicode.cpp.o\n[ 96%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/lexer.cpp.o\n[ 98%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/parser.cpp.o\n[ 98%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/runtime.cpp.o\n[ 98%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/value.cpp.o\n[ 98%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/string.cpp.o\n[ 98%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/caps.cpp.o\n[100%] Linking CXX shared library ../bin/libllama-common.so\n[100%] Built target llama-common\n[100%] Building CXX object examples/debug/CMakeFiles/llama-debug.dir/debug.cpp.o\n[100%] Linking CXX executable ../../bin/llama-debug\n[100%] Built target llama-debug",
+  "build_ok": true,
+  "configure_command": [
+    "cmake",
+    "-S",
+    ".",
+    "-B",
+    "build",
+    "-DGGML_CUDA=ON",
+    "-DCMAKE_CUDA_ARCHITECTURES=75",
+    "-DLLAMA_BUILD_TESTS=OFF",
+    "-DLLAMA_CURL=OFF",
+    "-DGGML_CUDA_NO_VMM=ON"
+  ],
+  "configure_exit": 0,
+  "configure_log_tail": "-- Detecting CUDA compiler ABI info\n-- Detecting CUDA compiler ABI info - done\n-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped\n-- Detecting CUDA compile features\n-- Detecting CUDA compile features - done\n-- Using CMAKE_CUDA_ARCHITECTURES=75 CMAKE_CUDA_ARCHITECTURES_NATIVE=75-real\n-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16;f8_e4m3-f8_e4m3\n-- Found NCCL: /usr/lib/x86_64-linux-gnu/libnccl.so\n-- CUDA host compiler is GNU 13.3.0\n-- Including CUDA backend\n-- ggml version: 1.0.0\n-- ggml commit:  6353cf489\n-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version \"3.0.13\")\n-- Performing Test OPENSSL_VERSION_SUPPORTED\n-- Performing Test OPENSSL_VERSION_SUPPORTED - Success\n-- OpenSSL found: 3.0.13\n-- Generating embedded license file for target: llama-app\n-- Configuring done (6.2s)\n-- Generating done (0.3s)\n-- Build files have been written to: /kaggle/working/inkengine-llama/build",
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "gate": {
+    "build_ok": true,
+    "fixture_sha256_match": true,
+    "share_0.0_bytes_positive": true,
+    "share_0.0_diff_zero": true,
+    "share_0.0_harness_exit_zero": true,
+    "share_0.0_off_exit_zero": true,
+    "share_0.0_off_hook_false": true,
+    "share_0.0_on_exit_zero": true,
+    "share_0.0_on_hook_true": true,
+    "share_0.0_tensors_positive": true,
+    "share_0.0_verdict_pass": true,
+    "share_1.0_bytes_positive": true,
+    "share_1.0_diff_zero": true,
+    "share_1.0_harness_exit_zero": true,
+    "share_1.0_off_exit_zero": true,
+    "share_1.0_off_hook_false": true,
+    "share_1.0_on_exit_zero": true,
+    "share_1.0_on_hook_true": true,
+    "share_1.0_tensors_positive": true,
+    "share_1.0_verdict_pass": true
+  },
+  "head_sha": "6353cf489d536013831ccb949d540737046b1358",
+  "overall_verdict": "PASS",
+  "shares": {
+    "0.0": {
+      "bytes_compared": 30080,
+      "differing_bytes": 0,
+      "harness_exit": 0,
+      "harness_stdout_tail": "share=0.0 off_exit=0 on_exit=0 off_hook=False on_hook=1 tensors=40 bytes=30080 diff=0\nOVERALL: PASS\nsummary: /kaggle/working/m27-0.0/M26_SUMMARY.json",
+      "off_exit": 0,
+      "off_hook": false,
+      "on_exit": 0,
+      "on_hook": true,
+      "overall_verdict": "PASS",
+      "tensors": 40
+    },
+    "1.0": {
+      "bytes_compared": 30080,
+      "differing_bytes": 0,
+      "harness_exit": 0,
+      "harness_stdout_tail": "share=1.0 off_exit=0 on_exit=0 off_hook=False on_hook=1 tensors=40 bytes=30080 diff=0\nOVERALL: PASS\nsummary: /kaggle/working/m27-1.0/M26_SUMMARY.json",
+      "off_exit": 0,
+      "off_hook": false,
+      "on_exit": 0,
+      "on_hook": true,
+      "overall_verdict": "PASS",
+      "tensors": 40
+    }
+  }
+}
