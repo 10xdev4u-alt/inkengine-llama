@@ -731,3 +731,60 @@ RESULTS.md for the honest numeric models.
   `resolve`/`hit` rows), no real weights, no GPU, no timing, throughput or
   wall-clock win. NO SPEED CLAIM; CycleAudit `claim<=ci_low`, `repeats>=20`,
   `loops=3` remains mandatory for any future number.
+
+## M43 runtime wiring evidence chain gate (2026-11-28, branch main)
+
+- Gap closed: M39's evidence-chain gate pins M29-M38 summaries only. The three
+  runtime wiring gates M40 (CPU 3-pass binding), M41 (3-pass replay and
+  pass-to-slot map) and M42 (per-event binding-to-dumped-slot pointer identity),
+  plus M39 itself, had no independent byte-level integrity gate. M43 adds that
+  gate without editing any M39-M42 artifact.
+- Five new ASCII-only files under `tools/audit/` with sha256:
+  `RUNTIME_EVIDENCE_CHAIN.json` fe39a5d642af5e13d6271ff16d8994db845800e413fd2a6b76d13a383af7cec2,
+  `check_runtime_evidence_chain.py` 87aac891e0a3267e0bb5e7aebef52c67521fe8b85f609fdecce9b03425102436,
+  `test_runtime_evidence_chain.py` 0ecd2b3e46b7fe278bf7af001387def7fdeecfa94d764093a4faeb98680b34c6,
+  `RUNTIME_EVIDENCE_CHAIN.md` 70794bebbf08567fab12bfb7b7cd3e0a2123839d28b87a022881038aa3c7f04b,
+  and generated `M43_RUNTIME_EVIDENCE_CHAIN_SUMMARY.json` 44aaff0822561677d97afa3f392393c7066bc36f1ac9fb68e91a27d03f0cc76b.
+- Measured checker run: `python3 tools/audit/check_runtime_evidence_chain.py
+  --root .` exit 0, verdict PASS, blocker empty, check_counts 52/52 passed and
+  0 failed; note "runtime wiring evidence integrity only, no timing";
+  speed_claim null, no_weights true, no_engine_run true. The generated summary
+  sha256 is 44aaff0822561677d97afa3f392393c7066bc36f1ac9fb68e91a27d03f0cc76b,
+  matching the pin recorded above.
+- Commands used from the fork root, with no network and no gh write:
+  `python3 tools/audit/check_runtime_evidence_chain.py --root .`;
+  `python3 -m pytest -q tools/audit/test_runtime_evidence_chain.py`;
+  `PYTHONPATH=../loopkit/src:gguf-py python3 -m pytest -q tools/audit`;
+  `PYTHONPATH=../loopkit/src python3 -m pytest -q ../loopkit/tests -m 'not kaggle'`;
+  `python3 tools/audit/check_evidence_chain.py --root .`;
+  `git diff --check` and `sha256sum` on the five new files.
+- Test results: new suite 64 passed; full `tools/audit` 596 passed (532 baseline
+  plus 64 new); loopkit fast suite 40 passed, 1 deselected; M39 gate exit 0,
+  verdict PASS with 94/94 checks and its summary bytes unchanged (sha256
+  4f6361b562a82ad2942f32b1b8f07bb5bf22417701f1ca940c0a1b837ae78ba3). The full
+  suite regenerated `M33_QUANT_LAYOUT_SUMMARY.json` with a machine-specific path
+  line; it was restored with `git checkout --
+  tools/audit/M33_QUANT_LAYOUT_SUMMARY.json`, so the final diff has only the five
+  new files plus this section.
+- Two real weaknesses were fixed before the pins were frozen. A negative
+  control during implementation showed the first draft of
+  `check_frozen_contract` did not deep-compare the `contracts` object, so a
+  tampered pin could leave `frozen_contract` true; it now compares the whole
+  object. An independent Hy4 Flash adversarial review (0 CRITICAL/HIGH, 5 LOW)
+  showed the DECISIONS row check used substring matching, so a row reading
+  `land M410-CANCELLED` still satisfied M41; it now requires an exact
+  `land M<xx>` value or that token followed by a space, and a dedicated negative
+  control covers the bypass. The other four LOW notes are inherited from the
+  M39 pattern and are recorded honestly: a fabricated BUILD_STATUS heading can
+  satisfy the presence check, a coordinated checker-plus-contract edit is
+  detected only by the pytest literal pins (so CI must run the suite, not just
+  the checker), an unlink failure combined with two write failures can leave a
+  stale PASS file while still exiting 1, and the generated summary cannot
+  self-pin. The checker, contract, test and summary hashes above were recomputed
+  after the fixes. All tamper tests use isolated temp trees; no test runs the
+  checker on the real tree.
+- Scope: evidence-chain integrity only. No engine run by this gate, no graph
+  execution, no weights, no tensor or logits parity, no pointer re-derivation
+  and no timing. NO SPEED CLAIM; CycleAudit `claim<=ci_low`, `repeats>=20`,
+  `loops=3` remains mandatory for any future number. A legitimate future pin
+  change must be explained openly here, not made silently to force PASS.
