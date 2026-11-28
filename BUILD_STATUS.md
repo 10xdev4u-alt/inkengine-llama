@@ -363,3 +363,43 @@ RESULTS.md for the honest numeric models.
   source-contract gate only: no graph execution, no bit-exact or tensor parity,
   no timing and no speedup. NO SPEED CLAIM; CycleAudit `claim <= ci_low`,
   `repeats >= 20`, `loops = 3` remains mandatory for any future number.
+
+## M37 GGUF loop-tensor shape contract gate (2026-11-28, branch main)
+
+- Resolves the last unchecked `[?]` item in
+  `loopkit/docs/INKLING_INTEGRATION.md` section 2: exact per-tensor GGUF shapes
+  beyond the HF shapes. That doc is intentionally NOT edited because M35
+  hash-gates it; its marker stays pending a coordinated two-repo doc update.
+- One bounded out-of-band range probe of
+  `unsloth/Inkling-2-Mini-GGUF/Inkling-2-Mini-UD-IQ1_S.gguf` bytes
+  0-16777215 (16777216 bytes, sha256
+  `87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76`,
+  GGUF v3, 744 tensors, 63 KVs) is frozen in
+  `tools/audit/GGUF_LOOP_SHAPES.json`. The same hash is cross-checked against
+  M33 `QUANT_LAYOUT.json`; the offline checker never fetches or reads a cache.
+- Exact 204-tensor contract: 12 `loop_msg_query` [2304,4], 144 controllers
+  (4 families x 3 roles on core layers 6..17; down [4608,64], gain/forget
+  [64,2304]), 23 `attn_res_query` ([2304], 4 global-tail layers 5/11/17/23
+  are [2304,3]), 24 `ffn_res_query` [2304], 1 `output_res_query` [2304],
+  all F32. GGUF dims are reversed vs HF dims.
+- New `tools/audit/check_gguf_loop_shapes.py`: stdlib-only, offline,
+  fail-closed CLI with `--root`; NO_GO sentinel before checks and atomic final
+  write; verdict PASS, blocker empty, 22/22 checks true, `speed_claim: null`,
+  `no_weights: true`, `no_engine_run: true`. Summary sha256
+  `693289c81e8d3e26affa58e5a3c22e167c56c2e7c2e49f9bed2d86fd849e1cfb`.
+  It binds four live source hashes plus 6 needle groups, derives dimensions
+  from primary dims, compares the measured shape/dtype histogram to the
+  contract histogram, and rejects extra top-level facts keys. A sentinel
+  write failure now forces NO_GO.
+- Independent Hy4 Flash adversarial review: 0 CRITICAL/HIGH, 2 MEDIUM and
+  3 LOW. Fixes applied: frozen measured-shape histogram anchors the contract
+  to the header measurement, exact top-level fact key set, sentinel failure
+  forces NO_GO, checker source SHA-256 pinned in tests, and the real-tree CLI
+  test restores the summary bytes it overwrites.
+- Local tests this pass: checker exit 0; new suite 38 passed; full
+  `tools/audit` 376 passed with `PYTHONPATH=../loopkit/src:gguf-py`; loopkit
+  fast pytest 41 passed; `git diff --check` clean; all new files ASCII-only.
+  No `src/`, CMake or sibling-repo edit, no engine run, no Kaggle kernel,
+  no weights. Metadata/contract scope only: no graph execution, no tensor or
+  logits parity, no timing. NO SPEED CLAIM; CycleAudit `claim <= ci_low`,
+  `repeats >= 20`, `loops = 3` remains mandatory for any future number.
