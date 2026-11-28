@@ -184,3 +184,30 @@ RESULTS.md for the honest numeric models.
   no Kaggle kernel. Metadata/contract scope only: no weights, no graph execution,
   no timing, NO SPEED CLAIM. Any future number still needs CycleAudit
   `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M32 pass-indexed KV slot gate (branch main)
+
+- Roadmap section 4 item 5 (next unchecked cheap-verification item). New offline,
+  fail-closed gate `tools/audit/check_pass_indexed_kv.py` with frozen facts in
+  `tools/audit/PASS_INDEXED_KV.json`, report `PASS_INDEXED_KV.md` and generated
+  `M32_PASS_INDEXED_KV_SUMMARY.json`: verdict PASS, blocker empty, 27/27 checks true,
+  `speed_claim: null`, note "pass-indexed KV slot contract only, no timing".
+- Frozen facts: `n_phys=24`, `n_passes=3`, `core_start=6`, `core_end=18`, `n_slot=48`,
+  `n_ctrl=4=LOOP_CTRL_COUNT`; the three live formula strings and 19 source needles
+  are frozen too. Derived slot map has 36 entries: pass 0 il=ip=6..17, pass 1 il=24..35,
+  pass 2 il=36..47, all distinct and inverted by `layer_phys(il)`. Coda slots 18..23
+  and prelude slots 0..5 are each used once, so 48 applications fill 48 slots.
+  RORET routing is keyed by `(roret_il=ip, roret_pass=pass)`, not by the cache slot.
+- Three gated source hashes (frozen equals live): `conversion/inkling2.py` sha256
+  `aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7`,
+  `src/models/inkling2-loop.cpp` sha256
+  `a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab`,
+  `src/models/inkling2.cpp` sha256
+  `c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f`.
+- Checker exit 0. Fail-closed on any frozen fact/needle/hash mutation, malformed JSON,
+  missing source or extraction exception; a pre-seeded stale PASS is always overwritten.
+- Local tests this pass: new audit suite 69 passed, full `tools/audit` 181 passed,
+  loopkit fast pytest 40 passed 1 deselected, `git diff --check` clean, all new files
+  ASCII-only. No `src/` or CMake edit, no engine rebuild, no Kaggle kernel.
+  Contract/metadata scope only: no weights, no graph execution, no timing, NO SPEED CLAIM.
+  Any future number still needs CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.

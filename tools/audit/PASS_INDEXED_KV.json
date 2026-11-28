@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen pass-indexed KV slot contract for the 3-pass Inkling2 loop, read from the checked-in fork sources.",
+  "scope": "pass-indexed KV slot contract only, no timing",
+  "note": "pass-indexed KV slot contract only, no timing",
+  "speed_claim": null,
+  "facts": {
+    "n_phys": 24,
+    "n_passes": 3,
+    "core_start": 6,
+    "core_end": 18,
+    "n_slot": 48,
+    "n_ctrl": 4,
+    "slot_formula": "n_phys + (size_t) (n_passes - 1)*(core_end - core_start)",
+    "layer_phys_formula": "core_start + (il - n_phys) % (core_end - core_start)",
+    "pass_slot_formula": "m.n_phys + (pass - 1)*(end - start) + (ip - start)"
+  },
+  "needles": {
+    "slot_formula": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "const size_t n_slot = n_phys + (size_t) (n_passes - 1)*(core_end - core_start);"
+      ]
+    },
+    "slot_guard": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "if (n_slot > LLAMA_MAX_LAYERS) {",
+        "throw std::runtime_error(format(\"inkling2_loop: %zu cache slots exceed the maximum of %d\", n_slot, LLAMA_MAX_LAYERS));"
+      ]
+    },
+    "n_layer_all": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "hparams.n_layer_all = n_slot;"
+      ]
+    },
+    "layer_phys_formula": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "return il < n_phys ? il : core_start + (il - n_phys) % (core_end - core_start);"
+      ]
+    },
+    "weight_share": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "// share the physical weights, each cache slot keeps its own KV and conv state",
+        "layers[il] = layers[layer_phys(il)];"
+      ]
+    },
+    "slot_hparams_copy": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "const int p = layer_phys(il);",
+        "hparams.n_head_arr[il]        = hparams.n_head_arr[p];",
+        "hparams.is_recr_impl[il]      = hparams.is_recr_impl[p];"
+      ]
+    },
+    "loop_layers_resize": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "loop_layers.resize(core_end - core_start);"
+      ]
+    },
+    "msg_query_shape": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "l.msg_query = create_tensor(tn(LLM_TENSOR_LOOP_MSG_QUERY, \"weight\", il), {n_embd, LOOP_CTRL_COUNT}, 0);"
+      ]
+    },
+    "pass_slot_expr": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "const int il = pass == 0 ? ip : m.n_phys + (pass - 1)*(end - start) + (ip - start);"
+      ]
+    },
+    "pass0_slot_expr": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "cur = build_layer(il, ip, cur, blocks, nullptr, nullptr, ip, (int32_t) pass);"
+      ]
+    },
+    "build_layer_args": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "build_layer(il, ip,",
+        "ip, (int32_t) pass"
+      ]
+    },
+    "bank_previous_pass": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "bank.assign(blocks.begin() + prelude_blocks.size() + 1, blocks.end());",
+        "bank_out = cur;"
+      ]
+    },
+    "union_key_comment": {
+      "source": "src/models/inkling2-loop.cpp",
+      "needles": [
+        "// the union is keyed by the logical core layer ip and the pass index; il stays",
+        "// the physical cache slot used for cb names and per-slot hparams"
+      ]
+    },
+    "state_by_il": {
+      "source": "src/models/inkling2.cpp",
+      "needles": [
+        "recr->mctx->get_r_l(il)"
+      ]
+    },
+    "attn_by_il": {
+      "source": "src/models/inkling2.cpp",
+      "needles": [
+        "cb(Qcur, \"Qcur\", il);",
+        "Qcur, Kcur, Vcur, kq_b, sinks, 1.0f/sqrtf(n_embd_head), il);"
+      ]
+    },
+    "residual_by_ip": {
+      "source": "src/models/inkling2.cpp",
+      "needles": [
+        "if (ip % hparams.attn_res_block_size == 0) {"
+      ]
+    },
+    "roret_key_args": {
+      "source": "src/models/inkling2.cpp",
+      "needles": [
+        "roret_pass, /* roret_pass */",
+        "roret_il); /* roret_key_il */"
+      ]
+    },
+    "converter_query_shape": {
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "2 * (self.loop[\"core_end\"] - start)"
+      ]
+    },
+    "converter_stack": {
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "torch.stack([q[2 * i], kv[2 * i], kv[2 * i + 1], q[2 * i + 1]])"
+      ]
+    }
+  },
+  "slot_map": [
+    {"pass": 0, "ip": 6, "il": 6},
+    {"pass": 0, "ip": 7, "il": 7},
+    {"pass": 0, "ip": 8, "il": 8},
+    {"pass": 0, "ip": 9, "il": 9},
+    {"pass": 0, "ip": 10, "il": 10},
+    {"pass": 0, "ip": 11, "il": 11},
+    {"pass": 0, "ip": 12, "il": 12},
+    {"pass": 0, "ip": 13, "il": 13},
+    {"pass": 0, "ip": 14, "il": 14},
+    {"pass": 0, "ip": 15, "il": 15},
+    {"pass": 0, "ip": 16, "il": 16},
+    {"pass": 0, "ip": 17, "il": 17},
+    {"pass": 1, "ip": 6, "il": 24},
+    {"pass": 1, "ip": 7, "il": 25},
+    {"pass": 1, "ip": 8, "il": 26},
+    {"pass": 1, "ip": 9, "il": 27},
+    {"pass": 1, "ip": 10, "il": 28},
+    {"pass": 1, "ip": 11, "il": 29},
+    {"pass": 1, "ip": 12, "il": 30},
+    {"pass": 1, "ip": 13, "il": 31},
+    {"pass": 1, "ip": 14, "il": 32},
+    {"pass": 1, "ip": 15, "il": 33},
+    {"pass": 1, "ip": 16, "il": 34},
+    {"pass": 1, "ip": 17, "il": 35},
+    {"pass": 2, "ip": 6, "il": 36},
+    {"pass": 2, "ip": 7, "il": 37},
+    {"pass": 2, "ip": 8, "il": 38},
+    {"pass": 2, "ip": 9, "il": 39},
+    {"pass": 2, "ip": 10, "il": 40},
+    {"pass": 2, "ip": 11, "il": 41},
+    {"pass": 2, "ip": 12, "il": 42},
+    {"pass": 2, "ip": 13, "il": 43},
+    {"pass": 2, "ip": 14, "il": 44},
+    {"pass": 2, "ip": 15, "il": 45},
+    {"pass": 2, "ip": 16, "il": 46},
+    {"pass": 2, "ip": 17, "il": 47}
+  ],
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "source_sha256": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+    }
+  }
+}

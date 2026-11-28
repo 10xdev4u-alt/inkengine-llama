@@ -1,0 +1,62 @@
+{
+  "blocker": "",
+  "checks": {
+    "attn_by_il": true,
+    "bank_previous_pass": true,
+    "build_layer_args": true,
+    "converter_query_shape": true,
+    "converter_stack": true,
+    "frozen_facts": true,
+    "frozen_source_sha256": true,
+    "layer_phys_formula": true,
+    "live_source_sha256": true,
+    "loop_layers_resize": true,
+    "msg_query_shape": true,
+    "n_layer_all": true,
+    "pass0_slot_expr": true,
+    "pass_slot_expr": true,
+    "residual_by_ip": true,
+    "roret_key_args": true,
+    "run_completed": true,
+    "slot_formula": true,
+    "slot_guard": true,
+    "slot_hparams_copy": true,
+    "slot_map_coverage": true,
+    "slot_map_derived": true,
+    "slot_map_injective": true,
+    "slot_map_layer_phys_inverse": true,
+    "state_by_il": true,
+    "union_key_comment": true,
+    "weight_share": true
+  },
+  "frozen_facts_sha256": "3eef29ea14d8001609c793e0e8b3b3b06a79af723cc5d8f0ffd00083b6b98211",
+  "frozen_on": "2026-11-28",
+  "frozen_source_sha256": {
+    "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+    "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+    "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+  },
+  "info": [
+    "sha256 conversion/inkling2.py frozen=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 live=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 (gated)",
+    "sha256 src/models/inkling2-loop.cpp frozen=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab live=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab (gated)",
+    "sha256 src/models/inkling2.cpp frozen=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f live=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f (gated)",
+    "frozen facts sha256 3eef29ea14d8001609c793e0e8b3b3b06a79af723cc5d8f0ffd00083b6b98211 (INFO only; semantic facts are gated)",
+    "slot map: 36 core applications, il 6..17 + 24..47, n_slot 48"
+  ],
+  "note": "pass-indexed KV slot contract only, no timing",
+  "provenance": {
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "source_sha256": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+    },
+    "source_sha256_live": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
+      "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
+    }
+  },
+  "speed_claim": null,
+  "verdict": "PASS"
+}
