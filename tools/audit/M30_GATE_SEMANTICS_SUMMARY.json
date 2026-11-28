@@ -25,18 +25,18 @@
     "tanh_bounded_very_large": true,
     "zero_weights_identity": true
   },
-  "frozen_facts_sha256": "f4140ac0d86cbb085eb8d601e9a8403669f0482b8ca4728ca1b5038213a7f92f",
+  "frozen_facts_sha256": "bbdf2a2f50fa3651b32aa136121b2861c54f8032d54aca0eb70246e094bce55f",
   "frozen_on": "2026-11-28",
   "frozen_source_sha256": {
-    "../loopkit/docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+    "../loopkit/docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
     "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
     "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
   },
   "info": [
-    "sha256 ../loopkit/docs/INKLING_INTEGRATION.md frozen=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc live=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc (INFO only; not gated)",
+    "sha256 ../loopkit/docs/INKLING_INTEGRATION.md frozen=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 live=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 (INFO only; not gated)",
     "sha256 src/models/inkling2-loop.cpp frozen=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab live=a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab (gated)",
     "sha256 src/models/inkling2.cpp frozen=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f live=c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f (gated)",
-    "frozen facts sha256 f4140ac0d86cbb085eb8d601e9a8403669f0482b8ca4728ca1b5038213a7f92f (INFO only; semantic facts are gated)",
+    "frozen facts sha256 bbdf2a2f50fa3651b32aa136121b2861c54f8032d54aca0eb70246e094bce55f (INFO only; semantic facts are gated)",
     "small test shape: d=8 rank=4 tokens=3 (frozen contract is d=2304 rank=64)",
     "best scalar gamma 0.349170 leaves max abs gap 3.013654 (tol 0.010000)",
     "tanh strict bound checked below float64 saturation; at scale 1000 gates are finite and <= 1 in abs"
@@ -45,12 +45,12 @@
   "provenance": {
     "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
     "source_sha256": {
-      "../loopkit/docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+      "../loopkit/docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
       "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
       "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
     },
     "source_sha256_live": {
-      "../loopkit/docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+      "../loopkit/docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
       "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
       "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f"
     }

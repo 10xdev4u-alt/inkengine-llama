@@ -18,8 +18,8 @@ sys.path.insert(0, str(AUDIT_DIR))
 import check_runtime_evidence_chain as checker
 
 EXPECTED_TOTAL_CHECKS = 52
-CONTRACT_SHA256 = "5a6cee68adfce706fd796c06e32bfaede59fc35609f31ead3725e020a8a2fced"
-CHECKER_SHA256 = "bdb4be142fdf8eae9b5a9a7d2a99dac3a8dccf51ef0630444ae0baae0942f977"
+CONTRACT_SHA256 = "6196de81800bfddd859aed241100138f910e84786cfdf2e74bcda3b885df66fc"
+CHECKER_SHA256 = "b6df6594b0a4dee61d4d8d714de37454cc9ae5310e651f2e1b602fd49e06cfbe"
 CONTRACT_PATH = "tools/audit/RUNTIME_EVIDENCE_CHAIN.json"
 SUMMARY_PATH = "tools/audit/M43_RUNTIME_EVIDENCE_CHAIN_SUMMARY.json"
 NEW_FILES = [

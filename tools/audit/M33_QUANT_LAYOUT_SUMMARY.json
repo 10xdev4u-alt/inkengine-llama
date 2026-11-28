@@ -37,19 +37,19 @@
     "nvfp4_w13": 16,
     "nvfp4_w2": 16
   },
-  "frozen_facts_sha256": "08cd2a31036cae06d33b86d9fb0a153e783304504fe794626fe2ea439bb1a07d",
+  "frozen_facts_sha256": "22a4e153fdd3ca9e1433f4780801621e43aa489ecad381ecb5c7c8373f55094c",
   "frozen_on": "2026-11-28",
   "frozen_source_sha256": {
     "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
     "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
-    "docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+    "docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3"
   },
   "info": [
     "loopkit root ../loopkit (default)",
     "sha256 conversion/inkling2.py frozen=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 live=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 (gated)",
     "sha256 docs/INKLING_FORMAT_FACTS.md frozen=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df live=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df (gated)",
-    "sha256 docs/INKLING_INTEGRATION.md frozen=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc live=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc (gated)",
-    "frozen facts sha256 08cd2a31036cae06d33b86d9fb0a153e783304504fe794626fe2ea439bb1a07d (INFO only; semantic facts are gated)",
+    "sha256 docs/INKLING_INTEGRATION.md frozen=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 live=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 (gated)",
+    "frozen facts sha256 22a4e153fdd3ca9e1433f4780801621e43aa489ecad381ecb5c7c8373f55094c (INFO only; semantic facts are gated)",
     "elements per scale from HF shapes: nvfp4 16/16, mxfp8 16/16",
     "converter flat blocks 16/32; published MXFP8 tile 32x32 = 1024 elements per scale",
     "header probe: one bounded range request was recorded; checker makes no network calls"
@@ -76,12 +76,12 @@
     "source_sha256": {
       "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
       "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
-      "docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+      "docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3"
     },
     "source_sha256_live": {
       "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
       "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
-      "docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+      "docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3"
     }
   },
   "speed_claim": null,

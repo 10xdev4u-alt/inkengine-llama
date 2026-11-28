@@ -1,19 +1,19 @@
 # M38 integration-doc closure gate (scope only)
 
 This gate closes the `[?]` markers in `loopkit/docs/INKLING_INTEGRATION.md` against
-the M29-M37 plus M44 audit artifacts. It is a documentation-contract result only.
+the M29-M37 plus M44 and M47 audit artifacts; M48 closes the section-3 item (e)
+marker in the loopkit doc. It is a documentation-contract result only.
 
 Old doc sha256: `69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432`.
-New doc sha256: `9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc`.
+New doc sha256: `95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3`.
 
 ## Frozen contract
 
-`INTEGRATION_DOC_CLOSURE.json` pins the new doc hash, the checker hash, seven
+`INTEGRATION_DOC_CLOSURE.json` pins the new doc hash, the checker hash, nine
 resolved-marker needle groups (section-2 GGUF shapes, section-2 cache hook, section-3
-item (d), and section-4 items 1, 2, 3, 5 and 6), one honest-blocker group (section-4
-item 4),
-the section-5 closure note, and the ten milestone artifact pairs M29-M37 plus
-M44. `frozen_on` is 2026-11-28.
+items (d) and (e), and section-4 items 1, 2, 3, 5 and 6), one honest-blocker group
+(section-4 item 4), the section-5 closure note, and the eleven milestone artifact
+pairs M29-M37 plus M44 and M47. `frozen_on` is 2026-11-28.
 
 ## Checker
 
@@ -23,7 +23,7 @@ optional `--root`. It writes a NO_GO sentinel to
 summary atomically with `os.replace`. Any failure leaves NO_GO, never a stale PASS.
 It gates the exact contract key set, the live doc hash, the live checker hash,
 every needle, the evidence pointers, every cited summary verdict and count, the
-byte-pinned M44 summary fields, the M35 classification/blocked verdict, the M37
+byte-pinned M44 and M47 summary fields, the M35 classification/blocked verdict, the M37
 history note, and the summary shape.
 No network import or fetch call is present; this is enforced by a static AST check.
 

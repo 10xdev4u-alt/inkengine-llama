@@ -5,7 +5,7 @@
     "passed": 52,
     "total": 52
   },
-  "checker_sha256": "bdb4be142fdf8eae9b5a9a7d2a99dac3a8dccf51ef0630444ae0baae0942f977",
+  "checker_sha256": "b6df6594b0a4dee61d4d8d714de37454cc9ae5310e651f2e1b602fd49e06cfbe",
   "checks": {
     "build_status_M39": true,
     "build_status_M40": true,
@@ -63,9 +63,9 @@
   "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
   "frozen_on": "2026-11-28",
   "info": [
-    "checker sha256 frozen=bdb4be142fdf8eae9b5a9a7d2a99dac3a8dccf51ef0630444ae0baae0942f977 live=bdb4be142fdf8eae9b5a9a7d2a99dac3a8dccf51ef0630444ae0baae0942f977",
-    "contract evidence_chain path=tools/audit/EVIDENCE_CHAIN.json frozen=39a40b9b60913e566423cd4329d1a4f892e20b17365141ed14a728e415f0ff89 live=39a40b9b60913e566423cd4329d1a4f892e20b17365141ed14a728e415f0ff89",
-    "contract evidence_chain_checker path=tools/audit/check_evidence_chain.py frozen=5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a live=5fd2d7a2e6976e4971a2ea84b9b68ba5edd240ff6b9969b71f555cc27cb1e63a",
+    "checker sha256 frozen=b6df6594b0a4dee61d4d8d714de37454cc9ae5310e651f2e1b602fd49e06cfbe live=b6df6594b0a4dee61d4d8d714de37454cc9ae5310e651f2e1b602fd49e06cfbe",
+    "contract evidence_chain path=tools/audit/EVIDENCE_CHAIN.json frozen=890313d7df78900c1369401752241b2d959c98b6fe3d0906ddcc2b794a1ab68d live=890313d7df78900c1369401752241b2d959c98b6fe3d0906ddcc2b794a1ab68d",
+    "contract evidence_chain_checker path=tools/audit/check_evidence_chain.py frozen=9de42b929607ac0369c6049c565cf3df38ddecea5d591389be883e198922bdef live=9de42b929607ac0369c6049c565cf3df38ddecea5d591389be883e198922bdef",
     "contract wiring_contract path=tools/audit/UNION_WIRING.json frozen=c5e024c79b86a740e4dfb6123946610fbc74df0a58c70f0d1ae88ccde4b851da live=c5e024c79b86a740e4dfb6123946610fbc74df0a58c70f0d1ae88ccde4b851da",
     "contract binding_contract path=tools/audit/THREEPASS_BINDING.json frozen=d7957f4809285c19f8e68d58ec2a12b5d7062127fef06fe693bcab10adeddd7e live=d7957f4809285c19f8e68d58ec2a12b5d7062127fef06fe693bcab10adeddd7e",
     "contract replay_contract path=tools/audit/THREEPASS_REPLAY.json frozen=00e7215637a42f08effaaa5a129846ffcbdb1297284f738b95c04df02ae4657b live=00e7215637a42f08effaaa5a129846ffcbdb1297284f738b95c04df02ae4657b",

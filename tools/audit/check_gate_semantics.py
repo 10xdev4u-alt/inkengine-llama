@@ -45,7 +45,7 @@ TRUSTED_CTRL_TENSORS = {
 FROZEN_SOURCE_SHA256 = {
     "src/models/inkling2.cpp": "c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f",
     "src/models/inkling2-loop.cpp": "a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab",
-    "../loopkit/docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+    "../loopkit/docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
 }
 GATED_SOURCE_FILES = ["src/models/inkling2.cpp", "src/models/inkling2-loop.cpp"]
 CHECK_NAMES = [

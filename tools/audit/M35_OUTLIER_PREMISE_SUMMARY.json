@@ -34,7 +34,7 @@
     "global": [],
     "literal": []
   },
-  "frozen_facts_sha256": "0d73a0c2de1e0e15632f55cc0024cdf4ce1b57d323671e38a6b23db7424533a6",
+  "frozen_facts_sha256": "f2dd8abb5592920602e6a8c15cfdb0dbcef94e3506285a9abc8a84af810c3935",
   "frozen_on": "2026-11-28",
   "info": [
     "loopkit root ../loopkit",
@@ -44,12 +44,12 @@
     "hidden_size 2304 with 24 layers and model_type inkling2_loop is INFO only, not d2027 evidence",
     "engine inventory: 24 loop-specific files under src/common/ggml; no d2027 symbol, no scoped 2027 literal, no ODSL side-lane enable",
     "the two HTML primary-source zero-hit records are out-of-band assertions: this offline checker cannot re-fetch them and cannot recompute their digests; only the small inline config.json is recomputed here",
-    "frozen facts sha256 0d73a0c2de1e0e15632f55cc0024cdf4ce1b57d323671e38a6b23db7424533a6 (pinned, semantic facts and inline bytes are gated)"
+    "frozen facts sha256 f2dd8abb5592920602e6a8c15cfdb0dbcef94e3506285a9abc8a84af810c3935 (pinned, semantic facts and inline bytes are gated)"
   ],
   "live_source_sha256": {
     "README.md": "4d3d09f39975bfbaca2c3b757bb1c25d23957b8b24ab7d4a78d7e19cae68c293",
     "configs/inkling2mini.toml": "8be0e650f90cb490af15057768fbe1d7cc9538f23f36edeb11ccd7c31d3a89eb",
-    "docs/INKLING_INTEGRATION.md": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+    "docs/INKLING_INTEGRATION.md": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
     "src/loopkit/model.py": "523003de85142d9f4c1792a5698abf393ee3b620ec085057621e53b19d6a39bf",
     "tools/odsl/LAYOUT_DESIGN.md": "23625beb8d9283572e824b29499ee3c1135cbc2a74876e1d06fccdd4e6604302",
     "tools/odsl/README.md": "09b068e2f4bf36d266c1f2d27345846a577bb52e328794fc848d825e6faf2d74"

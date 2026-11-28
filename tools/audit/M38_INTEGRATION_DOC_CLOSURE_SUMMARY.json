@@ -2,10 +2,10 @@
   "blocker": "",
   "check_counts": {
     "failed": 0,
-    "passed": 21,
-    "total": 21
+    "passed": 23,
+    "total": 23
   },
-  "checker_sha256": "da7e4a5e67ffe926a9405ad28f05711306b297dce7498328328d10ef7cb49d46",
+  "checker_sha256": "838d0c34eba0de7e0269d1bf905e4b02b3f07caa27f709073788c36a855c2c4d",
   "checks": {
     "evidence_pointers": true,
     "evidence_summaries": true,
@@ -13,9 +13,11 @@
     "frozen_contract": true,
     "live_doc_sha256": true,
     "m44_evidence_pins": true,
+    "m47_evidence_pins": true,
     "needle_section2_cache_hook": true,
     "needle_section2_gguf_shapes": true,
     "needle_section3_item_d": true,
+    "needle_section3_item_e": true,
     "needle_section4_item1": true,
     "needle_section4_item2": true,
     "needle_section4_item3": true,
@@ -31,7 +33,7 @@
   },
   "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
   "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
-  "doc_sha256": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+  "doc_sha256": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
   "evidence_verdicts": {
     "M29": "PASS",
     "M30": "PASS",
@@ -42,24 +44,25 @@
     "M35": "PASS",
     "M36": "PASS",
     "M37": "PASS",
-    "M44": "PASS"
+    "M44": "PASS",
+    "M47": "PASS"
   },
   "frozen_on": "2026-11-28",
   "info": [
-    "doc sha256 frozen=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc live=9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc (gated)",
-    "closed markers: 8 resolved, 1 honest blocker, 1 section-5 closure note",
-    "evidence: 10 milestones, 20 artifact paths, all PASS summaries",
-    "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+    "doc sha256 frozen=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 live=95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3 (gated)",
+    "closed markers: 9 resolved, 1 honest blocker, 1 section-5 closure note",
+    "evidence: 11 milestones, 22 artifact paths, all PASS summaries",
+    "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3"
   ],
   "no_engine_run": true,
   "no_weights": true,
   "note": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
   "provenance": {
     "branch": "main",
-    "checker_sha256_live": "da7e4a5e67ffe926a9405ad28f05711306b297dce7498328328d10ef7cb49d46",
+    "checker_sha256_live": "838d0c34eba0de7e0269d1bf905e4b02b3f07caa27f709073788c36a855c2c4d",
     "coordinated_two_repo_update": true,
     "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
-    "doc_sha256_live": "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc",
+    "doc_sha256_live": "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3",
     "frozen_on": "2026-11-28",
     "milestones": [
       {
@@ -120,6 +123,12 @@
         "contract": "tools/audit/UPSTREAM_CLI_COMPAT.json",
         "milestone": "M44",
         "summary": "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/TOKENIZER_CHAT_TEMPLATE.json",
+        "milestone": "M47",
+        "summary": "tools/audit/M47_TOKENIZER_CHAT_TEMPLATE_SUMMARY.json",
         "verdict": "PASS"
       }
     ],

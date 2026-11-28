@@ -17,14 +17,25 @@ REPO_ROOT = AUDIT_DIR.parents[1]
 CONTRACT_REL = "tools/audit/INTEGRATION_DOC_CLOSURE.json"
 SUMMARY_REL = "tools/audit/M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json"
 DOC_REL = "../loopkit/docs/INKLING_INTEGRATION.md"
-DOC_SHA256 = "9b0993f68bd2169468c4beedb1d54522e7ce9bd3f1c3b1c94d4033120aa0affc"
+DOC_SHA256 = "95f7595401bf534fa7e3d007423979e7246151678eb67655cd35d9f3660d07d3"
 M44_SUMMARY_REL = "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json"
 M44_SUMMARY_SHA256 = "38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122"
+M44_CONTRACT_REL = "tools/audit/UPSTREAM_CLI_COMPAT.json"
+M44_CONTRACT_SHA256 = "5fb7e01e63c526844231daa6905ea7e78c9f5f37d85fbc595a0286bbae6b2ae6"
+M47_SUMMARY_REL = "tools/audit/M47_TOKENIZER_CHAT_TEMPLATE_SUMMARY.json"
+M47_SUMMARY_SHA256 = "3fdc5c088c4a49008bee34f7cd386b021dd89aa3e01bbdd2d35d6f06a6dc6f20"
+M47_CONTRACT_REL = "tools/audit/TOKENIZER_CHAT_TEMPLATE.json"
+M47_CONTRACT_SHA256 = "998c58d244e66d5b2dd8b09fcd33ebee9e187b38ea95adf66779463186b2d9e7"
+M47_DOC_NOTE = (
+    "loopkit docs/INKLING_INTEGRATION.md item (e) marker stays pending a coordinated "
+    "two-repo doc update; item (b) real-weight conversion parity remains NO_GO_BLOCKED"
+)
 NOTE = "documentation-contract closure only; no weights, no engine run, no parity, no timing"
 DESCRIPTION = (
     "M38 closes the loopkit INKLING_INTEGRATION.md [?] markers using the M29-M37 "
-    "audit artifacts; M46 adds M44 evidence for section-3 item (d); this is a "
-    "documentation-contract result, not an engine measurement."
+    "audit artifacts; M46 adds M44 evidence for section-3 item (d); M47 adds M47 "
+    "evidence for section-3 item (e) and M48 closes that marker in the loopkit doc; "
+    "this is a documentation-contract result, not an engine measurement."
 )
 CYCLE_AUDIT_REQUIRED = "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number."
 FROZEN_ON = "2026-11-28"
@@ -34,10 +45,10 @@ EXPECTED_TOP_KEYS = {
     "schema_version", "frozen_on", "scope", "note", "description", "doc_path",
     "doc_sha256", "checker_sha256", "resolved_needles", "honest_blockers",
     "closure_note", "evidence", "summary_expectations", "provenance",
-    "cycle_audit_required", "speed_claim", "m44_summary_sha256",
+    "cycle_audit_required", "speed_claim", "m44_summary_sha256", "m47_summary_sha256",
 }
 
-EXPECTED_MILESTONES = ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44"]
+EXPECTED_MILESTONES = ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44", "M47"]
 EXPECTED_SUMMARY_KEYS = {
     "verdict", "blocker", "checks", "check_counts", "info", "provenance", "note",
     "scope", "speed_claim", "cycle_audit_required", "no_weights", "no_engine_run",
@@ -99,8 +110,23 @@ RESOLVED_NEEDLES = [
         "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json` (sha256",
         "  38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122).",
         "  Compile/stdout-byte scope only: no real weights, no GPU, no tensor or logits parity, no timing,",
-        "  NO SPEED CLAIM. Items (b) real-weight conversion parity and (e) tokenizer/chat-template",
-        "  remain open; (a), (c) and (f) are unchanged.",
+        "  NO SPEED CLAIM. At M46 the still-open items were (b) real-weight conversion parity and",
+        "  (e) tokenizer/chat-template; (e) is resolved by M47 below. (a), (c) and (f) are unchanged.",
+    ]),
+    item("section3_item_e", ["M47"], [
+        "  (e) RESOLVED by M47 (frozen tokenizer/chat-template contract only, evidence below);",
+        "- `[F]` Section-3 item (e) is resolved by M47 as a frozen tokenizer/chat-template",
+        "  contract gate: 26/26 checks PASS, blocker empty. Contract",
+        "  `inkengine-llama/tools/audit/TOKENIZER_CHAT_TEMPLATE.json` (sha256",
+        "  998c58d244e66d5b2dd8b09fcd33ebee9e187b38ea95adf66779463186b2d9e7); summary",
+        "  `M47_TOKENIZER_CHAT_TEMPLATE_SUMMARY.json` (sha256",
+        "  3fdc5c088c4a49008bee34f7cd386b021dd89aa3e01bbdd2d35d6f06a6dc6f20).",
+        "  A bounded out-of-band GGUF probe measured byte equality of `tokenizer.chat_template`",
+        "  (6868 B, sha256 53a9035f3255945704b5857657cfb00c1165090c0641c4f782a0cbf268cc16dc)",
+        "  with HF `chat_template.jinja`; the offline checker verifies frozen-digest/length",
+        "  consistency only and cannot observe live GGUF drift. No real weights, no tokenization",
+        "  golden test, no engine run, no timing, NO SPEED CLAIM. Item (b) real-weight",
+        "  conversion parity remains open; (a), (c), (d) and (f) are unchanged.",
     ]),
 ]
 
@@ -116,13 +142,21 @@ HONEST_BLOCKERS = [
 
 CLOSURE_NOTE = item(
     "section5_closure",
-    ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44"],
+    ["M29", "M30", "M31", "M32", "M33", "M34", "M35", "M36", "M37", "M44", "M47"],
     [
         "- **M38 closure note (2026-11-28):** section-4 items 1, 2, 3, 5 and 6 and both",
         "  M29-M37; item 4 stays LOCAL_ONLY_UNVERIFIED with real-trace falsification",
         "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
         "- **M46 closure note (2026-11-28):** section-3 item (d) is PASS-scoped by M44: 26/26 checks,",
-        "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json`. Section-3 item (b) real-weight conversion parity and",
+        "  `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json`. At M46 items (b) and (e) were still open; M47",
+        "  resolves (e) as a frozen contract and item (b) real-weight conversion parity remains",
+        "  open; no weights, no GPU, no tensor/logits parity, no timing, NO SPEED CLAIM.",
+        "- **M48 closure note (2026-11-28):** section-3 item (e) is PASS-scoped by M47 as a",
+        "  frozen tokenizer/chat-template contract gate: 26/26 checks, out-of-band byte equality",
+        "  of the 6868-byte chat template only. Contract",
+        "  `tools/audit/TOKENIZER_CHAT_TEMPLATE.json` and summary",
+        "  `M47_TOKENIZER_CHAT_TEMPLATE_SUMMARY.json`. Section-3 item (b) real-weight conversion",
+        "  parity remains NO_GO_BLOCKED; no weights, no engine run, no tokenization golden test,",
         "  no timing, NO SPEED CLAIM. CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory.",
     ],
 )
@@ -138,6 +172,7 @@ EVIDENCE = {
     "M36": ["tools/audit/UNION_WIRING.json", "tools/audit/M36_UNION_WIRING_SUMMARY.json"],
     "M37": ["tools/audit/GGUF_LOOP_SHAPES.json", "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json"],
     "M44": ["tools/audit/UPSTREAM_CLI_COMPAT.json", "tools/audit/M44_UPSTREAM_CLI_COMPAT_SUMMARY.json"],
+    "M47": ["tools/audit/TOKENIZER_CHAT_TEMPLATE.json", M47_SUMMARY_REL],
 }
 
 SUMMARY_EXPECTATIONS = {
@@ -172,7 +207,7 @@ PROVENANCE = {
 NEEDLE_NAMES = [entry["name"] for entry in RESOLVED_NEEDLES + HONEST_BLOCKERS + [CLOSURE_NOTE]]
 CHECK_NAMES = [
     "frozen_contract", "frozen_checker_sha256", "live_doc_sha256", "no_open_markers",
-    "evidence_pointers", "evidence_summaries", "m44_evidence_pins",
+    "evidence_pointers", "evidence_summaries", "m44_evidence_pins", "m47_evidence_pins",
     "summary_expectations", "summary_shape", "no_network", "run_completed",
 ] + ["needle_" + name for name in NEEDLE_NAMES]
 
@@ -245,6 +280,7 @@ def check_frozen_contract(facts):
         and facts.get("doc_path") == DOC_REL
         and facts.get("doc_sha256") == DOC_SHA256
         and facts.get("m44_summary_sha256") == M44_SUMMARY_SHA256
+        and facts.get("m47_summary_sha256") == M47_SUMMARY_SHA256
         and is_sha256(facts.get("checker_sha256"))
         and facts.get("resolved_needles") == RESOLVED_NEEDLES
         and facts.get("honest_blockers") == HONEST_BLOCKERS
@@ -335,6 +371,27 @@ def check_evidence_summaries(root, facts):
     return True
 
 
+def check_live_contract_sha(root, rel, expected, payload, require_recorded):
+    """Byte-pin the live contract; also agree with any digest the summary records.
+
+    M44's frozen summary has no contract_sha256 field, so its live contract is
+    pinned to the checker constant alone. M47's summary records contract_sha256
+    and must agree with the same constant.
+    """
+    if not isinstance(payload, dict):
+        return False
+    try:
+        live = sha256_bytes((root / rel).read_bytes())
+    except (OSError, TypeError, ValueError):
+        return False
+    if live != expected or not is_sha256(live):
+        return False
+    recorded = payload.get("contract_sha256")
+    if require_recorded and recorded != expected:
+        return False
+    return recorded is None or recorded == expected
+
+
 def check_m44_evidence_pins(root):
     """Byte-pin the M44 summary and validate every PASS-scoped field it claims."""
     try:
@@ -349,6 +406,8 @@ def check_m44_evidence_pins(root):
         return False
     if not isinstance(payload, dict):
         return False
+    if not check_live_contract_sha(root, M44_CONTRACT_REL, M44_CONTRACT_SHA256, payload, False):
+        return False
     return bool(
         payload.get("verdict") == "PASS"
         and payload.get("speed_claim") is None
@@ -358,6 +417,42 @@ def check_m44_evidence_pins(root):
         and payload.get("checks_failed") == 0
         and payload.get("stdout_differing_bytes") == 0
         and payload.get("no_weights") is True
+    )
+
+
+def check_m47_evidence_pins(root):
+    """Byte-pin the M47 summary and validate every PASS-scoped field it claims."""
+    try:
+        raw = (root / M47_SUMMARY_REL).read_bytes()
+    except OSError:
+        return False
+    if sha256_bytes(raw) != M47_SUMMARY_SHA256:
+        return False
+    try:
+        payload = json.loads(raw)
+    except (ValueError, UnicodeDecodeError):
+        return False
+    if not isinstance(payload, dict):
+        return False
+    if not check_live_contract_sha(root, M47_CONTRACT_REL, M47_CONTRACT_SHA256, payload, True):
+        return False
+    counts = payload.get("check_counts")
+    if isinstance(counts, dict) and set(counts) >= {"passed", "total", "failed"}:
+        passed, total, failed = counts["passed"], counts["total"], counts["failed"]
+    else:
+        passed = payload.get("checks_passed")
+        total = payload.get("checks_total")
+        failed = payload.get("checks_failed")
+    return bool(
+        payload.get("verdict") == "PASS"
+        and payload.get("blocker") == ""
+        and passed == 26
+        and total == 26
+        and failed == 0
+        and payload.get("speed_claim") is None
+        and payload.get("no_weights") is True
+        and payload.get("no_engine_run") is True
+        and payload.get("doc_note") == M47_DOC_NOTE
     )
 
 
@@ -465,6 +560,7 @@ def run_check(root):
         checks["evidence_pointers"] = check_evidence_pointers(facts)
         checks["evidence_summaries"] = check_evidence_summaries(root, facts)
         checks["m44_evidence_pins"] = check_m44_evidence_pins(root)
+        checks["m47_evidence_pins"] = check_m47_evidence_pins(root)
         checks["summary_expectations"] = check_summary_expectations(root, facts)
         checks["no_network"] = check_no_network()
         for entry in RESOLVED_NEEDLES + HONEST_BLOCKERS + [CLOSURE_NOTE]:
