@@ -1,0 +1,429 @@
+{
+  "bin_bytes_compared": 360960,
+  "bin_differing_bytes": 0,
+  "bin_files_compared": 480,
+  "bind_counts_on": {
+    "0": 144,
+    "1": 144,
+    "2": 144
+  },
+  "bind_pairs_on": [
+    [
+      6,
+      0
+    ],
+    [
+      6,
+      1
+    ],
+    [
+      6,
+      2
+    ],
+    [
+      7,
+      0
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      8,
+      0
+    ],
+    [
+      8,
+      1
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      9,
+      0
+    ],
+    [
+      9,
+      1
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      10,
+      0
+    ],
+    [
+      10,
+      1
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      11,
+      0
+    ],
+    [
+      11,
+      1
+    ],
+    [
+      11,
+      2
+    ],
+    [
+      12,
+      0
+    ],
+    [
+      12,
+      1
+    ],
+    [
+      12,
+      2
+    ],
+    [
+      13,
+      0
+    ],
+    [
+      13,
+      1
+    ],
+    [
+      13,
+      2
+    ],
+    [
+      14,
+      0
+    ],
+    [
+      14,
+      1
+    ],
+    [
+      14,
+      2
+    ],
+    [
+      15,
+      0
+    ],
+    [
+      15,
+      1
+    ],
+    [
+      15,
+      2
+    ],
+    [
+      16,
+      0
+    ],
+    [
+      16,
+      1
+    ],
+    [
+      16,
+      2
+    ],
+    [
+      17,
+      0
+    ],
+    [
+      17,
+      1
+    ],
+    [
+      17,
+      2
+    ]
+  ],
+  "bind_rows_off": 0,
+  "bind_sentinel_count_on": 144,
+  "bind_valid_rows_on": 432,
+  "blocker": [],
+  "check_counts": {
+    "failed": 0,
+    "passed": 35,
+    "total": 35
+  },
+  "checker_sha256": "81d572430c3ba35b7a63a69c8f099b4f9facdcbed2baf0e492dbccb3a9b696cd",
+  "checks": {
+    "bin_parity": true,
+    "bind_core_pair_coverage": true,
+    "bind_counts_equal_positive": true,
+    "bind_parse_ok": true,
+    "bind_pass_set": true,
+    "checker_sha256": true,
+    "cli_executable": true,
+    "cli_exists": true,
+    "contract_json": true,
+    "contract_keys": true,
+    "contract_values": true,
+    "fixture_arch": true,
+    "fixture_bytes": true,
+    "fixture_exists": true,
+    "fixture_pin_authority": true,
+    "fixture_sha256": true,
+    "no_network": true,
+    "off_absent_needles": true,
+    "off_exit_zero": true,
+    "off_manifest_ok": true,
+    "off_name_set": true,
+    "off_occurrences": true,
+    "off_slot_set": true,
+    "on_enable_needles": true,
+    "on_exit_zero": true,
+    "on_manifest_ok": true,
+    "on_name_set": true,
+    "on_occurrences": true,
+    "on_slot_set": true,
+    "on_trace_needles": true,
+    "pass_slot_map_subset_of_dump": true,
+    "run_completed": true,
+    "slot_map_distinct_per_pass": true,
+    "stdout_parity": true,
+    "text_parity": true
+  },
+  "contract_path": "tools/audit/FULLTOPO_BINDING.json",
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "engine_run": "cpu_synthetic_only",
+  "expected_bind_pairs": 36,
+  "expected_core_il": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "expected_passes": [
+    0,
+    1,
+    2
+  ],
+  "expected_rows": 480,
+  "expected_summary_path": "tools/audit/M45_FULLTOPO_BINDING_SUMMARY.json",
+  "fixture_bytes": 11941248,
+  "fixture_sha256": "3ccf2fb4c6ef4fab60464d2a35a2ea42b24186db3e8b12cd68881f4fa873dff7",
+  "frozen_on": "2026-11-28",
+  "info": [
+    "cpu_share=1.0",
+    "checker sha256 frozen=81d572430c3ba35b7a63a69c8f099b4f9facdcbed2baf0e492dbccb3a9b696cd live=81d572430c3ba35b7a63a69c8f099b4f9facdcbed2baf0e492dbccb3a9b696cd",
+    "fixture sha256=3ccf2fb4c6ef4fab60464d2a35a2ea42b24186db3e8b12cd68881f4fa873dff7 bytes=11941248",
+    "off_exit=0 on_exit=0",
+    "bind set lines OFF=0 (must be 0)",
+    "manifest rows off=480 on=480 (expected 480); names off=240 on=240; slots off=48 on=48",
+    "occurrence counts per name off=[2] on=[2]",
+    "bind set rows=576 valid=432 sentinel(-1)=144; passes=[0, 1, 2] counts={'0': 144, '1': 144, '2': 144}",
+    "core pair coverage=True pairs=36/36 missing=[] unexpected=[]",
+    "pass-to-slot map={'0': '6-17', '1': '24-35', '2': '36-47'}; physical slots in ON dump=48; all mapped slots present=True (implied by on_slot_set; set-level, not per-event linkage)",
+    "slot_map pointer counts per pass={'0': 24, '1': 24, '2': 24} disjoint=True (addresses not recorded: ASLR varies per run)",
+    "RORET_PASS rows ON=0 (informational only, never gated): RORET_PASS rows require the device slot-map copy and are NOT expected on the CPU fallback; see M21/M22. Informational only, never gated.",
+    "unconditional build marker off=2 on=2 (informational only): LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache",
+    "bin parity files=480 bytes=360960 differing=0; text bytes=245927 differing=0",
+    "normalized stdout bytes=245927 differing=0 dropped lines off=0 on=0",
+    "occurrence index encodes graph eval count, not pass",
+    "PASS means only that, on a deterministic synthetic GGUF carrying the real Inkling2 structural topology (24 layers, core 6-17, 3 passes, rank-64 controllers, 48 slots) on a CPU-only build, the union-resident MoE hook registers bindings for every core layer on passes 0/1/2 with disjoint pass-indexed slot maps and all mapped physical slots present; OFF/ON raw MoE tensors, logits and text are byte-identical. It is NOT reference tensor-value correctness, NOT real-weight parity, NOT GPU copy-callback hit/upload traffic, and NOT any timing/throughput/wall-clock result.",
+    "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number."
+  ],
+  "missing_bind_pairs": [],
+  "no_engine_run": false,
+  "no_weights": true,
+  "note": "CPU-only full-topology union-wiring binding gate; no timing",
+  "off_exit": 0,
+  "off_manifest_rows": 480,
+  "off_occurrence_counts": [
+    2
+  ],
+  "off_slots": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "off_tensor_names": 240,
+  "on_exit": 0,
+  "on_manifest_rows": 480,
+  "on_occurrence_counts": [
+    2
+  ],
+  "on_slots": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "on_tensor_names": 240,
+  "pass_slot_map_subset_of_dump": true,
+  "pass_to_slot": {
+    "0": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "1": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "2": [
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ]
+  },
+  "rorret_pass_rows_on_informational": 0,
+  "rorret_pass_scope": "RORET_PASS rows require the device slot-map copy and are NOT expected on the CPU fallback; see M21/M22. Informational only, never gated.",
+  "scope": "PASS means only that, on a deterministic synthetic GGUF carrying the real Inkling2 structural topology (24 layers, core 6-17, 3 passes, rank-64 controllers, 48 slots) on a CPU-only build, the union-resident MoE hook registers bindings for every core layer on passes 0/1/2 with disjoint pass-indexed slot maps and all mapped physical slots present; OFF/ON raw MoE tensors, logits and text are byte-identical. It is NOT reference tensor-value correctness, NOT real-weight parity, NOT GPU copy-callback hit/upload traffic, and NOT any timing/throughput/wall-clock result.",
+  "slot_map_pointer_counts_on": {
+    "0": 24,
+    "1": 24,
+    "2": 24
+  },
+  "speed_claim": null,
+  "stdout_dropped_lines_off": 0,
+  "stdout_dropped_lines_on": 0,
+  "stdout_normalized_bytes": 245927,
+  "stdout_normalized_differing_bytes": 0,
+  "text_bytes": 245927,
+  "text_differing_bytes": 0,
+  "unexpected_bind_pairs": [],
+  "verdict": "PASS"
+}
