@@ -17,7 +17,7 @@ FACTS_PATH = AUDIT_DIR / "OUTLIER_PREMISE.json"
 SUMMARY_PATH = AUDIT_DIR / SUMMARY_REL
 NOTE = "outlier premise classification only; no timing"
 FROZEN_ON = "2026-11-28"
-FROZEN_FACTS_SHA256 = "fbbcd51af241476b0a4e7755dd62ac50bcadefffe69972790a21ad5f6d074c55"
+FROZEN_FACTS_SHA256 = "46c7260707371d83a7f662f4c7fad1420736b6f38469c512b835fb74956d6917"
 INLINE_VERIFICATION_URL = "https://huggingface.co/thinkingmachines/Inkling-2-Mini/raw/main/config.json"
 OUT_OF_BAND_CAVEAT = (
     "the two HTML primary-source zero-hit records are out-of-band assertions: this offline "
@@ -85,7 +85,7 @@ SOURCE_ROOTS = {
 FROZEN_SOURCE_SHA256 = {
     "configs/inkling2mini.toml": "8be0e650f90cb490af15057768fbe1d7cc9538f23f36edeb11ccd7c31d3a89eb",
     "src/loopkit/model.py": "523003de85142d9f4c1792a5698abf393ee3b620ec085057621e53b19d6a39bf",
-    "docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432",
+    "docs/INKLING_INTEGRATION.md": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
     "README.md": "4d3d09f39975bfbaca2c3b757bb1c25d23957b8b24ab7d4a78d7e19cae68c293",
     "tools/odsl/README.md": "09b068e2f4bf36d266c1f2d27345846a577bb52e328794fc848d825e6faf2d74",
     "tools/odsl/LAYOUT_DESIGN.md": "23625beb8d9283572e824b29499ee3c1135cbc2a74876e1d06fccdd4e6604302",

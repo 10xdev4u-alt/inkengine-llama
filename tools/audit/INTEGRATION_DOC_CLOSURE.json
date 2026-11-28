@@ -1,0 +1,241 @@
+{
+  "checker_sha256": "7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8",
+  "closure_note": {
+    "evidence": [
+      "M29",
+      "M30",
+      "M31",
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "M37"
+    ],
+    "name": "section5_closure",
+    "needles": [
+      "- **M38 closure note (2026-11-28):** section-4 items 1, 2, 3, 5 and 6 and both",
+      "  M29-M37; item 4 stays LOCAL_ONLY_UNVERIFIED with real-trace falsification",
+      "  NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory."
+    ]
+  },
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "description": "M38 closes the loopkit INKLING_INTEGRATION.md [?] markers using the M29-M37 audit artifacts; this is a documentation-contract result, not an engine measurement.",
+  "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+  "doc_sha256": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+  "evidence": {
+    "M29": [
+      "tools/audit/UPSTREAM_LOOP_CONTRACT.json",
+      "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json"
+    ],
+    "M30": [
+      "tools/audit/GATE_SEMANTICS.json",
+      "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json"
+    ],
+    "M31": [
+      "tools/audit/LOOP_BOUNDARIES.json",
+      "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json"
+    ],
+    "M32": [
+      "tools/audit/PASS_INDEXED_KV.json",
+      "tools/audit/M32_PASS_INDEXED_KV_SUMMARY.json"
+    ],
+    "M33": [
+      "tools/audit/QUANT_LAYOUT.json",
+      "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json"
+    ],
+    "M34": [
+      "tools/audit/MXFP8_SCALE_HEADER.json",
+      "tools/audit/M34_MXFP8_SCALE_SUMMARY.json"
+    ],
+    "M35": [
+      "tools/audit/OUTLIER_PREMISE.json",
+      "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json"
+    ],
+    "M36": [
+      "tools/audit/UNION_WIRING.json",
+      "tools/audit/M36_UNION_WIRING_SUMMARY.json"
+    ],
+    "M37": [
+      "tools/audit/GGUF_LOOP_SHAPES.json",
+      "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json"
+    ]
+  },
+  "frozen_on": "2026-11-28",
+  "honest_blockers": [
+    {
+      "evidence": [
+        "M35"
+      ],
+      "name": "section4_item4",
+      "needles": [
+        "4. **\"Outlier at dim 2027\" has no primary-source support** `[L]`. Experiment: audit where 2027 is",
+        "   `[F]` (M35, cheap part only): classified LOCAL_ONLY_UNVERIFIED from primary-source",
+        "NO_GO_BLOCKED without weights or hosted inference",
+        "   (`tools/audit/OUTLIER_PREMISE.json`, `M35_OUTLIER_PREMISE_SUMMARY.json`).",
+        "The d2027 FP32 side-lane should stay"
+      ]
+    }
+  ],
+  "note": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+  "provenance": {
+    "branch": "main",
+    "coordinated_two_repo_update": true,
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "frozen_on": "2026-11-28",
+    "milestones": [
+      {
+        "contract": "tools/audit/UPSTREAM_LOOP_CONTRACT.json",
+        "milestone": "M29",
+        "summary": "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/GATE_SEMANTICS.json",
+        "milestone": "M30",
+        "summary": "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/LOOP_BOUNDARIES.json",
+        "milestone": "M31",
+        "summary": "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/PASS_INDEXED_KV.json",
+        "milestone": "M32",
+        "summary": "tools/audit/M32_PASS_INDEXED_KV_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/QUANT_LAYOUT.json",
+        "milestone": "M33",
+        "summary": "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/MXFP8_SCALE_HEADER.json",
+        "milestone": "M34",
+        "summary": "tools/audit/M34_MXFP8_SCALE_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/OUTLIER_PREMISE.json",
+        "milestone": "M35",
+        "summary": "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/UNION_WIRING.json",
+        "milestone": "M36",
+        "summary": "tools/audit/M36_UNION_WIRING_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/GGUF_LOOP_SHAPES.json",
+        "milestone": "M37",
+        "summary": "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json",
+        "verdict": "PASS"
+      }
+    ],
+    "no_network": true,
+    "scope": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+    "supersedes": "M37 doc_note: marker stays pending a coordinated two-repo doc update"
+  },
+  "resolved_needles": [
+    {
+      "evidence": [
+        "M37"
+      ],
+      "name": "section2_gguf_shapes",
+      "needles": [
+        "`[F]` Exact per-tensor shapes resolved by M37 from a bounded range probe of",
+        "87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76; GGUF v3, 744 tensors,",
+        "`inkengine-llama/tools/audit/GGUF_LOOP_SHAPES.json`. Measurement/contract scope only:",
+        "no weights, no engine run, no parity, no timing."
+      ]
+    },
+    {
+      "evidence": [
+        "M36"
+      ],
+      "name": "section2_cache_hook",
+      "needles": [
+        "**Cache-hook plug-in.** `[F]` The wiring is implemented opt-in/default-off in",
+        "`inkengine-llama/docs/INKLING_UPSTREAM_WIRING.md` and source-contract-gated by M36",
+        "(`tools/audit/UNION_WIRING.json`); no runtime parity or timing has been measured.",
+        "The d2027 FP32 side-lane should stay"
+      ]
+    },
+    {
+      "evidence": [
+        "M29"
+      ],
+      "name": "section4_item1",
+      "needles": [
+        "1. **Fork/upstream gap & enum identity** `[F]` (M29,",
+        "`tools/audit/UPSTREAM_LOOP_CONTRACT.json` and `M29_UPSTREAM_CONTRACT_SUMMARY.json`:",
+        "arch string, 47 tensor names, five loop KV keys and slot formula match upstream)."
+      ]
+    },
+    {
+      "evidence": [
+        "M30"
+      ],
+      "name": "section4_item2",
+      "needles": [
+        "**Gate semantics: rank-64 gain/forget vs our scalar `gamma`** `[F]` (M30,",
+        "`tools/audit/GATE_SEMANTICS.json` and `M30_GATE_SEMANTICS_SUMMARY.json`: down",
+        "[64,4608], gain/forget [2304,64] F32, `(1-forget)*cur + gain*message`)."
+      ]
+    },
+    {
+      "evidence": [
+        "M31"
+      ],
+      "name": "section4_item3",
+      "needles": [
+        "**Loop boundaries: layers 6",
+        "** `[F]` (M31,",
+        "`tools/audit/LOOP_BOUNDARIES.json` and `M31_LOOP_BOUNDARIES_SUMMARY.json`: core",
+        "layers 6..17, prelude 0..5, coda 18..23, n_slot=48)."
+      ]
+    },
+    {
+      "evidence": [
+        "M32"
+      ],
+      "name": "section4_item5",
+      "needles": [
+        "**Pass-indexed KV: separate slots",
+        "vs shared/cross-pass only** `[F]` (M32,",
+        "`tools/audit/PASS_INDEXED_KV.json` and `M32_PASS_INDEXED_KV_SUMMARY.json`: 36",
+        "distinct pass/core-layer slots, RORET key is (ip, pass), not the cache slot)."
+      ]
+    },
+    {
+      "evidence": [
+        "M33",
+        "M34"
+      ],
+      "name": "section4_item6",
+      "needles": [
+        "**NVFP4/MXFP8 dequant + scale layout (16 vs 32), and Unsloth quant choice** `[F]`",
+        "(M33/M34, `tools/audit/QUANT_LAYOUT.json`, `MXFP8_SCALE_HEADER.json` and their",
+        "summaries: converter split-16 NVFP4 / flat-32 MXFP8 confirmed against the real",
+        "HF header; Unsloth GGUF header shows IQ1_S/Q2_0 re-quant, not native NVFP4/MXFP8)."
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "scope": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+  "speed_claim": null,
+  "summary_expectations": {
+    "M35_classification": "LOCAL_ONLY_UNVERIFIED",
+    "M35_real_trace_verdict": "NO_GO_BLOCKED",
+    "M36_no_weights": true,
+    "M37_doc_note_history": "loopkit docs/INKLING_INTEGRATION.md marker stays pending a coordinated two-repo doc update",
+    "M37_no_weights": true
+  }
+}

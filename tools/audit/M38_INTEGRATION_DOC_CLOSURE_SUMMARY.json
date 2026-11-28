@@ -1,0 +1,124 @@
+{
+  "blocker": "",
+  "check_counts": {
+    "failed": 0,
+    "passed": 19,
+    "total": 19
+  },
+  "checker_sha256": "7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8",
+  "checks": {
+    "evidence_pointers": true,
+    "evidence_summaries": true,
+    "frozen_checker_sha256": true,
+    "frozen_contract": true,
+    "live_doc_sha256": true,
+    "needle_section2_cache_hook": true,
+    "needle_section2_gguf_shapes": true,
+    "needle_section4_item1": true,
+    "needle_section4_item2": true,
+    "needle_section4_item3": true,
+    "needle_section4_item4": true,
+    "needle_section4_item5": true,
+    "needle_section4_item6": true,
+    "needle_section5_closure": true,
+    "no_network": true,
+    "no_open_markers": true,
+    "run_completed": true,
+    "summary_expectations": true,
+    "summary_shape": true
+  },
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+  "doc_sha256": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+  "evidence_verdicts": {
+    "M29": "PASS",
+    "M30": "PASS",
+    "M31": "PASS",
+    "M32": "PASS",
+    "M33": "PASS",
+    "M34": "PASS",
+    "M35": "PASS",
+    "M36": "PASS",
+    "M37": "PASS"
+  },
+  "frozen_on": "2026-11-28",
+  "info": [
+    "doc sha256 frozen=054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0 live=054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0 (gated)",
+    "closed markers: 7 resolved, 1 honest blocker, 1 section-5 closure note",
+    "evidence: 9 milestones, 18 artifact paths, all PASS summaries",
+    "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0"
+  ],
+  "no_engine_run": true,
+  "no_weights": true,
+  "note": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+  "provenance": {
+    "branch": "main",
+    "checker_sha256_live": "7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8",
+    "coordinated_two_repo_update": true,
+    "doc_path": "../loopkit/docs/INKLING_INTEGRATION.md",
+    "doc_sha256_live": "054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0",
+    "frozen_on": "2026-11-28",
+    "milestones": [
+      {
+        "contract": "tools/audit/UPSTREAM_LOOP_CONTRACT.json",
+        "milestone": "M29",
+        "summary": "tools/audit/M29_UPSTREAM_CONTRACT_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/GATE_SEMANTICS.json",
+        "milestone": "M30",
+        "summary": "tools/audit/M30_GATE_SEMANTICS_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/LOOP_BOUNDARIES.json",
+        "milestone": "M31",
+        "summary": "tools/audit/M31_LOOP_BOUNDARIES_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/PASS_INDEXED_KV.json",
+        "milestone": "M32",
+        "summary": "tools/audit/M32_PASS_INDEXED_KV_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/QUANT_LAYOUT.json",
+        "milestone": "M33",
+        "summary": "tools/audit/M33_QUANT_LAYOUT_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/MXFP8_SCALE_HEADER.json",
+        "milestone": "M34",
+        "summary": "tools/audit/M34_MXFP8_SCALE_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/OUTLIER_PREMISE.json",
+        "milestone": "M35",
+        "summary": "tools/audit/M35_OUTLIER_PREMISE_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/UNION_WIRING.json",
+        "milestone": "M36",
+        "summary": "tools/audit/M36_UNION_WIRING_SUMMARY.json",
+        "verdict": "PASS"
+      },
+      {
+        "contract": "tools/audit/GGUF_LOOP_SHAPES.json",
+        "milestone": "M37",
+        "summary": "tools/audit/M37_GGUF_LOOP_SHAPES_SUMMARY.json",
+        "verdict": "PASS"
+      }
+    ],
+    "no_network": true,
+    "scope": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+    "supersedes": "M37 doc_note: marker stays pending a coordinated two-repo doc update"
+  },
+  "scope": "documentation-contract closure only; no weights, no engine run, no parity, no timing",
+  "speed_claim": null,
+  "verdict": "PASS"
+}

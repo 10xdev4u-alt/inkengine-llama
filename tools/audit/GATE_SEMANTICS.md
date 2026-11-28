@@ -31,7 +31,7 @@ the numeric exercise uses rank 4, disclosed in the summary INFO lines.
 
     src/models/inkling2.cpp                 c5b543ad965857efd7f9818d42d1f7a418954758b75ec68c82485ffbd341225f
     src/models/inkling2-loop.cpp            a3fb8b2d6883a1977a283e2769f738273d45321fd612fbe4949fbcec0df0dfab
-    ../loopkit/docs/INKLING_INTEGRATION.md  69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432
+    ../loopkit/docs/INKLING_INTEGRATION.md  054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0
 
 ## Checks
 

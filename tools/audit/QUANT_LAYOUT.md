@@ -65,7 +65,7 @@ bounded range probe that was already recorded, and only its numbers are frozen.
 | file (relative to its root) | sha256 |
 |---|---|
 | conversion/inkling2.py | aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 |
-| docs/INKLING_INTEGRATION.md (loopkit) | 69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432 |
+| docs/INKLING_INTEGRATION.md (loopkit) | 054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0 |
 | docs/INKLING_FORMAT_FACTS.md (loopkit) | 46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df |
 
 ## Derived arithmetic (HF shapes divided at runtime; other values frozen)

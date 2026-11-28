@@ -403,3 +403,62 @@ RESULTS.md for the honest numeric models.
   no weights. Metadata/contract scope only: no graph execution, no tensor or
   logits parity, no timing. NO SPEED CLAIM; CycleAudit `claim <= ci_low`,
   `repeats >= 20`, `loops = 3` remains mandatory for any future number.
+
+## M38 coordinated integration-doc closure (2026-11-28, branch main)
+
+- Resolved the stale markup in `loopkit/docs/INKLING_INTEGRATION.md`: section-2
+  GGUF loop-tensor shapes and cache-hook plug-in, section-4 items 1, 2, 3, 5 and 6,
+  plus the section-5 dated closure note, now carry evidence-labelled `[F]` markers
+  pointing at the M29-M37 audit artifacts. Item 4 stays `[L]` with the cheap M35
+  classification recorded and real-trace falsification still NO_GO_BLOCKED.
+  Doc sha256 old `69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432`
+  -> new `054188036cb75d373b3a1740051f873e3e5646f5cb8c47810426a7f2f930e4b0`.
+  All pinned source needles (d2027 wording, side-lane flag, quant shapes and
+  section-4 headings) are byte-identical; existing non-ASCII bytes are untouched.
+- Refreshed the new hash in exactly these files: `tools/audit/GATE_SEMANTICS.json`,
+  `check_gate_semantics.py`, `GATE_SEMANTICS.md`, `QUANT_LAYOUT.json`,
+  `check_quant_layout.py`, `QUANT_LAYOUT.md`, `OUTLIER_PREMISE.json`,
+  `check_outlier_premise.py`. `OUTLIER_PREMISE.md` had no hash pin and was not edited.
+  The M35 checker's `FROZEN_FACTS_SHA256` also had to move from
+  `fbbcd51af241476b0a4e7755dd62ac50bcadefffe69972790a21ad5f6d074c55` to
+  `46c7260707371d83a7f662f4c7fad1420736b6f38469c512b835fb74956d6917` because
+  editing `OUTLIER_PREMISE.json` changes that whole-file digest; without it the M35
+  gate could not return PASS. M29/M36/M37 contracts, checkers and summaries,
+  `DECISIONS.tsv`, `PASS_INDEXED_KV.json`, `ENGINE_SPEC.md`, `src/`, CMake and
+  the engine were not touched.
+- Regenerated summaries from the inkengine-llama root with
+  `PYTHONPATH=../loopkit/src:gguf-py`: M30 sha256
+  `f5b0f0367379430706ab044f0963cd296dcbd04c4aa66ff6cdd522e6093e2de8`, M33 sha256
+  `81f7d4cd842b62b503993b60c1a6481775cdcd5d8e979dc3990de8dc77c4ebf9`, M35 sha256
+  `add7b5ccf99d0c329eae837eb4b360cfe0623e18b655da24f4b3dece25e257b3`; all three
+  checkers exit 0 with verdict PASS and each summary contains the new doc hash and
+  no old-hash occurrence.
+- New fail-closed closure gate (5 ASCII-only files): `INTEGRATION_DOC_CLOSURE.json`
+  (checker sha256 `7b2232149c4c6292beface76184c53bd92b8de9cc30ab633db79dafb827532b8`,
+  frozen_on 2026-11-28), `check_integration_doc_closure.py` (stdlib-only, offline,
+  `--root`, NO_GO sentinel before checks, atomic `os.replace` final write),
+  `test_integration_doc_closure.py`, `INTEGRATION_DOC_CLOSURE.md` and generated
+  `M38_INTEGRATION_DOC_CLOSURE_SUMMARY.json` (sha256
+  `0eda87b02afb183772bab4b2833f4613014242f154d5a74b7979f5fb6abf5ec5`, verdict PASS,
+  blocker empty, 19/19 checks, speed_claim null). The gate checks the exact contract
+  key set, the live doc and checker hashes, every resolved/blocker/closure needle,
+  the nine M29-M37 evidence artifact pairs, each cited summary verdict and count,
+  the M35 classification and blocked verdict, the M37 history note, and the
+  generated summary shape.
+- Tests: full `tools/audit` suite 407 passed (376 baseline + 31 new) with
+  `PYTHONPATH=../loopkit/src:gguf-py`; new closure suite 31 passed; loopkit fast
+  suite 40 passed, 1 deselected (the brief's stated 41-pass baseline was 40 in this
+  checkout); `git diff --check` clean in both repos; no new non-ASCII code points
+  (two modified doc lines retain pre-existing U+2013 and U+00D7 bytes). An
+  adversarial review found no CRITICAL/HIGH issue and three LOW nits, all fixed:
+  the ASCII claim above was imprecise, `check_summary_expectations` now guards
+  summary loads so independent checks still run on a missing evidence summary,
+  and `evidence_verdicts` is now observed from the loaded summaries instead of
+  hardcoded PASS. No Kaggle kernel, no network call, no weights, no engine rebuild,
+  no speed claim.
+  M37's "marker pending" `doc_note` remains as history; M38 supersedes it here.
+- Scope: documentation-contract closure only. No weights, no engine run, no graph
+  execution, no tensor or logits parity, no timing. NO SPEED CLAIM; CycleAudit
+  `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future number.
+  The d2027 premise stays LOCAL_ONLY_UNVERIFIED and its real-trace falsification
+  stays NO_GO_BLOCKED without weights or hosted inference.
