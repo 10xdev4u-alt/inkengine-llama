@@ -4,6 +4,7 @@
 #include "log.h"
 
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <exception>
 #include <filesystem>
@@ -196,6 +197,14 @@ bool common_debug_cb_eval(struct ggml_tensor * t, bool ask, void * user_data) {
         const char * value = std::getenv("LLAMA_DUMP_TENSORS_DIR");
         return value != nullptr && value[0] != '\0' ? std::string(value) : std::string();
     }();
+    static const bool dump_ptr = []() {
+        const char * value = std::getenv("LLAMA_DUMP_TENSOR_PTR");
+        if (value == nullptr) {
+            return false;
+        }
+        const std::string text(value);
+        return text == "1" || text == "on" || text == "true";
+    }();
     static std::unordered_map<std::string, int> dump_occurrences;
 
     // Dump only when an explicit filter is set, so we never dump the whole graph.
@@ -240,6 +249,15 @@ bool common_debug_cb_eval(struct ggml_tensor * t, bool ask, void * user_data) {
             out << '\t' << n_bytes << '\t' << filename << '\n';
             if (!out) {
                 LOG_ERR("%s: failed to append manifest in %s\n", __func__, dump_dir.c_str());
+            }
+        }
+        if (dump_ptr) {
+            char ptr[32] = { 0 };
+            snprintf(ptr, sizeof(ptr), "%p", (const void *) t);
+            std::ofstream out(dir / "manifest_ptr.tsv", std::ios::app);
+            out << filename << '\t' << ptr << '\n';
+            if (!out) {
+                LOG_ERR("%s: failed to append pointer manifest in %s\n", __func__, dump_dir.c_str());
             }
         }
     }

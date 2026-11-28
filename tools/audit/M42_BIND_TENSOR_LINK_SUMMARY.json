@@ -1,0 +1,159 @@
+{
+  "bin_bytes_compared": 30720,
+  "bin_differing_bytes": 0,
+  "bin_files_compared": 48,
+  "bind_counts_on": {
+    "0": 12,
+    "1": 12,
+    "2": 12
+  },
+  "bind_lines_off": 0,
+  "bind_passes_on": [
+    0,
+    1,
+    2
+  ],
+  "bind_sentinel_count_on": 12,
+  "blocker": [],
+  "check_counts": {
+    "failed": 0,
+    "passed": 45,
+    "total": 45
+  },
+  "checker_sha256": "86f0438dbac448103ec77d6ef675fccee52d9d23c97cd7e6e6f9d391643bd623",
+  "checks": {
+    "bin_parity": true,
+    "bind_counts_equal_positive": true,
+    "bind_parse_ok": true,
+    "bind_pass_set": true,
+    "bind_sentinel_count": true,
+    "bind_slot_identity": true,
+    "bind_slot_no_wrong_il": true,
+    "checker_sha256": true,
+    "cli_executable": true,
+    "cli_exists": true,
+    "contract_json": true,
+    "contract_keys": true,
+    "contract_values": true,
+    "fixture_arch": true,
+    "fixture_bytes": true,
+    "fixture_exists": true,
+    "fixture_pin_authority": true,
+    "fixture_sha256": true,
+    "matched_basename_unique_per_pass": true,
+    "matched_counts_equal_per_pass": true,
+    "no_network": true,
+    "off_absent_needles": true,
+    "off_exit_zero": true,
+    "off_manifest_ok": true,
+    "off_name_set": true,
+    "off_no_bind_no_ptr": true,
+    "off_occurrences": true,
+    "off_ptr_manifest_absent": true,
+    "off_slot_set": true,
+    "on_enable_needles": true,
+    "on_exit_zero": true,
+    "on_manifest_ok": true,
+    "on_name_set": true,
+    "on_occurrences": true,
+    "on_ptr_manifest_ok": true,
+    "on_slot_set": true,
+    "on_trace_needles": true,
+    "ptr_manifest_coverage": true,
+    "run_completed": true,
+    "sentinel_slot_ptr_bound": true,
+    "slot_dump_names": true,
+    "slot_dump_occurrences": true,
+    "slot_ptrs_all_bound": true,
+    "slot_ptrs_disjoint_per_pass": true,
+    "stdout_parity": true
+  },
+  "contract_path": "tools/audit/BIND_TENSOR_LINK.json",
+  "cycle_audit_required": "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number.",
+  "engine_run": "cpu_synthetic_only",
+  "expected_core_slots": [
+    1,
+    2,
+    3
+  ],
+  "expected_summary_path": "tools/audit/M42_BIND_TENSOR_LINK_SUMMARY.json",
+  "fixture_bytes": 887392,
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "frozen_on": "2026-11-28",
+  "info": [
+    "checker sha256 frozen=86f0438dbac448103ec77d6ef675fccee52d9d23c97cd7e6e6f9d391643bd623 live=86f0438dbac448103ec77d6ef675fccee52d9d23c97cd7e6e6f9d391643bd623",
+    "fixture sha256=cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617 bytes=887392",
+    "off_exit=0 on_exit=0",
+    "bind set lines OFF=0 (must be 0)",
+    "manifest rows off=48 on=48; names off=24 on=24; slots off=[0, 1, 2, 3] on=[0, 1, 2, 3]",
+    "occurrence counts per name off=[2] on=[2]",
+    "OFF pointer rows=0 (must be 0)",
+    "pointer manifest rows ON=48; manifest rows ON=48; coverage=True",
+    "bind set key_il=1 passes=[0, 1, 2] counts={'0': 12, '1': 12, '2': 12} sentinel(-1)=12 total=48",
+    "slot dump rows=8 names=4 occurrence values=[2]",
+    "matched slot events per pass={0: 1, 1: 1, 2: 1}; slot dumps per pass={0: 2, 1: 2, 2: 2}; matched set rows per pass={0: 2, 1: 2, 2: 2}",
+    "set rows with no dumped slots tensor=30 (builds not dumped; not claimed)",
+    "sentinel-bound slot dump rows=2 (key_il=-1 pass=-1, not a pass event)",
+    "pass-to-slot map={'0': 1, '1': 2, '2': 3} verified per dumped event; addresses not recorded (ASLR varies per run)",
+    "bin parity files=48 bytes=30720 differing=0; stdout bytes=23892 differing=0",
+    "unconditional build marker off=2 on=2 (informational only): LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache",
+    "NO SPEED CLAIM; CycleAudit claim<=ci_low repeats>=20 loops=3 remains mandatory for any future number."
+  ],
+  "matched_set_rows_per_pass_on": {
+    "0": 2,
+    "1": 2,
+    "2": 2
+  },
+  "matched_slot_events_per_pass_on": {
+    "0": 1,
+    "1": 1,
+    "2": 1
+  },
+  "no_engine_run": false,
+  "no_weights": true,
+  "note": "CPU-only per-event RORET binding pointer identity with dumped MoE slots tensors; no timing",
+  "off_exit": 0,
+  "off_manifest_rows": 48,
+  "off_occurrence_counts": [
+    2
+  ],
+  "off_pointer_rows": 0,
+  "off_slots": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "off_tensor_names": 24,
+  "on_exit": 0,
+  "on_manifest_rows": 48,
+  "on_occurrence_counts": [
+    2
+  ],
+  "on_pointer_rows": 48,
+  "on_slots": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "on_tensor_names": 24,
+  "pass_to_slot": {
+    "0": 1,
+    "1": 2,
+    "2": 3
+  },
+  "scope": "Per-event pointer identity between the registered RORET_BIND set lookup and the dumped ffn_moe_slots-<il> tensor, including the pass-to-slot map; NOT tensor-value correctness, callback resolution, or speed.",
+  "sentinel_slot_events_on": 2,
+  "slot_dump_events_on": 8,
+  "slot_dumps_per_pass_on": {
+    "0": 2,
+    "1": 2,
+    "2": 2
+  },
+  "speed_claim": null,
+  "stdout_bytes": 23892,
+  "stdout_differing_bytes": 0,
+  "unmatched_set_rows_on": 30,
+  "verdict": "PASS"
+}

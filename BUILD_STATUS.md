@@ -649,7 +649,9 @@ RESULTS.md for the honest numeric models.
   real runs produced byte-identical summaries. It remains set-level
   co-occurrence, not a per-event pointer linkage; the occurrence
   index encodes graph-eval count, not pass, and is never used as a pass
-  identifier.
+  identifier. (Superseded by M42 below for the pointer-identity scope only:
+  per-event binding-to-dumped-slot linkage is now gated; the eval-index rule
+  and the disjoint-slot-map evidence still stand.)
 - Tamper coverage in isolated temp trees: mutated manifest name, mutated
   slot, wrong occurrence count, malformed manifest row, missing pass, bind
   rows OFF, enable marker flip in both directions, byte flip in a `.bin`,
@@ -673,4 +675,59 @@ RESULTS.md for the honest numeric models.
   binding-to-tensor linkage, no tensor-value reference and no timing,
   throughput or wall-clock win. NO SPEED CLAIM;
   CycleAudit `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for
-  any future number.
+  any future number. (Superseded by M42 below for the per-event linkage scope.)
+
+## M42 re-verification 2026-11-28 (branch main, HEAD bbbd992 + M42 worktree)
+
+- M41 left one explicit gap: set-level pass/slot co-occurrence and disjoint
+  slot-map pointers, but no per-event proof that a particular `RORET_BIND set`
+  row points at a particular tensor. M42 closes the observable part of that gap
+  on the CPU synthetic fixture.
+- Only source edit: `common/debug.cpp` adds a default-off `LLAMA_DUMP_TENSOR_PTR`
+  flag that appends a separate `manifest_ptr.tsv` (`filename<TAB>ptr`) alongside
+  the existing dump. The 12-field `manifest.tsv` schema is unchanged. With the
+  flag unset, no pointer manifest is written and M41 behavior is unchanged.
+- New files under `tools/audit/`: `BIND_TENSOR_LINK.json` (frozen contract),
+  `check_bind_tensor_link.py` (stdlib-only checker), `test_bind_tensor_link.py`,
+  `BIND_TENSOR_LINK.md`, and generated `M42_BIND_TENSOR_LINK_SUMMARY.json`.
+  The tensor filter is widened to include `ffn_moe_slots-<il>`; all other CLI
+  flags match M41, including `cpu_share=1.0`.
+- Honest measured result on the real binary: checker exit 0, verdict **PASS**,
+  45/45 checks true, empty blocker. Both engine phases exited 0. The ON trace
+  had 48 `RORET_BIND set` rows (12 each for passes 0/1/2 at `key_il=1`, plus 12
+  `key_il=-1 pass=-1` sentinels) and the ON pointer manifest had 48 rows;
+  OFF had 0 bind rows and 0 pointer rows. Eight `ffn_moe_slots` dumps were
+  observed (slots 0..3, two occurrences each): six matched a `key_il=1` set
+  lookup for pass 0/1/2 at slots 1/2/3 (two occurrences each, one per graph
+  eval), and two matched the sentinel at slots-0. Per pass the checker requires
+  exactly one distinct matched pointer, two matched set rows, and the basename
+  set equal to the frozen pass-to-slot slot; swapped `il`, a shared pointer
+  across passes, a wrong `key_il`, or an unbound slot pointer fail closed.
+- The remaining 30 non-sentinel set rows have no evaluated slot dump in this
+  CPU build and are recorded as `unmatched_set_rows_on=30`; they are NOT
+  claimed as linked. Raw bytes: 48 `.bin` files / 30720 bytes compared, 0
+  differing; stdout 23892 bytes, 0 differing. Two consecutive real runs gave
+  byte-identical summaries; no raw pointer or address is written to the
+  summary (ASLR varies them).
+- Fail-closed controls verified in isolated temp trees: mutated/missing/duplicate
+  pointer row, pointer bound to the wrong `il`, pointer shared across passes,
+  missing pass, bind rows in OFF, pointer manifest in OFF, enable-marker flip
+  in both directions, byte flip in a `.bin`, stdout mismatch, nonzero engine
+  exit, wrong fixture sha256/bytes, checker hash drift, contract key drift,
+  malformed contract JSON, missing CLI, stale PASS overwrite,
+  sentinel-before-engine check and atomic-write-failure exit 1. No tamper test
+  touches the real tree.
+- Default-off regression: rerunning M41's checker with the newly built binary
+  gave 31/31 PASS and a byte-identical M41 summary with no pointer manifest.
+- Local tests this pass: new suite 28 passed; full `tools/audit` suite 532
+  passed (504 prior plus 28 new) with `PYTHONPATH=../loopkit/src:gguf-py`;
+  loopkit fast suite 40 passed, 1 deselected with `PYTHONPATH=src`;
+  `git diff --check` clean; all new lines ASCII-only with no literal tabs in
+  source. Only `common/debug.cpp` was edited outside `tools/audit/`.
+- Scope: per-event pointer identity between the registered RORET binding and
+  the dumped `ffn_moe_slots-<il>` tensor on the fixed-seed synthetic 3-pass
+  fixture, including the pass-to-slot map. NOT tensor-value correctness, NOT
+  tensor-value reference, no copy-callback linkage (the CPU log emits zero
+  `resolve`/`hit` rows), no real weights, no GPU, no timing, throughput or
+  wall-clock win. NO SPEED CLAIM; CycleAudit `claim<=ci_low`, `repeats>=20`,
+  `loops=3` remains mandatory for any future number.
