@@ -39,8 +39,12 @@ The verdict is PASS only when all of the following hold for every cpu_share:
 
 - both subprocess exits are 0;
 - the RORET hook is ABSENT in OFF stderr and ACTIVE in ON stderr;
+- each phase's dump directory is freshly cleared;
+- every expected tensor base name appears in both manifests with equal
+  occurrence counts, and no unexpected name appears;
 - manifest row sets match, with identical type, ne, nb and nbytes;
-- every referenced `.bin` file exists in both runs;
+- every referenced `.bin` file exists in both runs and its size matches the
+  manifest `nbytes`;
 - differing bytes equal 0, with at least one tensor and one byte compared.
 
 Any violation gives NO_GO and a nonzero tool exit.
@@ -59,12 +63,24 @@ removing a redundant null check on the `ggml_tensor::name` array.
 
 Overall verdict: PASS (CPU-test scope, synthetic fixture only). Fixture sha256
 `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`.
-`llama-debug --version` reported `1.0.0-dev (build 146, commit 6082fce)`; the
-binary was built from the working tree, so the commit string names the base
-HEAD, not a post-commit SHA. Evidence: `/tmp/opencode/m26-parity/M26_SUMMARY.json`
-(sha256 `12c0ad34b443f30a01573d5bc548b0c69d8663813112fda6683abaa706d4820e`).
+The final hardened run reports `llama-debug --version` as
+`1.0.0-dev (build 148, commit 94a4712)`; the binary was built from the working
+tree, so the commit string names the pushed HEAD at build time, not the SHA of
+the later hardening commit. Evidence:
+`/tmp/opencode/m26-parity-h/M26_SUMMARY.json` (sha256
+`8ef1e0c9c12d1e24720286ed9b34e47ec4bd5dedbccfe25ccc6b9d68724b8a4a`).
 Each share has 20 unique tensor names (5 kinds x `il=0..3`) across two graph
 evaluations, hence 40 dumped `.bin` files per phase.
+
+Gate hardening after independent review: the tool now requires the exact 20
+expected tensor names in both manifests (`--expect-names`, default listed in
+`check_intermediate_parity.py`), requires equal occurrence counts per name,
+refuses to proceed when a stale dump directory cannot be removed, and checks
+each `.bin` size against the manifest `nbytes` before counting compared bytes.
+The C++ dump logs and skips the manifest row when a file write fails instead of
+silently recording an incomplete file. The reviewer's claimed blocking issue
+("--cmoe is invalid") was a misread: the checked-in tool passes `-cmoe`, which
+is a registered alias, and both real runs exit 0.
 
 Fail-closed negative controls with the checked-in tool: `--llama-debug /bin/true`
 (exits 0, dumps nothing) returned exit 1 with missing-manifest and hook-ABSENT

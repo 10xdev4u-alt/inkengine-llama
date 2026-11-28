@@ -18,6 +18,8 @@ from pathlib import Path
 
 HOOK_TEXT = "RORET union-resident MoE bookkeeping enabled"
 TENSOR_FILTER = r"^ffn_moe_(logits|probs|topk|weights|out)-[0-9]+$"
+KINDS = ("logits", "probs", "topk", "weights", "out")
+EXPECTED_NAMES = ["ffn_moe_%s-%d" % (kind, il) for il in range(4) for kind in KINDS]
 TIMEOUT_S = 600
 
 
@@ -85,7 +87,12 @@ def read_manifest(path, problems):
 
 def run_phase(phase, share, args, out_dir, problems):
     dump_dir = out_dir / ("%s_%s" % (phase, share))
-    shutil.rmtree(dump_dir, ignore_errors=True)
+    if dump_dir.exists():
+        try:
+            shutil.rmtree(dump_dir)
+        except OSError as exc:
+            problems.append("%s stale dump dir not cleared: %s" % (phase, exc))
+            return dump_dir, -1, False
     env = os.environ.copy()
     env.pop("LLAMA_RORET", None)
     if phase == "on":
@@ -156,6 +163,21 @@ def compare_share(share, args, out_dir):
     if off_keys != on_keys:
         problems.append("manifest row sets differ: off_only=%d on_only=%d" % (len(off_keys - on_keys), len(on_keys - off_keys)))
 
+    expected = set(args.expect_names)
+    for phase in ("off", "on"):
+        seen = set(name for name, _ in rows[phase])
+        missing = sorted(expected - seen)
+        extra = sorted(seen - expected)
+        if missing:
+            problems.append("%s missing expected tensors: %s" % (phase, ",".join(missing)))
+        if extra:
+            problems.append("%s unexpected tensors: %s" % (phase, ",".join(extra)))
+        for name in expected & seen:
+            off_n = sum(1 for key in off_keys if key[0] == name)
+            on_n = sum(1 for key in on_keys if key[0] == name)
+            if off_n != on_n:
+                problems.append("occurrence count differs for %s: %d vs %d" % (name, off_n, on_n))
+
     for phase in ("off", "on"):
         for key, row in rows[phase].items():
             bin_path = dirs[phase] / row["filename"]
@@ -177,8 +199,16 @@ def compare_share(share, args, out_dir):
         on_path = dirs["on"] / on_row["filename"]
         if not off_path.is_file() or not on_path.is_file():
             continue
+        off_size = os.path.getsize(off_path)
+        on_size = os.path.getsize(on_path)
+        if off_size != int(off_row["nbytes"]):
+            problems.append("off manifest nbytes mismatch for %s" % (repr(key),))
+        if on_size != int(on_row["nbytes"]):
+            problems.append("on manifest nbytes mismatch for %s" % (repr(key),))
+        if off_size != on_size:
+            problems.append("file sizes differ for %s" % (repr(key),))
         if filecmp.cmp(off_path, on_path, shallow=False):
-            record["bytes_compared"] += os.path.getsize(off_path)
+            record["bytes_compared"] += off_size
             continue
 
         problems.append("bytes differ for %s" % repr(key))
@@ -202,6 +232,8 @@ def main():
     parser.add_argument("--prompt", default="hello world")
     parser.add_argument("--n", type=int, default=4)
     parser.add_argument("--cpu-share", nargs="+", default=["0.0", "1.0"])
+    parser.add_argument("--expect-names", nargs="+", default=EXPECTED_NAMES,
+                        help="tensor base names required in both OFF and ON manifests")
     args = parser.parse_args()
 
     out_dir = Path(args.out)

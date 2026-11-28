@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <regex>
@@ -211,12 +212,21 @@ bool common_debug_cb_eval(struct ggml_tensor * t, bool ask, void * user_data) {
         const std::string filename = basename + "__" + std::to_string(occurrence) + ".bin";
 
         const std::filesystem::path dir(dump_dir);
-        std::filesystem::create_directories(dir);
+        try {
+            std::filesystem::create_directories(dir);
+        } catch (const std::exception & e) {
+            LOG_ERR("%s: cannot create dump dir: %s\n", __func__, e.what());
+            return true;
+        }
 
         const size_t n_bytes = ggml_nbytes(t);
         {
             std::ofstream out(dir / filename, std::ios::binary | std::ios::trunc);
             out.write((const char *) data, (std::streamsize) n_bytes);
+            if (!out) {
+                LOG_ERR("%s: failed to write %s\n", __func__, filename.c_str());
+                return true;
+            }
         }
         {
             std::ofstream out(dir / "manifest.tsv", std::ios::app);
@@ -228,6 +238,9 @@ bool common_debug_cb_eval(struct ggml_tensor * t, bool ask, void * user_data) {
                 out << '\t' << t->nb[i];
             }
             out << '\t' << n_bytes << '\t' << filename << '\n';
+            if (!out) {
+                LOG_ERR("%s: failed to append manifest in %s\n", __func__, dump_dir.c_str());
+            }
         }
     }
 

@@ -70,7 +70,13 @@ RESULTS.md for the honest numeric models.
   exit 0, no warnings.
 - CPU-test parity: 40 tensors per cpu_share, 30080 bytes compared, 0 differing
   bytes at both 0.0 and 1.0; hook ABSENT off / ACTIVE on; both exits 0; verdict
-  PASS at CPU-test scope only. Two fail-closed stub negative controls returned 1.
+  PASS at CPU-test scope only. Three fail-closed negative controls returned 1
+  (empty stub, nonzero-exit stub, deliberately wrong expected-name set).
+- Post-review hardening: exact expected tensor-name set and equal occurrence
+  counts required in both phases, stale dump dir removal is strict, `.bin`
+  sizes are checked against manifest `nbytes`, and C++ write failures are
+  logged and skip the manifest row. Re-run after hardening: still PASS with the
+  same 40/30080/0 figures.
 - Local tests this pass: ctest roret 10/10, pibs 2/2, odsl 1/1; audit pytest 17
   passed; loopkit fast pytest 41 passed.
 - No GPU run, no real weights, no speed claim; GPU intermediate parity remains
