@@ -1,0 +1,40 @@
+{
+  "source": "kaggle kernels logs jprinceraj/inkengine-cuda-cycleaudit (logs read, output API not used)",
+  "kernel_status": "KernelWorkerStatus.COMPLETE",
+  "kernel_log_sha256": "4d8d11a7146e2538018febe36e56416c9e9f607ed0e7ae0e5271664f02d5550d",
+  "decoded_stdout_sha256": "32edd02b472f992345909f4c31d23b73a00755b233676201ea6cbae0baa0bf40",
+  "notebook_sha256": "b15cf84c0a6583356b7a119b83b774b956c32c9f17e83b30e0dfb9d0fce3b8a7",
+  "producer_script_sha256": "525e6aa2d40751ba804dde39e41d11b785805c4bc5c91d932586bef2fa04ef8b",
+  "started_utc": "2026-11-27T23:36:27Z",
+  "repo_head": "9c975ae68f11e848ce7ecc0292e57e3ffe156ff6",
+  "loopkit_head": "0597f5ea0ffe310bc1f96aea75352cb3c91a75ee",
+  "nvcc_release": "13.0, V13.0.88",
+  "configure_exit": 0,
+  "build_exit": 0,
+  "build_ok": true,
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "audit_exit": 0,
+  "m24": {
+    "verdict": "NO_CLAIM",
+    "claim": 1.0,
+    "ci_low": 0.9977116162363447,
+    "ci_high": 0.9999835093546772,
+    "speedup": 0.9999176055055583,
+    "claim_valid": false,
+    "gate_exit_code": 1,
+    "repeats": 50,
+    "loops": 3,
+    "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+    "fork_head": "9c975ae68f11e848ce7ecc0292e57e3ffe156ff6",
+    "llama_cli_version": "version: 1.0.0-dev (build 12755, commit 9c975ae68)\nbuilt with GNU 13.3.0 for Linux x86_64",
+    "negative_controls_pass": true
+  },
+  "parity": {
+    "hook_absent_off_active_on": true,
+    "generated_text_bytes_equal": true
+  },
+  "speed_claim": "NO SPEED CLAIM",
+  "overall_verdict": "PASS",
+  "overall_verdict_meaning": "Gate ran with integrity; PASS does not mean a speed claim exists",
+  "interpretation": "The whole 95% bootstrap interval (ci_low 0.9977116162363447, ci_high 0.9999835093546772) is below 1.0 on the synthetic 16-token fixture, so the pre-registered claim 1.0 fails closed. RORET ON did not improve wall-clock time on this fixture; load-count reductions remain counts, not speedups."
+}

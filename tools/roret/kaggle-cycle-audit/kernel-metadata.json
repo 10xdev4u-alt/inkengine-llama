@@ -1,5 +1,5 @@
 {
-  "id": "jprinceraj/inkengine-cuda-cycle-audit",
+  "id": "jprinceraj/inkengine-cuda-cycleaudit",
   "title": "Inkengine CUDA CycleAudit",
   "code_file": "cycle_audit.ipynb",
   "language": "python",
