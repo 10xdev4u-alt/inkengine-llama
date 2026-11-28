@@ -99,3 +99,20 @@ RESULTS.md for the honest numeric models.
   17 passed; loopkit fast pytest 40 passed, 1 deselected.
 - Correctness scope only. No real weights, no timing. NO SPEED CLAIM; any future
   number still requires CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M28 real-weight parity readiness gate (branch main)
+
+- No real weights are held (roadmap constraint 2), so the only honest local
+  result is NO_GO. The gate refuses to classify the frozen synthetic fixture
+  as real and does not run the engine when classification fails.
+- Added `tools/roret/check_real_weight_parity.py`: fail-closed classification
+  from attestation, existence, sha256, size, architecture and expert_count,
+  plus reuse of the M26/M27 `compare_share` harness for OFF/ON raw byte parity.
+  The verdict is written to `M28_REAL_WEIGHT_SUMMARY.json`; exit 0 only on PASS.
+- Added `tools/audit/test_real_weight_gate.py` (pure-function tests), and
+  `tools/roret/REAL_WEIGHT_PARITY.md` with the command and metadata-derived
+  `--expect-names` recipe for when a real Inkling2 GGUF exists.
+- Local smoke check on the frozen synthetic fixture with attestation: exit 1,
+  weights_class `synthetic_or_unknown`, two blockers (frozen sha, size),
+  no engine run. Local suite: `tools/audit` pytest 29 passed (17 existing plus
+  12 new). No `src/` edit, no Kaggle kernel, no speed claim.
