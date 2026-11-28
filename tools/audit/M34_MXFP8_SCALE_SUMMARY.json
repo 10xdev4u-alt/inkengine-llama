@@ -1,0 +1,120 @@
+{
+  "blocker": "",
+  "checkpoint_scale_parity": "VERIFIED",
+  "checks": {
+    "converter_semantics": true,
+    "derived_elements_per_scale": true,
+    "frozen_converter_sha256": true,
+    "frozen_facts": true,
+    "frozen_provenance": true,
+    "live_converter_sha256": true,
+    "m33_superseded_detected": true,
+    "needle_config_block_shape_warns": true,
+    "needle_mxfp8_dequant_reshape": true,
+    "needle_mxfp8_stored_block": true,
+    "needle_nvfp4_dequant_reshape": true,
+    "needle_nvfp4_scale_format": true,
+    "needle_packed_shape_divisibility": true,
+    "needle_weight_scale_dtypes": true,
+    "no_network": true,
+    "published_config_info": true,
+    "run_completed": true,
+    "stored_block_parity": true
+  },
+  "converter_sha256_live": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+  "derived": {
+    "mxfp8": {
+      "w13": {
+        "elements_per_scale": 32,
+        "scale_dtype": "U8",
+        "scale_shape": [
+          128,
+          2304,
+          72
+        ],
+        "stored_block": [
+          1,
+          32
+        ],
+        "weight_dtype": "F8_E4M3",
+        "weight_shape": [
+          128,
+          2304,
+          2304
+        ]
+      },
+      "w2": {
+        "elements_per_scale": 32,
+        "scale_dtype": "U8",
+        "scale_shape": [
+          128,
+          2304,
+          36
+        ],
+        "stored_block": [
+          1,
+          32
+        ],
+        "weight_dtype": "F8_E4M3",
+        "weight_shape": [
+          128,
+          2304,
+          1152
+        ]
+      }
+    },
+    "nvfp4": {
+      "w13": {
+        "elements_per_scale": 16,
+        "scale_dtype": "F8_E4M3",
+        "scale_shape": [
+          128,
+          2304,
+          144
+        ],
+        "stored_block": [
+          1,
+          16
+        ],
+        "weight_dtype": "U8",
+        "weight_shape": [
+          128,
+          2304,
+          1152
+        ]
+      },
+      "w2": {
+        "elements_per_scale": 16,
+        "scale_dtype": "F8_E4M3",
+        "scale_shape": [
+          128,
+          2304,
+          72
+        ],
+        "stored_block": [
+          1,
+          16
+        ],
+        "weight_dtype": "U8",
+        "weight_shape": [
+          128,
+          2304,
+          576
+        ]
+      }
+    }
+  },
+  "frozen_facts_sha256": "b79ef3014158d34b8e9437092e610f118cd09bc8555fe39b53eeceb255acbf00",
+  "frozen_on": "2026-11-28",
+  "info": [
+    "M33 QUANT_LAYOUT.json froze MXFP8 scale cols 144/72 (16 per scale) from NVFP4 layer 19; detected and marked SUPERSEDED (INFO, not a failure)",
+    "evidence: header bytes 0-148415, 148416 bytes, sha256 a154b6ce2ead7032e9c0edcdcf020bf819a35f5078a36cce90938abe4d2c5247, 1245 tensors; checker makes no network calls",
+    "MXFP8 elements per scale from measured header: w13 32, w2 32; NVFP4 contrast: w13 16, w2 16",
+    "published hf_quant_config.json weight_block_shape [32,32] = 1024 elements per scale is config metadata; stored per-scale layout is (1,32); INFO only, not a blocker",
+    "stored MXFP8 block (1,32) matches converter check and dequant reshape; no conversion edit was needed"
+  ],
+  "note": "MXFP8 scale-layout parity only; no timing or speed claim",
+  "resolution": "MXFP8 stored per-scale layout is (1,32) with 32 elements per scale, matching the converter; NVFP4 is (1,16); the published [32,32] tile is config metadata and is INFO only.",
+  "speed_claim": null,
+  "verdict": "PASS"
+}

@@ -252,3 +252,37 @@ RESULTS.md for the honest numeric models.
   Contract/metadata scope only: no weights, no graph execution, no timing,
   NO SPEED CLAIM. Any future number still needs CycleAudit
   `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M34 MXFP8 expert scale-layout gate (2026-11-28, branch main)
+
+- Resolves GitHub issue #9 with a new offline, fail-closed gate
+  `tools/audit/check_mxfp8_scale_layout.py`, frozen facts in
+  `tools/audit/MXFP8_SCALE_HEADER.json`, report `MXFP8_SCALE_HEADER.md` and
+  generated `M34_MXFP8_SCALE_SUMMARY.json`: verdict PASS, blocker empty,
+  18/18 checks true, `speed_claim: null`, note "MXFP8 scale-layout parity only;
+  no timing or speed claim". Checker exit 0; no network calls in the checker.
+- One out-of-band bounded header fetch (bytes 0-148415, 148416 bytes, sha256
+  `a154b6ce2ead7032e9c0edcdcf020bf819a35f5078a36cce90938abe4d2c5247`,
+  header len 148408, 1245 tensors) gives MXFP8 layers 20-23 scale shapes
+  [128,2304,72] and [128,2304,36], i.e. 32 elements per scale and stored block
+  (1,32). NVFP4 layer 19 scales are [128,2304,144] and [128,2304,72], i.e. 16
+  per scale. The converter (sha256
+  `aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7`) checks
+  `block != (1, 16 if nvfp4 else 32)` and reshapes dequant to 32 for MXFP8:
+  the converter is correct and needs no change.
+- Three-way resolution: 16 was the mislabeled NVFP4 shape (WRONG for MXFP8);
+  32 is the real stored layout and converter behavior (CORRECT);
+  published `hf_quant_config.json` `weight_block_shape [32,32]` = 1024
+  elements per scale is config metadata and is recorded as INFO, not a
+  correctness blocker. M33's OPEN finding and UNVERIFIED parity are explicitly
+  SUPERSEDED in the new facts; no M33 file or sibling loopkit doc was edited.
+- Fails closed on frozen shape/hash/provenance mutation, converter needle or
+  live-hash tamper, missing or malformed M33 facts, malformed JSON, and any
+  extraction exception; a seeded stale PASS is always overwritten with NO_GO.
+- Local tests this pass: checker exit 0; new audit suite 18 passed; full
+  `tools/audit` 253 passed; loopkit fast pytest 41 passed with
+  `PYTHONPATH=../loopkit/src`; `git diff --check` clean; all new files
+  ASCII-only. No `src/`, `conversion/`, CMake or sibling-repo edit, no engine
+  rebuild, no Kaggle kernel. Metadata/header scope only: no weights loaded, no
+  engine run, no timing, NO SPEED CLAIM. Any future number still needs
+  CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.

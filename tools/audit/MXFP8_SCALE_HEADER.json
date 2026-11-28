@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "scope": "MXFP8 scale-layout parity only; no timing or speed claim",
+  "note": "MXFP8 scale-layout parity only; no timing or speed claim",
+  "speed_claim": null,
+  "provenance": {
+    "url": "https://huggingface.co/thinkingmachines/Inkling-2-Mini/resolve/main/model-00001-of-00001.safetensors",
+    "byte_range": "bytes=0-148415",
+    "byte_start": 0,
+    "byte_end": 148415,
+    "fetched_bytes": 148416,
+    "sha256": "a154b6ce2ead7032e9c0edcdcf020bf819a35f5078a36cce90938abe4d2c5247",
+    "header_len": 148408,
+    "n_tensors": 1245,
+    "converter_path": "conversion/inkling2.py",
+    "converter_sha256": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+    "network_access_in_checker": false,
+    "note": "The header bytes were fetched once out of band. This checker makes no network calls."
+  },
+  "facts": {
+    "measured": {
+      "mxfp8": {
+        "layers": [20, 21, 22, 23],
+        "layers_detail": {
+          "20": {
+            "w13_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 2304]},
+            "w13_weight_scale": {"dtype": "U8", "shape": [128, 2304, 72]},
+            "w2_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 1152]},
+            "w2_weight_scale": {"dtype": "U8", "shape": [128, 2304, 36]}
+          },
+          "21": {
+            "w13_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 2304]},
+            "w13_weight_scale": {"dtype": "U8", "shape": [128, 2304, 72]},
+            "w2_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 1152]},
+            "w2_weight_scale": {"dtype": "U8", "shape": [128, 2304, 36]}
+          },
+          "22": {
+            "w13_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 2304]},
+            "w13_weight_scale": {"dtype": "U8", "shape": [128, 2304, 72]},
+            "w2_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 1152]},
+            "w2_weight_scale": {"dtype": "U8", "shape": [128, 2304, 36]}
+          },
+          "23": {
+            "w13_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 2304]},
+            "w13_weight_scale": {"dtype": "U8", "shape": [128, 2304, 72]},
+            "w2_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 1152]},
+            "w2_weight_scale": {"dtype": "U8", "shape": [128, 2304, 36]}
+          }
+        },
+        "w13_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 2304]},
+        "w13_weight_scale": {"dtype": "U8", "shape": [128, 2304, 72]},
+        "w2_weight": {"dtype": "F8_E4M3", "shape": [128, 2304, 1152]},
+        "w2_weight_scale": {"dtype": "U8", "shape": [128, 2304, 36]},
+        "extra_companions": false
+      },
+      "nvfp4": {
+        "layers": [19],
+        "layers_detail": {
+          "19": {
+            "w13_weight": {"dtype": "U8", "shape": [128, 2304, 1152]},
+            "w13_weight_scale": {"dtype": "F8_E4M3", "shape": [128, 2304, 144]},
+            "w13_weight_amax": {"dtype": "F32", "shape": [128]},
+            "w13_weight_outer_scale_denominator": {"dtype": "F32", "shape": [1]},
+            "w2_weight": {"dtype": "U8", "shape": [128, 2304, 576]},
+            "w2_weight_scale": {"dtype": "F8_E4M3", "shape": [128, 2304, 72]},
+            "w2_weight_amax": {"dtype": "F32", "shape": [128]},
+            "w2_weight_outer_scale_denominator": {"dtype": "F32", "shape": [1]}
+          }
+        },
+        "w13_weight": {"dtype": "U8", "shape": [128, 2304, 1152]},
+        "w13_weight_scale": {"dtype": "F8_E4M3", "shape": [128, 2304, 144]},
+        "w13_weight_amax": {"dtype": "F32", "shape": [128]},
+        "w13_weight_outer_scale_denominator": {"dtype": "F32", "shape": [1]},
+        "w2_weight": {"dtype": "U8", "shape": [128, 2304, 576]},
+        "w2_weight_scale": {"dtype": "F8_E4M3", "shape": [128, 2304, 72]},
+        "w2_weight_amax": {"dtype": "F32", "shape": [128]},
+        "w2_weight_outer_scale_denominator": {"dtype": "F32", "shape": [1]}
+      }
+    },
+    "logical": {
+      "experts": 128,
+      "rows_w13": 2304,
+      "rows_w2": 2304,
+      "cols_w13": 2304,
+      "cols_w2": 1152
+    },
+    "derived": {
+      "mxfp8": {
+        "w13_elements_per_scale": 32,
+        "w2_elements_per_scale": 32,
+        "stored_block": [1, 32]
+      },
+      "nvfp4": {
+        "w13_elements_per_scale": 16,
+        "w2_elements_per_scale": 16,
+        "stored_block": [1, 16]
+      }
+    },
+    "converter": {
+      "mxfp8_block": 32,
+      "mxfp8_dequant_reshape": 32,
+      "nvfp4_block": 16,
+      "nvfp4_dequant_reshape": 16,
+      "mxfp8_weight_dtype": "torch.float8_e4m3fn",
+      "mxfp8_scale_dtype": "torch.uint8",
+      "nvfp4_weight_dtype": "torch.uint8",
+      "nvfp4_scale_dtype": "torch.float8_e4m3fn"
+    },
+    "published_config": {
+      "source": "hf_quant_config.json",
+      "weight_block_shape": [32, 32],
+      "elements_per_scale": 1024,
+      "status": "INFO_CONFIG_VS_CHECKPOINT"
+    },
+    "superseded_m33": {
+      "source": "tools/audit/QUANT_LAYOUT.json",
+      "status": "SUPERSEDED",
+      "wrong_mxfp8_shapes": {
+        "w13_weight_scale": [128, 2304, 144],
+        "w2_weight_scale": [128, 2304, 72]
+      },
+      "wrong_elements_per_scale": 16,
+      "checkpoint_scale_parity": "UNVERIFIED",
+      "open_finding": "MXFP8 scale layout is OPEN: HF scale_cols=144 over 2304 elements gives 16 elements per scale; converter dequant groups a flat 32; published weight_block_shape [32,32] gives 1024 elements per scale. These three do not agree. Real checkpoint scale-layout parity is UNVERIFIED without weights or header inspection.",
+      "reason": "The M33 MXFP8 scale shapes were mislabeled from NVFP4 layer 19. The MXFP8 header shows scale cols 72 and 36, which give 32 elements per scale."
+    }
+  },
+  "needles": {
+    "mxfp8_stored_block": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "block = (rows // ss[1], cols // ss[2])",
+        "if block != (1, 16 if nvfp4 else 32):",
+        "raise ValueError(f\"Inkling2: {name}_scale: unsupported stored block shape {block}\")"
+      ]
+    },
+    "mxfp8_dequant_reshape": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "block_scale = np.ldexp(np.ones(scales.shape, dtype=np.float32), scales.astype(np.int32) - 127)",
+        "values.reshape(values.shape[0], -1, 32)[:] *= block_scale[:, :, None]"
+      ]
+    },
+    "nvfp4_dequant_reshape": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "values.reshape(values.shape[0], -1, 16)[:] *= block_scale[:, :, None]"
+      ]
+    },
+    "weight_scale_dtypes": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "weight_dtype, scale_dtype = (torch.uint8, torch.float8_e4m3fn) if nvfp4 else (torch.float8_e4m3fn, torch.uint8)"
+      ]
+    },
+    "packed_shape_divisibility": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if min(shape) <= 0 or cols % (16 if nvfp4 else 32) or tuple(tensor.shape) != (experts, rows, cols // (2 if nvfp4 else 1)):"
+      ]
+    },
+    "config_block_shape_warns": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if list(block) != config.get(\"weight_block_shape\"):",
+        "logger.warning(\"Inkling2: %s: hf_quant_config.json weight_block_shape %s conflicts with stored weight/scale shapes %s/%s; using %s\", name, config.get(\"weight_block_shape\"), tuple(tensor.shape), ss, list(block))"
+      ]
+    },
+    "nvfp4_scale_format": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if nvfp4 and config.get(\"weight_scale_format\") != \"amax_denominator\":"
+      ]
+    }
+  },
+  "checkpoint_scale_parity": "VERIFIED",
+  "resolution": "MXFP8 stored per-scale layout is (1,32) with 32 elements per scale, matching the converter; NVFP4 is (1,16); the published [32,32] tile is config metadata and is INFO only."
+}
