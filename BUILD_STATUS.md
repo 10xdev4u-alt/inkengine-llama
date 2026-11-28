@@ -788,3 +788,56 @@ RESULTS.md for the honest numeric models.
   and no timing. NO SPEED CLAIM; CycleAudit `claim<=ci_low`, `repeats>=20`,
   `loops=3` remains mandatory for any future number. A legitimate future pin
   change must be explained openly here, not made silently to force PASS.
+
+## M44 fork/upstream `llama-cli` GGUF byte-compatibility gate (2026-11-28, branch `main`)
+
+- Gap closed: `INKLING_INTEGRATION.md` section 3 item (d), "a GGUF produced by the
+  fork is byte-compatible with upstream `llama-cli`", was the last unchecked
+  cheap-verification item. M29-M43 verified contracts, evidence chains and
+  runtime bindings inside the fork, but never ran an unmodified upstream build
+  on the same frozen fixture.
+- Five new ASCII-only files under `tools/audit/` with sha256:
+  `UPSTREAM_CLI_COMPAT.json` 5fb7e01e63c526844231daa6905ea7e78c9f5f37d85fbc595a0286bbae6b2ae6,
+  `check_upstream_cli_compat.py` 08c9902d011024317debe5ccf296b08c7fa0e1ebfbdc8854b665b340c03d2289,
+  `test_upstream_cli_compat.py` 8152a3690391a8603f86fa8d5086e5ab3afb4c30913328d271e82398991b1a2b,
+  `UPSTREAM_CLI_COMPAT.md` 403f591fba0e1db10c3e6ade2476fdcde9499627d1f4171c58b13cca79cc2ec2,
+  and generated `M44_UPSTREAM_CLI_COMPAT_SUMMARY.json` 38ab9c92f7c378e7f4ed23d834b2bd60367207b754e80f37e6f359c8a5ce8122.
+- Method: two distinct local `GGML_CUDA=OFF` builds, upstream base
+  `bc641b516fe01f346b9f2bf70d69fb7afa3ac222` and fork HEAD
+  `5039437e312ecc0bf37674e24b89c7e2e8ee7a99` (fork also
+  `LLAMA_RORET_CPU_TEST=ON`), both run on the frozen synthetic `inkling2_loop`
+  fixture sha256 `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`
+  with `-t 1 -n 16 -s 0 --temp 0 -p hello --no-perf --no-show-timings
+  --no-warmup -st`. Seven `LLAMA_*` env keys are stripped for both runs. Both
+  CLI files are hash-pinned in the contract and required to have different
+  hashes. A positive control invokes each binary with `LLAMA_RORET=1 -cmoe
+  --moe-cache-mib 16 --verbose` and requires the marker on the fork stderr and
+  its absence on the upstream stderr; control exit codes are not gated because
+  the CPU-test `-cmoe` path can abort during teardown after printing.
+- The `build : <build-info>` banner line is removed from both stdout streams
+  before byte comparison; it records build provenance (build number and
+  commit), not GGUF or graph output, and necessarily differs between the two
+  builds. All other stdout bytes, including prompt echo and generated tokens,
+  are compared. Stderr is used only for the enable-marker checks.
+- Real checker run: exit 0, verdict PASS, 26/26 checks, blockers empty,
+  `stdout_differing_bytes` 0, 918 stdout bytes on each side, both main exits 0,
+  both main enable markers absent, positive control present/absent as required.
+  Raw stdout differed only in the banner line; normalized stdout was identical.
+  Generated-token payload `fffa3fa3fa3fa397` was present in both stdout streams.
+- Real negative control with the two CLI paths swapped exited 1 with verdict
+  NO_GO and four failing checks (both CLI hash pins and both control marker
+  checks), writing to a separate output path; the PASS summary was unchanged.
+- Two Hy4 Flash subagents (implementation plus independent adversarial review,
+  two passes) found and fixed vacuous-PASS paths, nondeterministic stdout from
+  `--no-perf` alone, a vacuous marker check, a stale-PASS path on failed initial
+  sentinel write, and weak fixture pinning. Local tests after fixes: new suite
+  60 passed, full `tools/audit` 656 passed, loopkit fast suite 40 passed with 1
+  deselected, `git diff --check` clean, all five new files ASCII-only with no
+  literal tabs. The full audit regenerated `M33_QUANT_LAYOUT_SUMMARY.json` with
+  a machine-specific path; it was restored with `git checkout --`, so the final
+  diff has only the five new files plus this section.
+- Scope: byte compatibility of one frozen synthetic GGUF on two CPU builds with
+  union routing compiled in but default-off. No real weights, no GPU, no tensor
+  or logits reference, no timing, throughput or wall-clock result. NO SPEED
+  CLAIM; CycleAudit `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory
+  for any future number. No issue or PR filed; issues #1-#9 remain closed.

@@ -1,0 +1,59 @@
+{
+  "frozen_on": "2026-11-28",
+  "contract_version": 1,
+  "fixture": {
+    "sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+    "size_bytes": 887392,
+    "generator": "tools/audit/make_synthetic_gguf.py",
+    "seed": 0,
+    "arch": "inkling2_loop"
+  },
+  "upstream_base": {
+    "commit": "bc641b516fe01f346b9f2bf70d69fb7afa3ac222",
+    "date": "2026-11-24",
+    "build_flags": [
+      "GGML_CUDA=OFF",
+      "LLAMA_BUILD_TESTS=OFF",
+      "LLAMA_CURL=OFF"
+    ]
+  },
+  "fork": {
+    "head_at_freeze": "5039437e312ecc0bf37674e24b89c7e2e8ee7a99",
+    "build_flags": [
+      "GGML_CUDA=OFF",
+      "LLAMA_BUILD_TESTS=OFF",
+      "LLAMA_CURL=OFF",
+      "LLAMA_RORET_CPU_TEST=ON"
+    ],
+    "rort_default_off_env_unset": true,
+    "rort_enable_marker_absent": true
+  },
+  "cli_args": [
+    "-m",
+    "{fixture}",
+    "-t",
+    "1",
+    "-n",
+    "16",
+    "-s",
+    "0",
+    "--temp",
+    "0",
+    "-p",
+    "hello",
+    "--no-perf",
+    "--no-show-timings",
+    "--no-warmup",
+    "-st"
+  ],
+  "checker_sha256": "08c9902d011024317debe5ccf296b08c7fa0e1ebfbdc8854b665b340c03d2289",
+  "fork_cli_sha256": "0216eda9af0b0cf45457c9d2e87cc7b6cf09bc4b05735edd2bf8b517885dc323",
+  "upstream_cli_sha256": "f1599b90d956aa75657f7b8b4c1e2dde45ca5549c210bf70ba61a28e105a2111",
+  "stdout_contains": "fffa3fa3fa3fa397",
+  "expect": {
+    "both_exits_zero": true,
+    "stdout_differing_bytes": 0,
+    "stderr_compared": false
+  },
+  "speed_claim": null
+}

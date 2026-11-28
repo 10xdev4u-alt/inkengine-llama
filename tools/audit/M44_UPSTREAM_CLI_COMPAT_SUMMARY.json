@@ -1,0 +1,33 @@
+{
+  "blockers": [],
+  "checks_failed": 0,
+  "checks_passed": 26,
+  "checks_total": 26,
+  "cli_hashes_distinct": true,
+  "engine_run": "cpu_synthetic_only",
+  "fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "fork_cli_hash_matches_pin": true,
+  "fork_cli_sha256": "0216eda9af0b0cf45457c9d2e87cc7b6cf09bc4b05735edd2bf8b517885dc323",
+  "fork_control_marker_present": true,
+  "fork_exit": 0,
+  "fork_rort_enable_marker_absent": true,
+  "fork_stdout_contains_payload": true,
+  "fork_stdout_sha256": "faa87c2b22949dbab87e032a5c73257577f3c566aa0847ef38a3d0e08b91feb1",
+  "no_weights": true,
+  "note": "stdout-only byte comparison after removing the build-info banner line; stderr timing lines are not compared",
+  "speed_claim": null,
+  "stdout_bytes_each": {
+    "fork": 918,
+    "upstream": 918
+  },
+  "stdout_contains": "fffa3fa3fa3fa397",
+  "stdout_differing_bytes": 0,
+  "upstream_cli_hash_matches_pin": true,
+  "upstream_cli_sha256": "f1599b90d956aa75657f7b8b4c1e2dde45ca5549c210bf70ba61a28e105a2111",
+  "upstream_control_marker_absent": true,
+  "upstream_exit": 0,
+  "upstream_rort_enable_marker_absent": true,
+  "upstream_stdout_contains_payload": true,
+  "upstream_stdout_sha256": "6e07a87cc3613a4c82e62f62e6597e81975156afd7600e8f2ebdb01aa394397f",
+  "verdict": "PASS"
+}
