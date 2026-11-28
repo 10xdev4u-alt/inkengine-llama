@@ -1,0 +1,18 @@
+{
+  "id": "jprinceraj/inkengine-cuda-intermediate-parity",
+  "title": "Inkengine CUDA intermediate parity",
+  "code_file": "intermediate_parity.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4x2",
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [],
+  "model_sources": [],
+  "github_sources": [
+    "10xdev4u-alt/inkengine-llama"
+  ]
+}

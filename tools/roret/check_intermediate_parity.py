@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Check byte parity of intermediate MoE tensors with RORET OFF vs ON.
 
-CPU-test mode only. Synthetic fixture only.
-This is NOT a GPU test and NOT a speed claim.
+Synthetic fixture only. Engine-level raw tensor bytes. Device placement is
+controlled by --ngl (0 keeps the historical CPU-only command). NO speed claim.
 """
 
 import argparse
@@ -107,12 +107,18 @@ def run_phase(phase, share, args, out_dir, problems):
         "-m", args.model,
         "-p", args.prompt,
         "-n", str(args.n),
+    ]
+    if args.ngl > 0:
+        cmd.extend(["-ngl", str(args.ngl)])
+    if args.threads > 0:
+        cmd.extend(["-t", str(args.threads)])
+    cmd.extend([
         "-cmoe",
         "--moe-cache-mib", "16",
         "--moe-cache-cpu-share", share,
         "--verbose",
         "--tensor-filter", TENSOR_FILTER,
-    ]
+    ])
     exit_code = -1
     try:
         with open(stdout_path, "wb") as stdout_handle, open(stderr_path, "wb") as stderr_handle:
@@ -231,6 +237,8 @@ def main():
     parser.add_argument("--out", required=True, help="output directory for dumps and summary")
     parser.add_argument("--prompt", default="hello world")
     parser.add_argument("--n", type=int, default=4)
+    parser.add_argument("--ngl", type=int, default=0, help="GPU layers to offload; 0 keeps the CPU-only cmd")
+    parser.add_argument("--threads", type=int, default=0, help="thread count; 0 leaves the engine default")
     parser.add_argument("--cpu-share", nargs="+", default=["0.0", "1.0"])
     parser.add_argument("--expect-names", nargs="+", default=EXPECTED_NAMES,
                         help="tensor base names required in both OFF and ON manifests")
