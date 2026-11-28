@@ -462,3 +462,63 @@ RESULTS.md for the honest numeric models.
   `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future number.
   The d2027 premise stays LOCAL_ONLY_UNVERIFIED and its real-trace falsification
   stays NO_GO_BLOCKED without weights or hosted inference.
+
+## M39 - wiring evidence chain integrity gate (2026-11-28, branch main)
+
+- Adds a single offline, fail-closed command that re-verifies the accumulated
+  M29-M38 evidence chain: `tools/audit/check_evidence_chain.py`. Five new
+  ASCII-only files under `tools/audit/`: `EVIDENCE_CHAIN.json` (frozen contract,
+  sha256 `065311f38f1fff6f51771b57b0c6887775b0035af04a37f928ab304ccddae86b`),
+  `check_evidence_chain.py` (sha256
+  `aba235c2ae6291b48135843295045e564958541b85fc8aac20cf1333ad099e79`),
+  `test_evidence_chain.py` (sha256
+  `076c3553401c7326d6052d30cf9fe846ead200f3f5a6343bc8e4cc0f19620923`),
+  `EVIDENCE_CHAIN.md` (sha256
+  `ad5ccafaa13a332f860ff5a851114f5d9afc7c877e8a2bab6ecf622263cd0e95`), and
+  the generated `M39_EVIDENCE_CHAIN_SUMMARY.json`.
+- The checker source hash is pinned only in `EVIDENCE_CHAIN.json`, not inside
+  the checker itself, so the pin is not self-referential. `EVIDENCE_CHAIN.md`
+  records that a future legitimate checker edit must update that pin openly.
+- Frozen contract: `schema_version` 1, `frozen_on` 2026-11-28, `scope`/`note`/
+  `speed_claim` null, `no_weights` true, `no_engine_run` true, ten
+  M29-M38 summary paths each with sha256 and expected verdict PASS, milestones
+  `["M29", ..., "M38"]`, and `wiring_contract: tools/audit/UNION_WIRING.json`.
+  Any missing, malformed or extra top-level key fails closed.
+- Measured checker result from the inkengine-llama root: exit 0, verdict PASS,
+  `blocker` empty list, `check_counts` total 94 passed 94 failed 0,
+  `speed_claim: null`, `no_weights: true`, `no_engine_run: true`, note "wiring
+  evidence integrity only, no timing". Generated summary sha256
+  `4f6361b562a82ad2942f32b1b8f07bb5bf22417701f1ca940c0a1b837ae78ba3`.
+- The 94 booleans cover: exact contract and checker-hash match; eight pinned
+  live union-wiring sources from `UNION_WIRING.json` with frozen equals live
+  sha256; ten `land <milestone>` rows in `DECISIONS.tsv`; ten
+  `## <milestone> ` headings in `BUILD_STATUS.md`; six integrity properties
+  per frozen summary (exists, JSON object, sha256, verdict, no speed claim,
+  empty blocker); a static no-network self-check; and run completion.
+- Honest shape finding: the M29 summary predates the `blocker` field and has no
+  `blocker` key at all, while M30-M38 use `""`. Both are read as "no blocker".
+  The byte-exact sha256 pin still detects any edit to M29, so the allowance
+  does not weaken the gate. No summary was regenerated and no frozen hash was
+  changed to make this gate pass.
+- Any previous summary is unlinked first, then a NO_GO sentinel is written
+  before checks, and the final verdict uses an atomic temp file plus
+  `os.replace`. This closes a dual write failure path found by independent
+  Hy4 Flash review: even if both writes fail, no stale PASS remains on disk.
+  A final write failure exits 1. Tests cover sentinel ordering, atomic-write
+  failure and non-zero CLI exit, plus missing/wrong-sha/wrong-verdict/
+  speed-claim/blocker summaries, malformed JSON, mutated live wiring source,
+  missing DECISIONS row, missing BUILD_STATUS heading, extra contract key,
+  contract field tamper, checker-hash mismatch, and stale-PASS overwrite.
+  The reviewer's second LOW note (one test ran against the real tree and
+  restored the generated summary bytes) was fixed by dropping that test;
+  tamper tests use isolated temp trees only.
+- Local tests this pass: new suite 45 passed; full `tools/audit` suite 452
+  passed (407 baseline plus 45 new) with
+  `PYTHONPATH=../loopkit/src:gguf-py`; `git diff --check` clean; all five new
+  files have 0 non-ASCII bytes. No `src/`, `common/`, `ggml/`, CMake or
+  `DECISIONS.tsv` edit, no sibling-repo edit, no engine rebuild, no Kaggle
+  kernel, no network call, no weights.
+- Scope: evidence-chain integrity only. No engine run, no graph execution, no
+  tensor or logits parity, no timing. NO SPEED CLAIM; CycleAudit
+  `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future
+  number. Real-weight parity stays blocked without weights.
