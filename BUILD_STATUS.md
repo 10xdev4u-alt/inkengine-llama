@@ -211,3 +211,44 @@ RESULTS.md for the honest numeric models.
   ASCII-only. No `src/` or CMake edit, no engine rebuild, no Kaggle kernel.
   Contract/metadata scope only: no weights, no graph execution, no timing, NO SPEED CLAIM.
   Any future number still needs CycleAudit `claim <= ci_low`, `repeats >= 20`, `loops = 3`.
+
+## M33 quant-layout and Unsloth quant contract gate (branch main)
+
+- Roadmap section 4 item 6 (next unchecked cheap-verification item after M32;
+  item 4 stays blocked without weights or hosted inference). New offline,
+  fail-closed gate `tools/audit/check_quant_layout.py` with frozen facts in
+  `QUANT_LAYOUT.json`, report `QUANT_LAYOUT.md` and generated
+  `M33_QUANT_LAYOUT_SUMMARY.json`: verdict PASS, 28/28 checks true, blocker
+  empty, `speed_claim: null`, note "quant layout and Unsloth quant contract
+  only, no timing". Checker exit 0; no network calls from the checker.
+- Frozen converter semantics from `conversion/inkling2.py` (sha256
+  `aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7`): NVFP4
+  dequant groups a flat 16 per row with E4M3 block scales and FP32
+  amax/outer-scale denominator (`scheme nvfp4_nearest`, `weight_scale_format
+  amax_denominator`); MXFP8 groups a flat 32 per row with UE8M0 scales and must
+  not carry amax/denominator (`scheme mxfp8_nearest`). Divisibility and
+  stored-block guards are frozen as 17 needle groups.
+- One bounded HTTP range probe (bytes 0-16777215) of
+  `unsloth/Inkling-2-Mini-GGUF/Inkling-2-Mini-UD-IQ1_S.gguf`, first-16MiB sha256
+  `87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76`, GGUF v3,
+  744 tensors, 63 KVs: `general.architecture inkling2_loop`, `general.file_type
+  24` (MOSTLY_IQ1_S except 1d tensors), 156 loop tensors with F32 rank-64
+  controllers, expert weights IQ1_S / Q2_0, not native NVFP4/MXFP8. The checker
+  never re-fetches.
+- OPEN finding recorded, not resolved: HF scale shapes give 16 elements/scale
+  for both precisions (2304/144, 1152/72), the converter uses a flat 32 for
+  MXFP8, and published `weight_block_shape [32,32]` gives 1024. These three do
+  not agree; `checkpoint_scale_parity: UNVERIFIED` without weights or a full
+  header. PASS means only that frozen facts and live files agree; no speed
+  claim.
+- Independent Hy4 Flash review: 0 CRITICAL/HIGH/MEDIUM; 3 LOW non-blocking
+  notes (summary write outside try, weak warning-body needle, heading wording).
+  The needle and wording notes were applied; the write-path note is an
+  unwritable-directory case that no fail-closed code can overwrite. 15 tamper
+  scenarios in an isolated copy all forced NO_GO and overwrote a seeded PASS.
+- Local tests this pass: new audit suite 54 passed, full `tools/audit` 235
+  passed, loopkit fast pytest 41 passed, `git diff --check` clean, all new files
+  ASCII-only. No `src/`/CMake edit, no engine rebuild, no Kaggle kernel.
+  Contract/metadata scope only: no weights, no graph execution, no timing,
+  NO SPEED CLAIM. Any future number still needs CycleAudit
+  `claim <= ci_low`, `repeats >= 20`, `loops = 3`.

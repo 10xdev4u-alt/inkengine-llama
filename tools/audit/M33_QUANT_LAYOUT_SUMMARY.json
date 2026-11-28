@@ -1,0 +1,89 @@
+{
+  "blocker": "",
+  "checkpoint_scale_parity": "UNVERIFIED",
+  "checks": {
+    "converter_block_semantics": true,
+    "elements_per_scale_derived": true,
+    "frozen_facts": true,
+    "frozen_source_sha256": true,
+    "header_facts": true,
+    "header_type_counts_sum": true,
+    "hf_shape_divisibility": true,
+    "live_source_sha256": true,
+    "loopkit_present": true,
+    "needle_amax_denominator_shapes": true,
+    "needle_config_block_shape_only_warns": true,
+    "needle_format_mxfp8_2d_tile": true,
+    "needle_format_mxfp8_verdict": true,
+    "needle_format_nvfp4_row_block": true,
+    "needle_integration_hf_shapes": true,
+    "needle_integration_scale_warning": true,
+    "needle_integration_section4_item6": true,
+    "needle_mxfp8_dequant": true,
+    "needle_mxfp8_no_amax": true,
+    "needle_nvfp4_dequant": true,
+    "needle_nvfp4_scale_format": true,
+    "needle_packed_shape_divisibility": true,
+    "needle_scheme_guard": true,
+    "needle_stored_block_shape": true,
+    "needle_ue8m0_nan_byte": true,
+    "needle_weight_scale_dtypes": true,
+    "run_completed": true,
+    "scale_layout_mismatch_open": true
+  },
+  "derived": {
+    "mxfp8_w13": 16,
+    "mxfp8_w2": 16,
+    "nvfp4_w13": 16,
+    "nvfp4_w2": 16
+  },
+  "frozen_facts_sha256": "ff566a98719c56bf7d8484941f49e40b1c568ed0e60502ff60b2bf43c7faa3b9",
+  "frozen_on": "2026-11-28",
+  "frozen_source_sha256": {
+    "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+    "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+    "docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432"
+  },
+  "info": [
+    "loopkit root /home/princetheprogrammerbtw/.t3/scratch/2026-11-24-autonomous-continuation-for-the-loopkit-9dec44a4/work_repos/loopkit (default)",
+    "sha256 conversion/inkling2.py frozen=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 live=aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7 (gated)",
+    "sha256 docs/INKLING_FORMAT_FACTS.md frozen=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df live=46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df (gated)",
+    "sha256 docs/INKLING_INTEGRATION.md frozen=69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432 live=69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432 (gated)",
+    "frozen facts sha256 ff566a98719c56bf7d8484941f49e40b1c568ed0e60502ff60b2bf43c7faa3b9 (INFO only; semantic facts are gated)",
+    "elements per scale from HF shapes: nvfp4 16/16, mxfp8 16/16",
+    "converter flat blocks 16/32; published MXFP8 tile 32x32 = 1024 elements per scale",
+    "header probe: one bounded range request was recorded; checker makes no network calls"
+  ],
+  "note": "quant layout and Unsloth quant contract only, no timing",
+  "open_findings": [
+    "MXFP8 scale layout is OPEN: HF scale_cols=144 over 2304 elements gives 16 elements per scale; converter dequant groups a flat 32; published weight_block_shape [32,32] gives 1024 elements per scale. These three do not agree. Real checkpoint scale-layout parity is UNVERIFIED without weights or header inspection."
+  ],
+  "provenance": {
+    "converter_path": "conversion/inkling2.py",
+    "doc_paths": [
+      "docs/INKLING_INTEGRATION.md",
+      "docs/INKLING_FORMAT_FACTS.md"
+    ],
+    "header_probe": {
+      "file": "Inkling-2-Mini-UD-IQ1_S.gguf",
+      "first_16mib_sha256": "87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76",
+      "network_access_in_checker": false,
+      "range": "bytes=0-16777215",
+      "url": "https://huggingface.co/unsloth/Inkling-2-Mini-GGUF/resolve/main/Inkling-2-Mini-UD-IQ1_S.gguf"
+    },
+    "loopkit_root_default": "../loopkit",
+    "loopkit_root_override_env": "LOOPKIT_ROOT",
+    "source_sha256": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+      "docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432"
+    },
+    "source_sha256_live": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df",
+      "docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432"
+    }
+  },
+  "speed_claim": null,
+  "verdict": "PASS"
+}

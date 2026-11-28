@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "description": "Frozen NVFP4/MXFP8 dequant block semantics, HF scale shapes, and the observed Unsloth GGUF header facts. Offline and no timing.",
+  "scope": "quant layout and Unsloth quant contract only, no timing",
+  "note": "quant layout and Unsloth quant contract only, no timing",
+  "speed_claim": null,
+  "facts": {
+    "converter": {
+      "schemes": [
+        "nvfp4_nearest",
+        "mxfp8_nearest"
+      ],
+      "nvfp4_block": 16,
+      "mxfp8_block": 32,
+      "nvfp4_block_shape": [
+        1,
+        16
+      ],
+      "mxfp8_block_shape": [
+        1,
+        32
+      ],
+      "nvfp4_weight_dtype": "torch.uint8",
+      "nvfp4_scale_dtype": "torch.float8_e4m3fn",
+      "mxfp8_weight_dtype": "torch.float8_e4m3fn",
+      "mxfp8_scale_dtype": "torch.uint8",
+      "nvfp4_scale_format": "amax_denominator",
+      "nvfp4_amax_shape": [
+        128
+      ],
+      "nvfp4_denominator_shape": [
+        1
+      ],
+      "mxfp8_extra_companions": false,
+      "ue8m0_nan_byte": 255,
+      "nvfp4_dequant_reshape": 16,
+      "mxfp8_dequant_reshape": 32,
+      "nvfp4_scale_table": "_E4M3",
+      "mxfp8_scale_formula": "ldexp(1, scale - 127)",
+      "published_nvfp4_activation_block": 16,
+      "published_mxfp8_activation_block": 32,
+      "published_mxfp8_weight_tile": [
+        32,
+        32
+      ],
+      "published_mxfp8_elements_per_scale": 1024,
+      "published_mxfp8_derived_w13_scale_shape": [
+        128,
+        72,
+        72
+      ],
+      "published_mxfp8_verdict": "CONTRADICTED / INCOMPLETE"
+    },
+    "logical": {
+      "experts": 128,
+      "rows_w13": 2304,
+      "rows_w2": 2304,
+      "cols_w13": 2304,
+      "cols_w2": 1152
+    },
+    "hf_shapes": {
+      "nvfp4": {
+        "layers": [
+          0,
+          19
+        ],
+        "w13_weight": [
+          128,
+          2304,
+          1152
+        ],
+        "w2_weight": [
+          128,
+          2304,
+          576
+        ],
+        "w13_weight_scale": [
+          128,
+          2304,
+          144
+        ],
+        "w2_weight_scale": [
+          128,
+          2304,
+          72
+        ],
+        "w13_weight_amax": [
+          128
+        ],
+        "w13_weight_outer_scale_denominator": [
+          1
+        ],
+        "w2_weight_amax": [
+          128
+        ],
+        "w2_weight_outer_scale_denominator": [
+          1
+        ]
+      },
+      "mxfp8": {
+        "layers": [
+          20,
+          23
+        ],
+        "w13_weight": [
+          128,
+          2304,
+          2304
+        ],
+        "w2_weight": [
+          128,
+          2304,
+          1152
+        ],
+        "w13_weight_scale": [
+          128,
+          2304,
+          144
+        ],
+        "w2_weight_scale": [
+          128,
+          2304,
+          72
+        ]
+      }
+    },
+    "header": {
+      "file": "Inkling-2-Mini-UD-IQ1_S.gguf",
+      "repo": "unsloth/Inkling-2-Mini-GGUF",
+      "url": "https://huggingface.co/unsloth/Inkling-2-Mini-GGUF/resolve/main/Inkling-2-Mini-UD-IQ1_S.gguf",
+      "range": "bytes=0-16777215",
+      "first_16mib_sha256": "87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76",
+      "magic": "GGUF",
+      "version": 3,
+      "n_tensors": 744,
+      "n_kv": 63,
+      "kv": {
+        "general.architecture": "inkling2_loop",
+        "general.name": "Inkling-2-Mini",
+        "general.file_type": 24,
+        "general.file_type_name": "MOSTLY_IQ1_S except 1D tensors",
+        "general.quantization_version": 2,
+        "general.size_label": "128x1.8B"
+      },
+      "loop_tensor_count": 156,
+      "loop_controllers": {
+        "blk.6.loop_q_ctrl_down.weight": [
+          4608,
+          64
+        ],
+        "blk.6.loop_q_ctrl_gain.weight": [
+          64,
+          2304
+        ],
+        "blk.6.loop_q_ctrl_forget.weight": [
+          64,
+          2304
+        ]
+      },
+      "loop_controller_dtype": "F32",
+      "ffn_tensor_count": 220,
+      "ffn_tensors": {
+        "blk.0.ffn_gate_up_exps.weight": [
+          2304,
+          2304,
+          128
+        ],
+        "blk.0.ffn_gate_up_exps.weight.ggml_type": 19,
+        "blk.0.ffn_gate_up_exps.weight.ggml_type_name": "IQ1_S",
+        "blk.0.ffn_down_exps.weight": [
+          1152,
+          2304,
+          128
+        ],
+        "blk.0.ffn_down_exps.weight.ggml_type": 42,
+        "blk.0.ffn_down_exps.weight.ggml_type_name": "Q2_0",
+        "blk.0.ffn_gate_inp.weight": [
+          2304,
+          128
+        ],
+        "blk.0.ffn_gate_inp.weight.dtype": "F32",
+        "ffn_expert_scale": [
+          128
+        ],
+        "ffn_expert_scale_dtype": "F32"
+      },
+      "ggml_type_counts": {
+        "F32": 518,
+        "Q8_0": 85,
+        "BF16": 32,
+        "Q6_K": 26,
+        "Q2_0(42)": 23,
+        "Q5_K": 16,
+        "Q4_K": 14,
+        "IQ2_XXS": 11,
+        "IQ1_S": 6,
+        "IQ2_XS": 5,
+        "IQ3_XXS": 3,
+        "IQ4_XS": 2,
+        "IQ2_S": 2,
+        "NVFP4(40)": 1
+      },
+      "interpretation": "Mixed re-quant, not native NVFP4/MXFP8 expert tensors. Expert weights are IQ1_S/Q2_0; the arch string matches inkling2_loop; rank-64 loop controllers are F32 as frozen in M30."
+    }
+  },
+  "needles": {
+    "scheme_guard": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if scheme not in (\"nvfp4_nearest\", \"mxfp8_nearest\"):"
+      ]
+    },
+    "nvfp4_scale_format": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if nvfp4 and config.get(\"weight_scale_format\") != \"amax_denominator\":"
+      ]
+    },
+    "mxfp8_no_amax": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "raise ValueError(f\"Inkling2: {name}: MXFP8 must not have amax or outer_scale_denominator\")"
+      ]
+    },
+    "weight_scale_dtypes": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "weight_dtype, scale_dtype = (torch.uint8, torch.float8_e4m3fn) if nvfp4 else (torch.float8_e4m3fn, torch.uint8)"
+      ]
+    },
+    "packed_shape_divisibility": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if min(shape) <= 0 or cols % (16 if nvfp4 else 32) or tuple(tensor.shape) != (experts, rows, cols // (2 if nvfp4 else 1)):"
+      ]
+    },
+    "stored_block_shape": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "block = (rows // ss[1], cols // ss[2])",
+        "if block != (1, 16 if nvfp4 else 32):",
+        "raise ValueError(f\"Inkling2: {name}_scale: unsupported stored block shape {block}\")"
+      ]
+    },
+    "config_block_shape_only_warns": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if list(block) != config.get(\"weight_block_shape\"):",
+        "logger.warning(\"Inkling2: %s: hf_quant_config.json weight_block_shape %s conflicts with stored weight/scale shapes %s/%s; using %s\", name, config.get(\"weight_block_shape\"), tuple(tensor.shape), ss, list(block))"
+      ]
+    },
+    "nvfp4_dequant": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "block_scale = _E4M3[scales]",
+        "values.reshape(values.shape[0], -1, 16)[:] *= block_scale[:, :, None]",
+        "values *= np.float32(a) / np.float32(d)"
+      ]
+    },
+    "mxfp8_dequant": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "block_scale = np.ldexp(np.ones(scales.shape, dtype=np.float32), scales.astype(np.int32) - 127)",
+        "values.reshape(values.shape[0], -1, 32)[:] *= block_scale[:, :, None]"
+      ]
+    },
+    "ue8m0_nan_byte": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "if np.any(scales == 255):",
+        "raise ValueError(f\"Inkling2: {name}_scale expert {expert}: UE8M0 byte 255 is NaN\")"
+      ]
+    },
+    "amax_denominator_shapes": {
+      "root": "repo",
+      "source": "conversion/inkling2.py",
+      "needles": [
+        "for companion, gen, expected in ((companions[1], amax, (experts,)), (companions[2], denominator, (1,))):"
+      ]
+    },
+    "integration_hf_shapes": {
+      "root": "loopkit",
+      "source": "docs/INKLING_INTEGRATION.md",
+      "needles": [
+        "`w13_weight` [128,2304,1152], `w2_weight` [128,2304,576], `w13_weight_scale` [128,2304,144],",
+        "`w13_weight` [128,2304,2304], `w2_weight` [128,2304,1152],"
+      ]
+    },
+    "integration_scale_warning": {
+      "root": "loopkit",
+      "source": "docs/INKLING_INTEGRATION.md",
+      "needles": [
+        "Scale shape 144 = 2304/16 even for MXFP8",
+        "do not assume a block size without checking converter dequant"
+      ]
+    },
+    "integration_section4_item6": {
+      "root": "loopkit",
+      "source": "docs/INKLING_INTEGRATION.md",
+      "needles": [
+        "**NVFP4/MXFP8 dequant + scale layout (16 vs 32), and Unsloth quant choice**",
+        "which quant an Unsloth GGUF actually uses (native NVFP4/MXFP8 vs"
+      ]
+    },
+    "format_nvfp4_row_block": {
+      "root": "loopkit",
+      "source": "docs/INKLING_FORMAT_FACTS.md",
+      "needles": [
+        "\"block_size\": 16",
+        "\"weight_block_shape\": [1, 16]",
+        "\"scale_dtype\": \"float8_e4m3fn\""
+      ]
+    },
+    "format_mxfp8_2d_tile": {
+      "root": "loopkit",
+      "source": "docs/INKLING_FORMAT_FACTS.md",
+      "needles": [
+        "\"block_size\": 32",
+        "\"weight_block_shape\": [32, 32]",
+        "one scale per 1024 weight elements",
+        "\"scale_dtype\": \"ue8m0\""
+      ]
+    },
+    "format_mxfp8_verdict": {
+      "root": "loopkit",
+      "source": "docs/INKLING_FORMAT_FACTS.md",
+      "needles": [
+        "`w13_weight_scale` ~ [128, 72, 72]",
+        "CONTRADICTED / INCOMPLETE",
+        "A flat 32-element grouping does not describe the checkpoint's weight scales."
+      ]
+    }
+  },
+  "open_findings": [
+    "MXFP8 scale layout is OPEN: HF scale_cols=144 over 2304 elements gives 16 elements per scale; converter dequant groups a flat 32; published weight_block_shape [32,32] gives 1024 elements per scale. These three do not agree. Real checkpoint scale-layout parity is UNVERIFIED without weights or header inspection."
+  ],
+  "checkpoint_scale_parity": "UNVERIFIED",
+  "provenance": {
+    "converter_path": "conversion/inkling2.py",
+    "loopkit_root_default": "../loopkit",
+    "loopkit_root_override_env": "LOOPKIT_ROOT",
+    "doc_paths": [
+      "docs/INKLING_INTEGRATION.md",
+      "docs/INKLING_FORMAT_FACTS.md"
+    ],
+    "source_sha256": {
+      "conversion/inkling2.py": "aace332cd7a8b13fe5ba69abeb59d06fef4f8166aad4232a7f2ef7ae14bdf3d7",
+      "docs/INKLING_INTEGRATION.md": "69c587aba7ebbe3b866b7ca95107cfb891b28b3b30d3c54eeba698f878655432",
+      "docs/INKLING_FORMAT_FACTS.md": "46f134e263d1f9889a22e556428f7bdc6144fa1c9068072c31794ea19c4071df"
+    },
+    "header_probe": {
+      "file": "Inkling-2-Mini-UD-IQ1_S.gguf",
+      "url": "https://huggingface.co/unsloth/Inkling-2-Mini-GGUF/resolve/main/Inkling-2-Mini-UD-IQ1_S.gguf",
+      "range": "bytes=0-16777215",
+      "first_16mib_sha256": "87dfcdffd5f422312d54bbe180317dbab93d88a37a8bc0141125ddc8e731ba76",
+      "network_access_in_checker": false
+    }
+  }
+}
