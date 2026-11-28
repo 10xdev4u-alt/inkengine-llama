@@ -522,3 +522,69 @@ RESULTS.md for the honest numeric models.
   tensor or logits parity, no timing. NO SPEED CLAIM; CycleAudit
   `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future
   number. Real-weight parity stays blocked without weights.
+
+## M40 - CPU-only 3-pass runtime binding gate (2026-11-28, branch main)
+
+- Adds five new ASCII-only files under `tools/audit/`: `THREEPASS_BINDING.json`
+  (sha256 `d7957f4809285c19f8e68d58ec2a12b5d7062127fef06fe693bcab10adeddd7e`),
+  `check_3pass_binding.py` (sha256
+  `35357c44fdf72b95c240ad1eeefb940c97a28a8a10c38c2955bafd8a2f0eafcf`),
+  `test_3pass_binding.py` (sha256
+  `efb72aa26936055afed0170b6d7cde7d58a5977d40545ddedaee5ea246d9956e`),
+  `THREEPASS_BINDING.md` (sha256
+  `de3192af6ab25b84255a969d321d60ac4ff4c0edef2074b30e738e6b5ec0571f`), and
+  the generated `M40_3PASS_BINDING_SUMMARY.json` (sha256
+  `734658f8a2070dfa8798ceaaa08c4724e28cb8f8c678b9c38236303b097cd9ae`).
+- Exact commands from the fork root with the parent-built binary:
+  `cmake -S . -B /tmp/opencode/ink-build -DGGML_CUDA=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF -DLLAMA_RORET_CPU_TEST=ON`
+  and `cmake --build /tmp/opencode/ink-build --target llama-cli -j4`;
+  `PYTHONPATH=gguf-py python3 tools/audit/make_synthetic_gguf.py --out /tmp/opencode/synthetic.gguf`;
+  `python3 tools/audit/check_3pass_binding.py --cli /tmp/opencode/ink-build/bin/llama-cli --gguf /tmp/opencode/synthetic.gguf --out-dir /tmp/opencode/m40-3pass-logs-final`;
+  `python3 -m pytest tools/audit/test_3pass_binding.py -q`;
+  `PYTHONPATH=../loopkit/src:gguf-py python3 -m pytest tools/audit -q`;
+  `git diff --check`.
+- The checker is stdlib-only, offline and fail-closed. It pins the exact
+  contract key set and its own sha256 in the contract (tests additionally pin
+  the contract sha256), verifies the 887392-byte synthetic fixture sha256
+  `cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617`
+  and its `inkling2_loop` arch string, then runs the same CPU-only `llama-cli`
+  command with `LLAMA_RORET` unset and with `LLAMA_RORET=1 LLAMA_RORET_TRACE=1`.
+  It writes a NO_GO sentinel before checks and the final verdict atomically.
+  The only required ON enable needle is
+  `RORET union-resident MoE bookkeeping enabled`.
+  `LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache` appears in OFF as
+  well as ON, so it is an unconditional build marker counted in `info`
+  (measured off=2, on=2), never a gating enable needle.
+- Honest measured result on the real binary: checker exit 0, verdict **PASS**,
+  21/21 checks true, empty blocker. Both phases exited 0 at
+  `--moe-cache-cpu-share 1.0`; the sibling value `0` aborted during warmup in
+  both phases and was rejected as unusable. The ON trace contained 42
+  `RORET_BIND set` rows for `key_il=1` with the distinct pass set
+  `[0, 1, 2]`; `no_mulmat_total` was 0 and the scoped `no_mulmat` count was 0,
+  which is the only observable CPU property for that control. OFF had no hook
+  or RORET trace lines. Generated text was byte-identical at 30 bytes and
+  normalized stdout at 906 bytes, with 1 dropped line in each phase.
+  Normalization drops only lines whose stripped form starts with a trace or
+  enable needle, plus llama-cli's non-deterministic
+  `[ Prompt: ... t/s | Generation: ... t/s ]` metrics line; an embedded
+  occurrence is not dropped, and unequal dropped-line counts fail closed.
+  No timing value is compared or recorded.
+- Disclosed scope correction: `RORET_PASS` traffic-row gating was REMOVED from
+  the required checks because the CPU fallback cannot emit device slot-map
+  copy traffic (M21/M22 root cause). Parse completion is recorded by the
+  `trace_parse_completed` liveness check; the observed `pass_row_passes` is
+  `[]` and `pass_row_count` is 0. These rows are informational only, are
+  reported in the summary and in the contract's `cpu_traffic_scope` string,
+  and are not treated as traffic evidence. Two of the 21 checks
+  (`trace_parse_completed` and `run_completed`) are liveness flags, not
+  evidence; the remaining 19 gates carry the binding, hook, contract and
+  parity evidence.
+- Local tests this pass: new suite 25 passed; full `tools/audit` suite 477
+  passed (452 baseline plus 25 new) with `PYTHONPATH=../loopkit/src:gguf-py`;
+  `git diff --check` clean; all new files have 0 non-ASCII bytes. No `src/`,
+  `common/`, `ggml/`, CMake, `DECISIONS.tsv` or sibling-repo edit, no network
+  call, no Kaggle kernel, no real weights.
+- Scope: CPU-only runtime binding on a fixed-seed synthetic fixture. No speed,
+  timing, throughput or wall-clock win is claimed. NO SPEED CLAIM; CycleAudit
+  `claim<=ci_low`, `repeats>=20`, `loops=3` remains mandatory for any future
+  number. GPU traffic and real-weight parity stay outside this gate.

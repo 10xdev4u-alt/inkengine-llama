@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-28",
+  "scope": null,
+  "note": null,
+  "speed_claim": null,
+  "no_weights": true,
+  "engine_run": "cpu_synthetic_only",
+  "expected_fixture_sha256": "cf72921a76518bff78f969227be8b036a9dc869ca8c0eb5e78a66c89a81e9617",
+  "expected_arch": "inkling2_loop",
+  "expected_key_il": 1,
+  "expected_passes": [0, 1, 2],
+  "expected_enable_needles": [
+    "RORET union-resident MoE bookkeeping enabled"
+  ],
+  "informational_build_markers": "LLAMA_RORET_CPU_TEST: using CPU backend for MoE cache",
+  "expected_trace_needles": [
+    "RORET_BIND set"
+  ],
+  "informational_needles": [
+    "RORET_PASS"
+  ],
+  "cpu_traffic_scope": "RORET_PASS rows require the device slot-map copy and are NOT expected on the CPU fallback; see M21/M22. Informational only, never gated.",
+  "expected_off_absent_needles": [
+    "RORET_BIND",
+    "RORET_PASS",
+    "RORET union-resident MoE bookkeeping enabled"
+  ],
+  "expected_summary_path": "tools/audit/M40_3PASS_BINDING_SUMMARY.json",
+  "checker_sha256": "35357c44fdf72b95c240ad1eeefb940c97a28a8a10c38c2955bafd8a2f0eafcf",
+  "verify": [
+    "contract_json",
+    "contract_keys",
+    "contract_values",
+    "checker_sha256",
+    "cli_exists",
+    "cli_executable",
+    "fixture_exists",
+    "fixture_sha256",
+    "fixture_arch",
+    "off_exit_zero",
+    "on_exit_zero",
+    "off_hook_absent",
+    "on_enable_needles",
+    "on_trace_needles",
+    "bind_set_passes",
+    "no_mulmat_absent",
+    "trace_parse_completed",
+    "text_parity",
+    "stdout_parity",
+    "no_network",
+    "run_completed"
+  ]
+}
